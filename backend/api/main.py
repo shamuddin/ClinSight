@@ -1,16 +1,26 @@
-from fastapi import FastAPI, HTTPException
+from pathlib import Path
 from contextlib import asynccontextmanager
+import time
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
 from backend.api.schemas import CaseInput, CaseOutput
 from backend.core.state import AgentState
 from backend.agents.graph import run_pipeline
 from backend.api.demo import router as demo_router
-import time
+
+# Path to built frontend assets
+FRONTEND_DIST = Path(__file__).parent.parent.parent / "frontend" / "react-app" / "dist"
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("ClinSight API starting...")
     yield
     print("ClinSight API shutting down...")
+
 
 app = FastAPI(
     title="ClinSight API",
@@ -19,11 +29,23 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# CORS — allow frontend dev server and local browsing
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://localhost:8000", "http://127.0.0.1:8000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Demo routes
 app.include_router(demo_router)
 
+# API routes
 @app.get("/health")
 async def health():
     return {"status": "ok", "version": "0.1.0"}
+
 
 @app.post("/analyze", response_model=CaseOutput)
 async def analyze_case(case: CaseInput):
@@ -58,7 +80,6 @@ async def analyze_case(case: CaseInput):
     final = await run_pipeline(state)
     final["total_time_ms"] = round((time.time() - start) * 1000, 2)
 
-    # Reject endpoint handling
     if final.get("esi_level") == -1:
         raise HTTPException(status_code=422, detail={
             "error": "INPUT_REJECTED",
@@ -79,3 +100,8 @@ async def analyze_case(case: CaseInput):
         report=final["report"],
         audit_log=final["audit_log"],
     )
+
+
+# Serve static frontend build at root (must be last to avoid shadowing API routes)
+if FRONTEND_DIST.exists():
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="static")

@@ -11,7 +11,7 @@ import SafetyBanner from './components/SafetyBanner'
 import PhysicianVeto from './components/PhysicianVeto'
 import Dashboard from './components/Dashboard'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 function App() {
   const [cases, setCases] = useState<DemoCase[]>([])
