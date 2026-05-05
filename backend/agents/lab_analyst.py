@@ -1,38 +1,22 @@
 from backend.core.state import AgentState
-from backend.safety.rules import check_lab_thresholds
+from backend.agents.subgraphs import critical_value_detector, pattern_correlator
 from datetime import datetime
 
 async def lab_analyst_agent(state: AgentState) -> AgentState:
-    """Agent 3: Critical value detection, pattern correlation."""
-    audit = state.get("audit_log", [])
-    labs = state.get("lab_values", {})
-    units = state.get("lab_units", {})
+    """Agent 3: Critical value detection, pattern correlation.
+    Delegates to subagents: Critical Value Detector, Pattern Correlator.
+    """
+    # Delegate to subagents
+    state = critical_value_detector(state)
+    state = pattern_correlator(state)
 
-    alerts = check_lab_thresholds(labs, units)
-    patterns = _detect_patterns(alerts, labs)
-
-    state["lab_alerts"] = alerts
-    state["lab_patterns"] = patterns
-    state["lab_correlation"] = {"status": "analyzed", "matches": len(alerts), "mismatches": 0}
-
-    audit.append({
+    audit_log = state.get("audit_log", [])
+    audit_log.append({
         "agent": "lab_analyst",
         "timestamp": datetime.utcnow().isoformat(),
         "action": "lab_analysis",
-        "alerts_count": len(alerts),
-        "patterns": patterns,
+        "alerts_count": len(state.get("lab_alerts", [])),
+        "patterns": state.get("lab_patterns", []),
     })
-    state["audit_log"] = audit
+    state["audit_log"] = audit_log
     return state
-
-
-def _detect_patterns(alerts: list, labs: dict) -> list:
-    patterns = []
-    codes = {a["code"] for a in alerts}
-    if "HIGH_WBC" in codes and "ELEVATED_LACTATE" in codes:
-        patterns.append("SEPSIS_PATTERN")
-    if "HYPOXEMIA" in codes and "ELEVATED_LACTATE" in codes:
-        patterns.append("SHOCK_PATTERN")
-    if "ELEVATED_TROPONIN" in codes and "HYPOXEMIA" in codes:
-        patterns.append("MI_PATTERN")
-    return patterns

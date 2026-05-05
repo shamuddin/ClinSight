@@ -1,12 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from contextlib import asynccontextmanager
 from backend.api.schemas import CaseInput, CaseOutput
 from backend.core.state import AgentState
-from backend.agents.coordinator import coordinator_agent
-from backend.agents.radiologist import radiologist_agent
-from backend.agents.lab_analyst import lab_analyst_agent
-from backend.agents.safety import safety_agent
-from backend.agents.clinical_documenter import clinical_documenter_agent
+from backend.agents.graph import run_pipeline
 import time
 
 @asynccontextmanager
@@ -55,22 +51,28 @@ async def analyze_case(case: CaseInput):
         "audit_log": [],
         "total_time_ms": 0.0,
     }
-    state = coordinator_agent(state)
-    state = await radiologist_agent(state)
-    state = await lab_analyst_agent(state)
-    state = await safety_agent(state)
-    state = await clinical_documenter_agent(state)
-    state["total_time_ms"] = round((time.time() - start) * 1000, 2)
+
+    final = await run_pipeline(state)
+    final["total_time_ms"] = round((time.time() - start) * 1000, 2)
+
+    # Reject endpoint handling
+    if final.get("esi_level") == -1:
+        raise HTTPException(status_code=422, detail={
+            "error": "INPUT_REJECTED",
+            "reason": final.get("esi_description"),
+            "quality_gate": final.get("quality_gate"),
+            "input_warnings": final.get("input_warnings"),
+        })
 
     return CaseOutput(
-        case_id=state["case_id"],
-        esi_level=state["esi_level"],
-        esi_description=state["esi_description"],
-        findings=state["findings"],
-        lab_alerts=state["lab_alerts"],
-        differential=state["differential"],
-        suggested_actions=state["suggested_actions"],
-        safety_flags=state["merged_flags"],
-        report=state["report"],
-        audit_log=state["audit_log"],
+        case_id=final["case_id"],
+        esi_level=final["esi_level"],
+        esi_description=final["esi_description"],
+        findings=final["findings"],
+        lab_alerts=final["lab_alerts"],
+        differential=final["differential"],
+        suggested_actions=final["suggested_actions"],
+        safety_flags=final["merged_flags"],
+        report=final["report"],
+        audit_log=final["audit_log"],
     )

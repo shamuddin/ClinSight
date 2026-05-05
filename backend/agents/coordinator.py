@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime
 from backend.core.state import AgentState
-from backend.safety.image_quality import check_image_quality
+from backend.agents.subgraphs import image_quality_gate, pediatric_safety_gate
 
 THRESHOLDS = {
     "min_resolution": 224,
@@ -10,30 +10,33 @@ THRESHOLDS = {
 }
 
 def coordinator_agent(state: AgentState) -> AgentState:
-    """Agent 1: Validates inputs, runs quality gates, routes data."""
+    """Agent 1: Validates inputs, runs quality + pediatric gates, routes data.
+    Delegates to subagents: Image Quality Gate, Pediatric Safety Gate.
+    """
     warnings = state.get("input_warnings", [])
     audit = state.get("audit_log", [])
 
-    quality = check_image_quality(state["image_path"])
-    pediatric = _check_pediatric(state.get("patient_age"))
+    # Delegate to subagents
+    state = image_quality_gate(state)
+    state = pediatric_safety_gate(state)
 
+    # Completeness checks
     if not state.get("lab_values"):
         warnings.append("MISSING_LABS: Clinical correlation limited")
     if not state.get("triage_note"):
         warnings.append("MISSING_HISTORY: Triage note absent")
 
-    audit.append({
+    audit_log = state.get("audit_log", [])
+    audit_log.append({
         "agent": "coordinator",
         "timestamp": datetime.utcnow().isoformat(),
         "action": "input_validation",
-        "quality_pass": quality["pass"],
+        "quality_pass": state["quality_gate"].get("pass", False),
         "warnings_count": len(warnings),
     })
 
-    state["quality_gate"] = quality
-    state["pediatric_gate"] = pediatric
     state["input_warnings"] = warnings
-    state["audit_log"] = audit
+    state["audit_log"] = audit_log
     return state
 
 

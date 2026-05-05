@@ -1,24 +1,23 @@
 from backend.core.state import AgentState
-from backend.core.config import settings
-from backend.inference.mock_client import MockVLLMVisionClient
+from backend.agents.subgraphs import image_prep, pathology_analyzer
 from datetime import datetime
 
 async def radiologist_agent(state: AgentState) -> AgentState:
-    """Agent 2: Image prep, pathology analysis, attention regions."""
+    """Agent 2: Image prep, pathology analysis, attention regions.
+    Delegates to subagents: Image Prep, Pathology Analyzer.
+    """
     audit = state.get("audit_log", [])
-    client = MockVLLMVisionClient(cache_dir=settings.cache_dir)
 
-    result = await client.analyze_chest_xray(state["image_path"], state["case_id"])
+    # Delegate to subagents
+    state = image_prep(state)
+    state = await pathology_analyzer(state)
 
-    state["findings"] = result.get("findings", [])
-    state["attention_regions"] = result.get("attention_regions", [])
-    state["image_features"] = {"dimensions": result.get("dimensions", (512, 512)), "preprocessed": True}
-
-    audit.append({
+    audit_log = state.get("audit_log", [])
+    audit_log.append({
         "agent": "radiologist",
         "timestamp": datetime.utcnow().isoformat(),
         "action": "image_analysis",
-        "findings_count": len(state["findings"]),
+        "findings_count": len(state.get("findings", [])),
     })
-    state["audit_log"] = audit
+    state["audit_log"] = audit_log
     return state
