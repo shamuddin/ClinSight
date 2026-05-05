@@ -85,6 +85,35 @@ PYTHONPATH=.. uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
 PYTHONPATH=. python -m pytest tests/ -v --cov=backend --cov-report=html
 ```
 
+## Benchmarks
+
+```bash
+# Mock mode (no GPU required)
+python scripts/run_benchmark.py --mode mock --cases 6 --iterations 10
+
+# Real mode (requires GPU droplet with vLLM running)
+python scripts/run_benchmark.py --mode real --cases 6 --iterations 5
+```
+
+See [docs/benchmark_results.md](docs/benchmark_results.md) for historical data.
+
+## GPU Setup
+
+```bash
+# One-click setup on fresh droplet
+chmod +x scripts/setup_amd_gpu.sh
+./scripts/setup_amd_gpu.sh
+
+# Start servers
+./scripts/start_vllm_vision.sh &
+./scripts/start_vllm_text.sh &
+
+# Verify
+python scripts/gpu_health_check.py
+```
+
+See [docs/amd_setup.md](docs/amd_setup.md) for full details.
+
 ## License
 
 Apache-2.0 — See [LICENSE](LICENSE)
