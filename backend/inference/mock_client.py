@@ -121,3 +121,79 @@ class MockVLLMTextClient:
             "differential": [],
             "suggested_actions": []
         }
+
+    async def generate_actions(self, state: dict) -> list:
+        """Deterministic action generation from case state."""
+        esi = state.get("esi_level", 5)
+        findings = state.get("findings", [])
+        alerts = state.get("lab_alerts", [])
+        diff = state.get("differential", [])
+        actions = []
+
+        if esi == 1:
+            actions.append("Immediate resuscitation per ACLS protocols")
+        elif esi == 2:
+            actions.append("Rapid assessment and intervention")
+        elif esi == 3:
+            actions.append("Urgent workup and monitoring")
+
+        # Finding-specific actions
+        for f in findings:
+            fname = f.get("finding", "")
+            if fname == "tension_pneumothorax":
+                actions.append("Immediate needle decompression then chest tube")
+            elif fname == "pneumothorax":
+                actions.append("Chest tube placement if symptomatic or enlarging")
+            elif fname == "pneumonia":
+                actions.append("Start empiric antibiotics per CAP/HAP guidelines")
+            elif fname == "pulmonary_edema":
+                actions.append("Diuretics + vasodilators ± non-invasive ventilation")
+            elif fname == "sepsis_pattern":
+                actions.append("Sepsis bundle: cultures, broad antibiotics, fluids, source control")
+            elif fname == "pleural_effusion":
+                actions.append("Thoracentesis if large/symptomatic or undiagnosed")
+
+        # Lab-specific actions
+        for a in alerts:
+            code = a.get("code", "")
+            if code == "SEVERE_LACTIC_ACIDOSIS":
+                actions.append("Aggressive fluid resuscitation, vasopressors if hypotensive")
+            elif code == "HYPERKALEMIA":
+                actions.append("Calcium stabilization, insulin/glucose, kayexalate")
+            elif code == "SEVERE_ANEMIA":
+                actions.append("Type and crossmatch, transfuse PRBC if symptomatic")
+            elif code == "ELEVATED_TROPONIN":
+                actions.append("Serial troponins, ECG, cardiology consult")
+            elif code == "ACUTE_KIDNEY_INJURY":
+                actions.append("Hold nephrotoxins, renal consult if persistent")
+
+        # Safety actions
+        flags = state.get("merged_flags", [])
+        if any(f.get("severity") in {"HIGH", "CRITICAL"} for f in flags):
+            actions.append("Manual radiology review required — safety flags present")
+
+        # Differential-based actions (if nothing else)
+        if not actions and diff:
+            actions.append(f"Work up for: {diff[0]}")
+            actions.append("Complete basic labs, continuous monitoring")
+
+        return actions[:5] if actions else ["Continue observation"]
+
+    async def generate_report(self, state: dict) -> dict:
+        """Deterministic report generation."""
+        return {
+            "summary": f"ESI {state.get('esi_level', '?')} — {state.get('esi_description', '')}. "
+                       f"{len(state.get('findings', []))} findings, {len(state.get('lab_alerts', []))} lab alerts, "
+                       f"{len(state.get('merged_flags', []))} safety flags.",
+            "esi": {
+                "level": state.get("esi_level"),
+                "description": state.get("esi_description"),
+                "rules": state.get("esi_rules_triggered", []),
+            },
+            "differential": state.get("differential", []),
+            "actions": state.get("suggested_actions", []),
+            "safety_summary": {
+                "flags": len(state.get("merged_flags", [])),
+                "downgrades": state.get("safety_downgrades", 0),
+            },
+        }

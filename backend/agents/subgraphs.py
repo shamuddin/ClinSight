@@ -61,11 +61,13 @@ def image_prep(state: AgentState) -> AgentState:
 
 
 # ═══════════════════════════════════════════════════════════════
-# SUB 2.2 — Pathology Analyzer (VLM call)
-# ═══════════════════════════════════════════════════════════════
+from backend.inference.vllm_vision_client import VLLMVisionClient
+
 async def pathology_analyzer(state: AgentState) -> AgentState:
-    """Call vision model to detect findings and attention regions."""
-    client = MockVLLMVisionClient(cache_dir=settings.cache_dir)
+    """Call vision model to detect findings and attention regions.
+    Uses real VLLM vision model if available, falls back to mock.
+    """
+    client = VLLMVisionClient()
     result = await client.analyze_chest_xray(state["image_path"], state["case_id"])
     state["findings"] = result.get("findings", [])
     state["attention_regions"] = result.get("attention_regions", [])
