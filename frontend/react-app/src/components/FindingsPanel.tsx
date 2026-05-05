@@ -1,0 +1,1 @@
+export default function FindingsPanel() { return <div className='panel'><h2>Findings</h2><p>Pathology findings with confidence scores.</p></div> }

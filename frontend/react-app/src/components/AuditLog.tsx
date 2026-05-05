@@ -1,0 +1,1 @@
+export default function AuditLog() { return <div className='panel'><h2>Audit Log</h2><p>Immutable execution trail.</p></div> }

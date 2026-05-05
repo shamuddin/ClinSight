@@ -1,0 +1,40 @@
+import pytest
+from backend.core.state import AgentState
+
+@pytest.fixture
+def base_state():
+    return {
+        "case_id": "test_001",
+        "image_path": "backend/data/images/test.png",
+        "image_hash": "",
+        "lab_values": {"wbc": 15000, "pO2": 55, "lactate": 5.2},
+        "lab_units": {"wbc": "/uL", "pO2": "mmHg", "lactate": "mmol/L"},
+        "triage_note": "Dyspnea, fever 3 days",
+        "patient_age": 45,
+        "patient_sex": "F",
+        "patient_race": None,
+        "chief_complaint": "Shortness of breath",
+        "vitals": {"bp": "120/80", "hr": 110, "rr": 24, "temp": 38.5, "spo2": 88},
+        "quality_gate": {},
+        "pediatric_gate": {},
+        "input_warnings": [],
+        "image_features": {},
+        "findings": [],
+        "attention_regions": [],
+        "lab_alerts": [],
+        "lab_patterns": [],
+        "lab_correlation": {},
+        "contradictions": [],
+        "hallucination_flags": [],
+        "bias_flags": [],
+        "safety_downgrades": 0,
+        "merged_flags": [],
+        "esi_level": 5,
+        "esi_description": "",
+        "esi_rules_triggered": [],
+        "differential": [],
+        "suggested_actions": [],
+        "report": {},
+        "audit_log": [],
+        "total_time_ms": 0.0,
+    }

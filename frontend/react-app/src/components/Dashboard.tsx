@@ -1,0 +1,1 @@
+export default function Dashboard({ onSelect }: { onSelect: (id: string) => void }) { return <div className='panel'><h2>Case Dashboard</h2><p>Case list with ESI scores.</p></div> }

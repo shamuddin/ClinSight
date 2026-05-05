@@ -1,0 +1,1 @@
+export default function AgentActivity() { return <div className='panel'><h2>Agent Activity</h2><p>Agent execution tree will render here.</p></div> }

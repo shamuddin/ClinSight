@@ -1,0 +1,1 @@
+export default function LabAlertsPanel() { return <div className='panel'><h2>Lab Alerts</h2><p>Critical and abnormal lab values.</p></div> }

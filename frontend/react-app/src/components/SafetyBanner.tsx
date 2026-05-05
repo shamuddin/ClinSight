@@ -1,0 +1,1 @@
+export default function SafetyBanner() { return <div style={{background:'#7f1d1d',color:'#fff',padding:'0.5rem',textAlign:'center',fontSize:'0.85rem'}}><strong>Medical Disclaimer:</strong> For research only. Not for clinical use without physician oversight.</div> }

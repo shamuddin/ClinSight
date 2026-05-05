@@ -1,0 +1,1 @@
+export default function ImageViewer({ caseId }: { caseId?: string }) { return <div className='panel'><h2>Image Viewer</h2><p>Case: {caseId || 'None selected'}</p></div> }

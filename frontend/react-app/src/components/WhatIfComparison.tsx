@@ -1,0 +1,1 @@
+export default function WhatIfComparison() { return <div className='panel'><h2>What-If Comparison</h2><p>Side-by-side scenario comparison.</p></div> }

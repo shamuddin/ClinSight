@@ -1,0 +1,1 @@
+export default function PhysicianVeto() { return <div className='panel'><h2>Physician Override</h2><button>Agree</button> <button>Override</button> <button>Dismiss</button></div> }

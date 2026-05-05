@@ -1,0 +1,1 @@
+export default function SafetyPanel() { return <div className='panel'><h2>Safety Review</h2><p>Contradictions, hallucinations, bias flags.</p></div> }

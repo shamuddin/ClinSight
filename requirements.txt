@@ -1,0 +1,27 @@
+# ── Core ──
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+pydantic==2.9.0
+pydantic-settings==2.6.0
+python-multipart==0.0.12
+
+# ── LangGraph ──
+langgraph==0.2.45
+langchain-core==0.3.25
+
+# ── Models / Inference ──
+openai==1.55.0
+httpx==0.27.0
+aiofiles==24.1.0
+
+# ── Image Processing ──
+Pillow==11.0.0
+numpy==2.1.0
+opencv-python-headless==4.10.0
+
+# ── Data ──
+pandas==2.2.0
+python-json-logger==2.0.7
+
+# ── Safety / Logging ──
+structlog==24.4.0

@@ -1,0 +1,1 @@
+export default function ReportViewer() { return <div className='panel'><h2>Clinical Report</h2><p>Structured output with ESI, differential, actions.</p></div> }
