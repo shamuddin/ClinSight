@@ -77,13 +77,29 @@ CONTRADICTION_RULES: List[Dict[str, Any]] = [
 
 
 def check_lab_thresholds(lab_values: Dict[str, Any], lab_units: Dict[str, str]) -> List[Dict[str, Any]]:
-    """Return triggered lab alerts against thresholds."""
-    alerts = []
+    """Return triggered lab alerts against thresholds, with unit-aware conversion."""
+    alerts: List[Dict[str, Any]] = []
     for lab, threshold, code, description, op, severity in LAB_THRESHOLDS:
         value = lab_values.get(lab)
+        # Allow variant lab names
+        if value is None and lab == "troponin":
+            value = lab_values.get("troponin_i", lab_values.get("troponin_t", None))
+        if value is None and lab == "troponin_i":
+            value = lab_values.get("troponin", lab_values.get("troponin_t", None))
         if value is None:
             continue
-        triggered = (op == "gt" and value > threshold) or (op == "lt" and value < threshold)
+        raw = value
+        unit = (lab_units.get(lab, "") or "").lower()
+        # Convert standard-report units (×10^9 /L, K/μL) to absolute /μL counts
+        if lab in ("wbc", "platelets") and ("10^9" in unit or "k/μl" in unit or "k/ul" in unit or "k/" in unit):
+            raw = value * 1000
+        if lab in ("hemoglobin", "creatinine", "bilirubin"):
+            pass  # mg/dL already in threshold units
+        triggered = False
+        if op == "gt":
+            triggered = raw > threshold
+        elif op == "lt":
+            triggered = raw < threshold
         if triggered:
             alerts.append({
                 "lab": lab,

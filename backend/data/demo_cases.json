@@ -1,0 +1,230 @@
+[
+  {
+    "case_id": "CS-2024-001",
+    "image_path": "data/images/demo_chest_pain.png",
+    "lab_values": {
+      "troponin_i": 0.12,
+      "bnp": 180,
+      "crp": 12,
+      "wbc": 9.2,
+      "hemoglobin": 14.1,
+      "platelets": 245,
+      "creatinine": 0.9,
+      "glucose": 105
+    },
+    "lab_units": {
+      "troponin_i": "ng/L",
+      "bnp": "pg/mL",
+      "crp": "mg/L",
+      "wbc": "K/μL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL"
+    },
+    "triage_note": "52M presents with 2hr substernal chest pressure, radiating to L arm. No prior MI. Nausea + diaphoresis.",
+    "patient_age": 52,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Chest pain",
+    "vitals": {
+      "bp": "148/92",
+      "hr": 102,
+      "rr": 20,
+      "spo2": 97,
+      "temp": 37.1
+    }
+  },
+  {
+    "case_id": "CS-2024-002",
+    "image_path": "data/images/demo_head_trauma.png",
+    "lab_values": {
+      "wbc": 8.5,
+      "hemoglobin": 13.8,
+      "platelets": 220,
+      "creatinine": 1.0,
+      "glucose": 142,
+      "sodium": 138,
+      "potassium": 4.2,
+      "lactate": 1.8
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L",
+      "lactate": "mmol/L"
+    },
+    "triage_note": "34F MVC, restrained driver, LOC ~3min. GCS 13 on arrival. R parietal scalp hematoma. Neuro checks q15min.",
+    "patient_age": 34,
+    "patient_sex": "female",
+    "patient_race": "Black",
+    "chief_complaint": "Head trauma with brief LOC",
+    "vitals": {
+      "bp": "132/84",
+      "hr": 96,
+      "rr": 18,
+      "spo2": 99,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-003",
+    "image_path": "data/images/demo_ped_rash.png",
+    "lab_values": {
+      "wbc": 11.5,
+      "hemoglobin": 11.2,
+      "platelets": 310,
+      "creatinine": 0.4,
+      "glucose": 95,
+      "sodium": 140,
+      "potassium": 3.9,
+      "crp": 28
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L",
+      "crp": "mg/L"
+    },
+    "triage_note": "4YO F with 3-day history of fever up to 39.4C, now with diffuse erythematous rash on trunk/extremities. Tolerating PO.",
+    "patient_age": 4,
+    "patient_sex": "female",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Fever and rash",
+    "vitals": {
+      "bp": "85/52",
+      "hr": 125,
+      "rr": 28,
+      "spo2": 98,
+      "temp": 38.6
+    }
+  },
+  {
+    "case_id": "CS-2024-004",
+    "image_path": "data/images/demo_sepsis.png",
+    "lab_values": {
+      "wbc": 2.1,
+      "hemoglobin": 9.8,
+      "platelets": 89,
+      "creatinine": 2.4,
+      "glucose": 68,
+      "sodium": 132,
+      "potassium": 5.8,
+      "lactate": 5.2,
+      "bilirubin": 3.1,
+      "inr": 1.8,
+      "pao2_fio2": 180
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L",
+      "lactate": "mmol/L",
+      "bilirubin": "mg/dL",
+      "inr": "ratio",
+      "pao2_fio2": "mmHg"
+    },
+    "triage_note": "67M nursing home resident with altered mental status x 24hr. Hypotensive, oliguric. Suspected UTI source. Pressors started.",
+    "patient_age": 67,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Altered mental status",
+    "vitals": {
+      "bp": "78/42",
+      "hr": 118,
+      "rr": 28,
+      "spo2": 91,
+      "temp": 38.9
+    }
+  },
+  {
+    "case_id": "CS-2024-005",
+    "image_path": "data/images/demo_headache.png",
+    "lab_values": {
+      "wbc": 7.1,
+      "hemoglobin": 13.5,
+      "platelets": 260,
+      "creatinine": 0.8,
+      "glucose": 92,
+      "sodium": 141,
+      "potassium": 4.0,
+      "crp": 2.0,
+      "esr": 8
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L",
+      "crp": "mg/L",
+      "esr": "mm/hr"
+    },
+    "triage_note": "28F with sudden onset severe headache ('worst ever') 6hr ago. Photophobia, neck stiffness. Neuro intact.",
+    "patient_age": 28,
+    "patient_sex": "female",
+    "patient_race": "Asian",
+    "chief_complaint": "Severe headache",
+    "vitals": {
+      "bp": "128/78",
+      "hr": 88,
+      "rr": 16,
+      "spo2": 99,
+      "temp": 37.2
+    }
+  },
+  {
+    "case_id": "CS-2024-006",
+    "image_path": "data/images/demo_abd_pain.png",
+    "lab_values": {
+      "wbc": 16.5,
+      "hemoglobin": 14.0,
+      "platelets": 310,
+      "creatinine": 1.1,
+      "glucose": 110,
+      "sodium": 138,
+      "potassium": 4.1,
+      "amylase": 45,
+      "lipase": 38,
+      "lactate": 3.4
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L",
+      "amylase": "U/L",
+      "lipase": "U/L",
+      "lactate": "mmol/L"
+    },
+    "triage_note": "55M with 8hr progressive diffuse abdominal pain, rigid abdomen, absent bowel sounds. No prior surgery. NPO.",
+    "patient_age": 55,
+    "patient_sex": "male",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Severe abdominal pain",
+    "vitals": {
+      "bp": "94/58",
+      "hr": 132,
+      "rr": 26,
+      "spo2": 95,
+      "temp": 37.8
+    }
+  }
+]

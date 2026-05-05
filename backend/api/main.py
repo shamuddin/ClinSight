@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from backend.api.schemas import CaseInput, CaseOutput
 from backend.core.state import AgentState
 from backend.agents.graph import run_pipeline
+from backend.api.demo import router as demo_router
 import time
 
 @asynccontextmanager
@@ -17,6 +18,8 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+app.include_router(demo_router)
 
 @app.get("/health")
 async def health():

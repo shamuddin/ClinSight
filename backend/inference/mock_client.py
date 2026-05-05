@@ -1,16 +1,25 @@
 from pathlib import Path
 import json
+import re
 
 class MockVLLMVisionClient:
-    """Returns pre-defined responses for demo cases."""
+    """Returns pre-defined responses for demo cases.
+    Supports both CS-2024-00X and legacy case_00X naming."""
     def __init__(self, cache_dir: Path = Path("backend/data/contingency_cache")):
         self.cache_dir = cache_dir
+
+    def _map_case_id(self, case_id: str) -> str:
+        m = re.match(r"CS-2024-(\d{3})", case_id)
+        if m:
+            return f"case_{m.group(1)}"
+        return case_id
 
     async def analyze_chest_xray(self, image_path: str, case_id: str) -> dict:
         cache_file = self.cache_dir / f"{case_id}_vision.json"
         if cache_file.exists():
             return json.loads(cache_file.read_text())
-        return self._default_response(case_id)
+        mapped = self._map_case_id(case_id)
+        return self._default_response(mapped)
 
     def _default_response(self, case_id: str) -> dict:
         responses = {

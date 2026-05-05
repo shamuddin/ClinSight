@@ -1,1 +1,8 @@
-export default function SafetyBanner() { return <div style={{background:'#7f1d1d',color:'#fff',padding:'0.5rem',textAlign:'center',fontSize:'0.85rem'}}><strong>Medical Disclaimer:</strong> For research only. Not for clinical use without physician oversight.</div> }
+export default function SafetyBanner() {
+  return (
+    <div className="safety-banner">
+      <strong>Medical Disclaimer:</strong> For research and demonstration only. Not for clinical use without
+      physician oversight. Always verify AI-generated findings independently.
+    </div>
+  )
+}
