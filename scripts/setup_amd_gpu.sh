@@ -7,7 +7,7 @@
 # =============================================================================
 set -euo pipefail
 
-echo "=== ClinSight AMD GPU Setup ==="
+echo "=== AMD GPU Setup ==="
 echo "Target: ROCm 6.x + PyTorch + vLLM (ROCm)"
 
 # ── Configurable env ──
@@ -60,6 +60,6 @@ pip install -r requirements.txt
 echo ""
 echo "=== Setup Complete ==="
 echo "Activate: source ~/clinsight-venv/bin/activate"
-echo "Next:    ./scripts/start_vllm_vision.sh \&"
-echo "         ./scripts/start_vllm_text.sh \&"
+echo "Next:    ./scripts/start_vllm_vision.sh &"
+echo "         ./scripts/start_vllm_text.sh &"
 echo "         python ./scripts/gpu_health_check.py"

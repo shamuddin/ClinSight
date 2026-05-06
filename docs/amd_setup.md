@@ -1,8 +1,8 @@
- # AMD GPU Setup Guide
+# AMD GPU Setup Guide
 
 ## Overview
 
-ClinSight uses **two** vLLM servers on AMD GPU:
+This project uses **two** vLLM servers on AMD GPU:
 
 | Server | Model | Port | VRAM |
 |---|---|---|---|

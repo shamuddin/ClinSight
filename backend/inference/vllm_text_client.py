@@ -51,7 +51,7 @@ Return ONLY a JSON array of strings.
 class VLLMTextClient:
     """OpenAI-compatible text client for Qwen3.5-35B-A3B on port 8001."""
 
-    def __init__(self, base_url: str = None, model: str = "default"):
+    def __init__(self, base_url: str = None, model: str = "qwen3.5-35b-a3b"):
         self.base_url = base_url or settings.vllm_text_url
         self.model = model
         self._mock = MockVLLMTextClient()

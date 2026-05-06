@@ -1,66 +1,34 @@
 ClinSight Development Plan — Detailed Execution Roadmap
 
+    [Last Updated: May 6, 2026]
+    [Current Phase: Phase 4 — Safety Layer Stress Testing (IN PROGRESS)]
+    [Phases Complete: 0, 1, 2, 3]
+
     Budget & Resources
 
-    | Resource | Amount | Notes |
-    |---|---|---|
-    | AMD GPU Credit | $97.70 | Expires in 30 days |
-    | MI300X Rate | $1.99/hr | 1 GPU, 192GB VRAM, 20 vCPU, 240GB RAM |
-    | CPU Droplet (optional) | ~$0.03/hr | For hosting when GPU is off |
-    | Local WSL | Free | Primary dev environment |
+    | Resource | Amount | Actual Used | Notes |
+    |---|---|---|---|---|
+    | AMD GPU Credit | $97.70 | ~$16 | Expires in 30 days |
+    | MI300X Rate | $1.99/hr | — | 1 GPU, 192GB VRAM, 20 vCPU, 240GB RAM |
+    | CPU Droplet (optional) | ~$0.03/hr | — | For hosting when GPU is off |
+    | Local WSL | Free | — | Primary dev environment |
 
-    Target GPU Usage: ~35 hours (~$70) — leaves $27 buffer
-
-
-
-    Architecture Reminder
-
-
-    5 Parent Agents → 7 Subagents → 12 Total Reasoning Nodes
-
-    Parent 1: Coordinator
-      └─ Sub 1.1: Image Quality Gate
-      └─ Sub 1.2: Pediatric Safety Gate
-
-    Parent 2: Radiologist
-      └─ Sub 2.1: Image Prep
-      └─ Sub 2.2: Pathology Analyzer (VLM call)
-
-    Parent 3: Lab Analyst
-      └─ Sub 3.1: Critical Value Detector
-      └─ Sub 3.2: Pattern Correlator
-
-    Parent 4: Safety (PARALLEL)
-      └─ Sub 4.1: Contradiction Checker
-      └─ Sub 4.2: Hallucination Guard
-      └─ Sub 4.3: Bias Auditor
-      └─ Merge Node: Combines all 3
-
-    Parent 5: Clinical Documenter
-      └─ Sub 5.1: ESI Scorer (deterministic rules)
-      └─ Sub 5.2: Differential Builder
-
-
-    Dual Models: Qwen2.5-VL-7B-Instruct (vision, ~14GB) + Qwen3.5-35B-A3B (text MoE, ~70GB) = ~99GB total on MI300X (93GB headroom)
-
-
-
-    Phase 0: Foundation & Tooling (Days 0-0.5) — $0 GPU
+    Phase 0: Foundation & Tooling (Days 0-0.5) — $0 GPU  [STATUS: COMPLETE]
 
     Objective
     Set up local development environment, repo structure, and tooling. No code logic yet — just scaffolding and configuration.
 
     Deliverables
-    | # | Deliverable | Location | Verification |
-    |---|---|---|---|
-    | 0.1 | Repo structure created | /mnt/k/Hackthon/ClinSight/ | tree -L 3 matches spec |
-    | 0.2 | Python virtual environment | backend/.venv/ | python --version 3.10+ |
-    | 0.3 | Dependency files | requirements.txt, requirements-dev.txt | pip install -r succeeds |
-    | 0.4 | Pre-commit hooks | .pre-commit-config.yaml | pre-commit run --all-files passes |
-    | 0.5 | React scaffold | frontend/react-app/ | npm run dev serves on :5173 |
-    | 0.6 | FastAPI skeleton | backend/api/main.py | uvicorn main:app --reload serves on :8000 |
-    | 0.7 | Test framework | pytest.ini, tests/conftest.py | pytest discovers tests |
-    | 0.8 | Git initialized | .git/ | Remote linked to GitHub |
+    | # | Deliverable | Location | Verification | Status |
+    |---|---|---|---|---|
+    | 0.1 | Repo structure created | /mnt/k/Hackthon/ClinSight/ | tree -L 3 matches spec | DONE |
+    | 0.2 | Python virtual environment | backend/.venv/ | python --version 3.10+ | DONE |
+    | 0.3 | Dependency files | requirements.txt, requirements-dev.txt | pip install -r succeeds | DONE |
+    | 0.4 | Pre-commit hooks | .pre-commit-config.yaml | pre-commit run --all-files passes | DONE |
+    | 0.5 | React scaffold | frontend/react-app/ | npm run dev serves on :5173 | DONE |
+    | 0.6 | FastAPI skeleton | backend/api/main.py | uvicorn main:app --reload serves on :8000 | DONE |
+    | 0.7 | Test framework | pytest.ini, tests/conftest.py | pytest discovers tests | DONE |
+    | 0.8 | Git initialized | .git/ | Remote linked to GitHub | DONE |
 
     File Structure to Create
 
@@ -267,23 +235,22 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 1: Core State & Agent Architecture (Days 0.5-1.5) — $0 GPU
+    Phase 1: Core State & Agent Architecture (Days 0.5-1.5) — $0 GPU  [STATUS: COMPLETE]
 
     Objective
     Build the shared state schema, all 5 parent agents, and the 7 subagents with mock inference. Every agent must be callable and return properly typed state.
 
     Deliverables
-
-    | # | Deliverable | File | Verification |
-    |---|---|---|---|
-    | 1.1 | AgentState TypedDict | backend/core/state.py | mypy passes |
-    | 1.2 | Coordinator Agent | backend/agents/coordinator.py | Rejects bad input, accepts good |
-    | 1.3 | Radiologist + Subgraph | backend/agents/radiologist.py, subgraphs.py | Returns findings + attention |
-    | 1.4 | Lab Analyst + Subgraph | backend/agents/lab_analyst.py, subgraphs.py | Returns alerts + patterns |
-    | 1.5 | Safety Agent + Parallel Subgraph | backend/agents/safety.py, subgraphs.py | 3 subagents + merge node |
-    | 1.6 | Clinical Documenter | backend/agents/clinical_documenter.py | Returns ESI + differential |
-    | 1.7 | Parent Graph Compilation | backend/agents/graph.py | LangGraph compiles |
-    | 1.8 | Unit tests for all agents | tests/test_*.py | pytest passes |
+    | # | Deliverable | File | Verification | Status |
+    |---|---|---|---|---|
+    | 1.1 | AgentState TypedDict | backend/core/state.py | mypy passes | DONE |
+    | 1.2 | Coordinator Agent | backend/agents/coordinator.py | Rejects bad input, accepts good | DONE |
+    | 1.3 | Radiologist + Subgraph | backend/agents/radiologist.py, subgraphs.py | Returns findings + attention | DONE |
+    | 1.4 | Lab Analyst + Subgraph | backend/agents/lab_analyst.py, subgraphs.py | Returns alerts + patterns | DONE |
+    | 1.5 | Safety Agent + Parallel Subgraph | backend/agents/safety.py, subgraphs.py | 3 subagents + merge node | DONE |
+    | 1.6 | Clinical Documenter | backend/agents/clinical_documenter.py | Returns ESI + differential | DONE |
+    | 1.7 | Parent Graph Compilation | backend/agents/graph.py | LangGraph compiles | DONE |
+    | 1.8 | Unit tests for all agents | tests/test_*.py | pytest passes | DONE |
 
     1.1 State Schema Specification
 
@@ -541,7 +508,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 2: Data, Mock Cases & Frontend Shell (Days 1.5-2.5) — $0 GPU
+    Phase 2: Data, Mock Cases & Frontend Shell (Days 1.5-2.5) — $0 GPU  [STATUS: COMPLETE]
 
     Objective
     Build the 6 demo case packets, hand-craft mock model outputs, and get the React frontend rendering all components with mock data.
@@ -550,9 +517,9 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
     | # | Deliverable | Location | Verification |
     |---|---|---|---|
-    | 2.1 | 6 Case Packet JSONs | backend/data/cases/ | Schema validation passes |
-    | 2.2 | Hand-crafted vision cache | backend/data/contingency_cache/*_vision.json | Matches case findings |
-    | 2.3 | Hand-crafted text cache | backend/data/contingency_cache/*_text.json | Matches lab patterns |
+    | 2.1 | 6 Case Packet JSONs | backend/data/cases/ | Schema validation passes | DONE |
+    | 2.2 | Hand-crafted vision cache | backend/data/contingency_cache/*_vision.json | Matches case findings | DONE |
+    | 2.3 | Hand-crafted text cache | backend/data/contingency_cache/*_text.json | Matches lab patterns | DONE |
     | 2.4 | React Dashboard | frontend/src/components/Dashboard.tsx | Shows 6 cases with ESI badges |
     | 2.5 | Image Viewer with overlay | frontend/src/components/ImageViewer.tsx | Canvas renders attention boxes |
     | 2.6 | Agent Activity Panel | frontend/src/components/AgentActivity.tsx | Expandable tree: 5 agents + 7 subagents |
@@ -695,7 +662,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 3: GPU Droplet — Model Setup & Real Inference (Day 3) — ~8h GPU = $16
+    Phase 3: GPU Droplet — Model Setup & Real Inference (Day 3) — ~8h GPU = $16  [STATUS: COMPLETE]
 
     Objective
     Spin up MI300X, install models, verify they serve correctly, run consistency tests, and generate real contingency cache.
@@ -803,7 +770,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 4: Safety Layer Stress Testing (Day 4) — ~6h GPU = $12
+    Phase 4: Safety Layer Stress Testing (Day 4) — ~6h GPU = $12  [STATUS: IN PROGRESS]
 
     Objective
     Run all safety rules, contradiction checks, hallucination guards, and bias auditors against real model outputs. Fix any integration issues.
@@ -856,7 +823,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 5: Benchmarking & Performance Evidence (Day 4-5) — ~6h GPU = $12
+    Phase 5: Benchmarking & Performance Evidence (Day 4-5) — ~6h GPU = $12  [STATUS: PENDING]
 
     Objective
     Generate quantitative evidence that survives judge scrutiny. Latency histograms, throughput curves, GPU utilization proofs.
@@ -946,7 +913,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 6: E2E Integration & Contingency Mode (Day 5) — ~4h GPU = $8
+    Phase 6: E2E Integration & Contingency Mode (Day 5) — ~4h GPU = $8  [STATUS: PENDING]
 
     Objective
     Connect everything. Test the full pipeline: upload case → all agents → output report. Test kill switch (stop vLLM, verify fallback).
@@ -1004,7 +971,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 7: Frontend Polish & Demo Recording (Day 5-6) — $0 GPU
+    Phase 7: Frontend Polish & Demo Recording (Day 5-6) — $0 GPU  [STATUS: PENDING]
 
     Objective
     All UI components styled, responsive, and animated. Record 3-minute demo video.
@@ -1039,7 +1006,7 @@ ClinSight Development Plan — Detailed Execution Roadmap
 
 
 
-    Phase 8: Hugging Face Space & Pitch Deck (Day 6) — $0 GPU
+    Phase 8: Hugging Face Space & Pitch Deck (Day 6) — $0 GPU  [STATUS: PENDING]
 
     HF Space Plan
 
