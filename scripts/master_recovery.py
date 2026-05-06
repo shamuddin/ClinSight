@@ -78,9 +78,16 @@ def run_local(cmd: str, timeout: int = 60) -> Tuple[str, str, int]:
 
 
 def ssh_cmd(host: str, cmd: str, timeout: int = 60) -> Tuple[str, str, int]:
-    """Run command on droplet via SSH."""
+    """Run command on droplet via SSH with retry for transient connection issues."""
     full = f"ssh {SSH_OPTS} -i {SSH_KEY} root@{host} '{cmd}'"
-    r = subprocess.run(full, shell=True, capture_output=True, text=True, timeout=timeout)
+    for attempt in range(3):
+        r = subprocess.run(full, shell=True, capture_output=True, text=True, timeout=timeout)
+        if r.returncode == 0:
+            return r.stdout, r.stderr, r.returncode
+        if "Connection refused" in r.stderr or "Connection timed out" in r.stderr:
+            time.sleep(3)
+            continue
+        break
     return r.stdout, r.stderr, r.returncode
 
 
@@ -158,13 +165,12 @@ def phase_infrastructure(host: str) -> bool:
         fail(f"Scratch disk mount failed: {err}")
         return False
 
-    # 2b: Ensure /mnt/scratch and /shared-docker are volume-mounted into container
-    out, err, code = ssh_cmd(host, f"docker inspect {CONTAINER_NAME} --format '{{{{json .HostConfig.Binds}}}}'")
-    binds = out.strip()
-    ok(f"Container volumes: {binds[:150]}")
-    if SCRATCH_MOUNT not in binds:
-        fail(f"Container missing {SCRATCH_MOUNT} volume mount!")
+    # 2b: Ensure /mnt/scratch is actually visible inside container
+    out, err, code = docker_cmd(host, f"ls {SCRATCH_MOUNT} 2>&1 || echo MISSING")
+    if "MISSING" in out:
+        fail(f"Container cannot see {SCRATCH_MOUNT} — volume mount issue!")
         return False
+    ok(f"Container can access {SCRATCH_MOUNT}")
 
     # 2c: Disk space
     out, err, code = ssh_cmd(host, f"df -h {SCRATCH_MOUNT} | tail -1")
@@ -177,14 +183,15 @@ def phase_infrastructure(host: str) -> bool:
     ok("Stopped generic 'rocm' container if present")
 
     # 2e: Start clinsight container if needed
-    out, err, code = ssh_cmd(host, f"docker start {CONTAINER_NAME}")
-    time.sleep(2)
-    out2, _, _ = ssh_cmd(host, f"docker ps --format '{{{{.Names}}}}' | grep ^{CONTAINER_NAME}$")
-    if CONTAINER_NAME in out2:
-        ok(f"Container '{CONTAINER_NAME}' running")
-    else:
-        fail("Container failed to start")
-        return False
+    out, _, _ = ssh_cmd(host, f"docker inspect {CONTAINER_NAME} --format='{{{{.State.Status}}}}' 2>/dev/null")
+    if out.strip() != "running":
+        info("Starting container...")
+        out, err, code = ssh_cmd(host, f"docker start {CONTAINER_NAME}")
+        if code != 0:
+            fail(f"Container failed to start: {err}")
+            return False
+        time.sleep(2)
+    ok(f"Container '{CONTAINER_NAME}' running")
 
     return True
 
@@ -337,9 +344,7 @@ def phase_vllm_launch(host: str) -> bool:
         # Launch
         docker_cmd(
             host,
-            f"nohup bash -c 'export HF_HOME={LOCAL_HF_CACHE}; export HUGGINGFACE_HUB_CACHE={LOCAL_HF_CACHE}; "
-            f"export VLLM_USE_V1=0; export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True; "
-            f"python3 -m vllm.entrypoints.openai.api_server "
+            f"bash -c 'nohup python3 -m vllm.entrypoints.openai.api_server "
             f"--model {local_dir} "
             f"--served-model-name {served} "
             f"--dtype float16 "
@@ -350,7 +355,8 @@ def phase_vllm_launch(host: str) -> bool:
             f"--max-model-len {maxlen} "
             f"--max-num-seqs 2 "
             f"--trust-remote-code "
-            f"2>&1 | tee {LOCAL_HF_CACHE}/../vllm_{key}.log' > /dev/null 2>&1 &"
+            f"\u003e {LOCAL_HF_CACHE}/../vllm_{key}.log 2\u003e\u00261 \u0026'",
+            timeout=10,
         )
         time.sleep(3)
         ok(f"[{key}] Launch initiated in background")
@@ -425,8 +431,9 @@ def phase_health(host: str) -> bool:
 def phase_e2e(host: str) -> bool:
     step("8. E2E PIPELINE TEST")
 
-    e2e_script = f"""
-import sys, os, json, asyncio, time
+    # Write test script locally then SCP to container via droplet
+    e2e_script_path = Path("/tmp/clinsight_e2e_test.py")
+    e2e_script_path.write_text(f"""import sys, os, json, asyncio, time
 sys.path.insert(0, '{CONTAINER_REPO_PATH}')
 os.chdir('{CONTAINER_REPO_PATH}')
 
@@ -435,10 +442,8 @@ from backend.agents.graph import run_pipeline
 state = {{
     "case_id": "CS-2024-001",
     "image_path": "data/images/demo_chest_pain.png",
-    "lab_values": {{"troponin_i": 0.12, "bnp": 180, "crp": 12, "wbc": 9.2,
-                    "hemoglobin": 14.1, "platelets": 245, "creatinine": 0.9, "glucose": 105}},
-    "lab_units": {{"troponin_i": "ng/L", "bnp": "pg/mL", "crp": "mg/L", "wbc": "K/uL",
-                   "hemoglobin": "g/dL", "platelets": "K/uL", "creatinine": "mg/dL", "glucose": "mg/dL"}},
+    "lab_values": {{"troponin_i": 0.12, "bnp": 180, "crp": 12, "wbc": 9.2, "hemoglobin": 14.1, "platelets": 245, "creatinine": 0.9, "glucose": 105}},
+    "lab_units": {{"troponin_i": "ng/L", "bnp": "pg/mL", "crp": "mg/L", "wbc": "K/uL", "hemoglobin": "g/dL", "platelets": "K/uL", "creatinine": "mg/dL", "glucose": "mg/dL"}},
     "triage_note": "45yo male with chest pain, vitals stable",
     "patient_age": 45, "patient_sex": "M", "patient_race": "White",
     "chief_complaint": "Chest pain",
@@ -469,14 +474,15 @@ async def test():
     print(json.dumps(result))
 
 asyncio.run(test())
-"""
-    # Write and run inside container
-    ssh_cmd(host, f"docker exec {CONTAINER_NAME} bash -c 'cat > /tmp/e2e_test.py' << 'PYEOF'\n{e2e_script}\nPYEOF")
+""")
+
+    run_local(f"scp -i {SSH_KEY} -o StrictHostKeyChecking=no {e2e_script_path} root@{host}:/tmp/e2e_test.py")
+    ssh_cmd(host, f"docker cp /tmp/e2e_test.py {CONTAINER_NAME}:/tmp/e2e_test.py")
     out, err, code = docker_cmd(host, "python3 /tmp/e2e_test.py", timeout=180)
 
     try:
         result = json.loads(out.strip().splitlines()[-1])
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, IndexError):
         fail(f"E2E output parse failed: {out[:300]}")
         return False
 
