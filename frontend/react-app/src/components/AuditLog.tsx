@@ -2,8 +2,10 @@ import { AuditEntry } from '../types'
 
 export default function AuditLog({ auditLog }: { auditLog: AuditEntry[] }) {
   return (
-    <div className="panel">
-      <h2>Audit Log ({auditLog.length})</h2>
+    <div>
+      <h2 style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--fg-dim)', marginBottom: '12px' }}>
+        Audit Log ({auditLog.length})
+      </h2>
       {auditLog.length === 0 ? (
         <p className="dim">No audit entries yet.</p>
       ) : (
