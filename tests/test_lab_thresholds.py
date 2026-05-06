@@ -47,8 +47,8 @@ def test_no_alerts_for_normal_labs():
 
 def test_wbc_unit_conversion_k_uL():
     """Labs reported in K/uL should be converted to absolute counts before threshold check."""
-    # 12 = 12000 absolute -> triggers HIGH_WBC
-    labs = {"wbc": 12}
+    # 13 K/uL = 13000 absolute -> triggers HIGH_WBC (threshold 12000, gt)
+    labs = {"wbc": 13}
     units = {"wbc": "K/uL"}
     alerts = check_lab_thresholds(labs, units)
     assert any(a["code"] == "HIGH_WBC" for a in alerts)

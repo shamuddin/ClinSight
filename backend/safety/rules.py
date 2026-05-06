@@ -91,7 +91,7 @@ def check_lab_thresholds(lab_values: Dict[str, Any], lab_units: Dict[str, str]) 
         raw = value
         unit = (lab_units.get(lab, "") or "").lower()
         # Convert standard-report units (×10^9 /L, K/μL) to absolute /μL counts
-        if lab in ("wbc", "platelets") and ("10^9" in unit or "k/μl" in unit or "k/ul" in unit or "k/" in unit):
+        if lab in ("wbc", "platelets") and ("10^9" in unit or "k/μl" in unit or "k/ul" in unit or "k/" in unit or "k\\uL" in unit):
             raw = value * 1000
         if lab in ("hemoglobin", "creatinine", "bilirubin"):
             pass  # mg/dL already in threshold units

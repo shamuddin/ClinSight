@@ -244,7 +244,7 @@ def esi_scorer_sub(state: AgentState) -> AgentState:
     }
     critical_findings = {
         "tension_pneumothorax", "cardiac_tamponade", "aortic_dissection",
-        "sepsis_pattern", "pulmonary_edema",
+        "sepsis_pattern",
     }
 
     for f in findings:
@@ -267,19 +267,21 @@ def esi_scorer_sub(state: AgentState) -> AgentState:
         state["esi_rules_triggered"] = ["ESI1_sepsis_pneumonia"]
         return state
 
-    if any(f.get("confidence", 0) > 0.80 for f in findings) and len(alerts) >= 2:
+    active_findings = [f for f in findings if f.get("finding") != "normal"]
+
+    if any(f.get("confidence", 0) > 0.80 for f in active_findings) and len(alerts) >= 2:
         state["esi_level"] = 2
         state["esi_description"] = "Emergent: High-confidence findings with multiple abnormalities"
         state["esi_rules_triggered"] = ["ESI2_MULTI"]
         return state
 
-    if len(alerts) >= 1 or len(findings) >= 1:
+    if len(alerts) >= 1 or len(active_findings) >= 1:
         state["esi_level"] = 3
         state["esi_description"] = "Urgent: Active findings or abnormal labs"
         state["esi_rules_triggered"] = ["ESI3_ACTIVE"]
         return state
 
-    if not findings and not alerts:
+    if not active_findings and not alerts:
         state["esi_level"] = 4
         state["esi_description"] = "Less urgent: No acute findings"
         state["esi_rules_triggered"] = ["ESI4_NONE"]
