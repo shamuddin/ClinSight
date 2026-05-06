@@ -1,0 +1,8 @@
+ClinSight Mock Benchmark Summary
+==================================
+Cases:       60
+Mean:        13.51 ms
+P50:         13.00 ms
+P95:         18.40 ms
+P99:         18.70 ms
+Success:     100%

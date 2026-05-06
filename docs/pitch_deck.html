@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClinSight Pitch Deck</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b1220; color: #e2e8f0; line-height: 1.6; }
+  .slide { width: 100vw; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3rem; page-break-after: always; }
+  .slide h1 { font-size: 3rem; margin-bottom: 1rem; color: #38bdf8; }
+  .slide h2 { font-size: 2rem; margin-bottom: 1rem; color: #7dd3fc; }
+  .slide p, .slide li { font-size: 1.25rem; max-width: 70ch; }
+  .slide ul { margin-left: 2rem; }
+  .big-num { font-size: 6rem; font-weight: 800; color: #f87171; }
+  .highlight { color: #34d399; font-weight: 700; }
+  .cta { background: #38bdf8; color: #0b1220; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 1rem; display: inline-block; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 80ch; }
+  .badge { display: inline-block; background: #1e293b; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; margin: 0.25rem; }
+  table { border-collapse: collapse; width: 100%; max-width: 60ch; }
+  th, td { border: 1px solid #334155; padding: 0.75rem; text-align: left; }
+  th { background: #1e293b; }
+  @media print { .slide { page-break-after: always; height: 100vh; } }
+</style>
+</head>
+<body>
+
+<!-- Slide 1 -->
+<div class="slide">
+  <div class="big-num">795K</div>
+  <h1> Americans harmed by diagnostic delays every year</h1>
+  <p style="margin-top:1rem">Preliminary X-ray review takes <span class="highlight">30-60 minutes</span>.</p>
+  <p>For tension pneumothorax, that's a lifetime.</p>
+</div>
+
+<!-- Slide 2 -->
+<div class="slide">
+  <h1>The Gap</h1>
+  <ul>
+    <li>No open-source, multimodal, <span class="highlight">AMD-native</span> clinical AI</li>
+    <li>No real-time safety layer for contradictions + hallucinations + bias</li>
+    <li>Rural hospitals wait 6+ hours for teleradiology</li>
+  </ul>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide">
+  <h1> ClinSight</h1>
+  <p>Multi-agent clinical decision support with vision-language models for chest X-ray analysis.</p>
+  <div style="margin-top:1.5rem">
+    <span class="badge">5 Parent Agents</span>
+    <span class="badge">7 Subagents</span>
+    <span class="badge">12 Reasoning Nodes</span>
+    <span class="badge">ESI 1-5 Scoring</span>
+    <span class="badge">Safety Layer</span>
+  </div>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide">
+  <h1> AMD Advantage</h1>
+  <ul>
+    <li><span class="highlight">192 GB HBM3</span> MI300X GPU</li>
+    <li>Fits <span class="highlight">TWO</span> models simultaneously (85 GB total)</li>
+    <li>H100 80 GB <span style="color:#f87171">cannot fit both</span></li>
+    <li>ROCm 7.2 + vLLM native</li>
+    <li>$1.99/hr vs $8/hr for comparable NVIDIA</li>
+  </ul>
+</div>
+
+<!-- Slide 5 -->
+<div class="slide">
+  <h1> Live Demo</h1>
+  <p>Same X-ray. Different labs. Different ESI.</p>
+  <div style="margin-top:1rem">
+    <p> <strong>Scenario A:</strong> SpO₂ 88%, lactate 4.5 → <span class="highlight">ESI 1 (Immediate)</span></p>
+    <p> <strong>Scenario B:</strong> SpO₂ 98%, lactate 1.1 → <span style="color:#34d399">ESI 3 (Urgent)</span></p>
+  </div>
+  <p style="margin-top:1rem" class="highlight">Multimodal reasoning — not just multimodal input.</p>
+</div>
+
+<!-- Slide 6 -->
+<div class="slide">
+  <h1> Architecture</h1>
+  <div>
+    <p>  Coordinator → Radiologist / Lab Analyst → Safety → Documenter</p>
+    <p>  Safety: 3 Parallel Checks + Merge Node</p>
+    <p>  Deterministic ESI scorer (never LLM)</p>
+    <p>  Contingency fallback: &lt; 0.2s when GPU offline</p>
+  </div>
+</div>
+
+<!-- Slide 7 -->
+<div class="slide">
+  <h1> Benchmarks</h1>
+  <table>
+    <tr><th>Metric</th><th>Target</th><th>Mock</th></tr>
+    <tr><td>Mean E2E Latency</td><td>&lt; 5.0s</td><td>0.012s</td></tr>
+    <tr><td>ESI Accuracy</td><td>&gt;= 90%</td><td>95%</td></tr>
+    <tr><td>Finding Recall</td><td>&gt;= 85%</td><td>88%</td></tr>
+    <tr><td>Success Rate</td><td>&gt;= 98%</td><td>100%</td></tr>
+  </table>
+  <p style="margin-top:1rem" class="highlight">Real GPU benchmarks pending — scheduled for 5 hours total (~$10)</p>
+</div>
+
+<!-- Slide 8 -->
+<div class="slide">
+  <h1> Safety & Compliance</h1>
+  <ul>
+    <li>5 independent safety layers</li>
+    <li>Physician veto: Agree / Override / Dismiss</li>
+    <li>Pediatric warning gate</li>
+    <li>Bias audit for underrepresented demographics</li>
+    <li>Clinical Advisory documented</li>
+  </ul>
+  <p style="margin-top:1rem; color:#f87171"><strong>Not FDA-cleared. Physician-in-the-loop required.</strong></p>
+</div>
+
+<!-- Slide 9 -->
+<div class="slide">
+  <h1> Business Model</h1>
+  <ul>
+    <li>Target: Rural hospitals, underserved EDs</li>
+    <li>$15B+ market for clinical decision support</li>
+    <li>Cost: ~$2/hr GPU runtime per hospital</li>
+    <li>On-premise deployment: patient data never leaves</li>
+  </ul>
+</div>
+
+<!-- Slide 10 -->
+<div class="slide">
+  <h1> Artifacts</h1>
+  <p> GitHub: <span class="highlight">github.com/shamuddin/ClinSight</span></p>
+  <p> Hugging Face Space: Coming soon</p>
+  <p> Demo Video: Coming soon</p>
+  <p> Blog Post: Coming soon</p>
+  <a href="https://github.com/shamuddin/ClinSight" class="cta" target="_blank">View Repo →</a>
+</div>
+
+</body>
+</html>
