@@ -1,6 +1,7 @@
 from datetime import datetime
 from backend.core.state import AgentState
 from backend.agents.subgraphs import esi_scorer_sub, differential_builder
+from backend.agents.documenter_cache import get_cached_documenter_outputs
 from backend.inference.vllm_text_client import VLLMTextClient
 
 _client: VLLMTextClient | None = None
@@ -14,25 +15,38 @@ def _text_client():
 
 async def clinical_documenter_agent(state: AgentState) -> AgentState:
     """Agent 5: ESI scorer, differential builder, report generation.
-    Delegates to subagents: ESI Scorer, Differential Builder.
-    Uses text LLM for suggested actions and structured report if available.
+    For demo cases: uses pre-cached real LLM outputs (instant).
+    For new cases: calls LLM live (prove it's real).
     """
     # Delegate to subagents (deterministic)
     state = esi_scorer_sub(state)
     state = differential_builder(state)
 
-    # Generate suggested actions via LLM (or mock fallback)
-    try:
-        actions = await _text_client().generate_actions(state)
-    except Exception:
-        actions = suggest_actions_deterministic(state)
-    state["suggested_actions"] = actions
+    cid = state.get("case_id", "")
+    cached = get_cached_documenter_outputs(cid)
 
-    # Generate structured report
-    try:
-        report = await _text_client().generate_report(state)
-    except Exception:
-        report = generate_report_deterministic(state)
+    if cached:
+        # Demo case: use pre-generated real LLM outputs (instant)
+        actions = cached["suggested_actions"]
+        report = cached["report"]
+        # Override ESI if cached differs (rare)
+        if cached.get("esi_level"):
+            state["esi_level"] = cached["esi_level"]
+            state["esi_description"] = cached["esi_description"]
+        if cached.get("differential"):
+            state["differential"] = cached["differential"]
+    else:
+        # New case: call LLM live (real-time inference)
+        try:
+            actions = await _text_client().generate_actions(state)
+        except Exception:
+            actions = suggest_actions_deterministic(state)
+        try:
+            report = await _text_client().generate_report(state)
+        except Exception:
+            report = generate_report_deterministic(state)
+
+    state["suggested_actions"] = actions
     state["report"] = report
 
     audit_log = state.get("audit_log", [])
@@ -43,6 +57,7 @@ async def clinical_documenter_agent(state: AgentState) -> AgentState:
         "esi": state["esi_level"],
         "differential_count": len(state["differential"]),
         "actions_count": len(actions),
+        "cached": cached is not None,
     })
     state["audit_log"] = audit_log
     return state
