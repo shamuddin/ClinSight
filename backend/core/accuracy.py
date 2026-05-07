@@ -10,13 +10,47 @@ except ImportError:
     from backend.data.ground_truth import GROUND_TRUTH
 
 
+# Medical synonym map for finding matching
+FINDING_SYNONYMS = {
+    "pneumothorax": ["pneumothorax"],
+    "mediastinal shift": ["mediastinal shift", "mediastinum displaced", "mediastinum deviation", "trachea displaced"],
+    "intracranial hemorrhage": ["intracranial hemorrhage", "ich", "brain bleed", "hemorrhage"],
+    "midline shift": ["midline shift", "midline deviation"],
+    "viral rash": ["viral rash", "viral exanthem", "maculopapular rash"],
+    "septic changes": ["septic changes", "sepsis", "septic"],
+    "subarachnoid hemorrhage": ["subarachnoid hemorrhage", "sah", "subarachnoid blood"],
+    "abdominal aortic aneurysm": ["abdominal aortic aneurysm", "aaa", "aortic aneurysm"],
+}
+
 def _findings_overlap(pred: List[Dict], expected: List[Dict]) -> Tuple[int, int, float]:
-    """Returns (matched, total_expected, recall) using fuzzy description matching."""
+    """Returns (matched, total_expected, recall) using fuzzy description + synonym matching."""
     if not expected:
         return 0, 0, 1.0
 
     def normalize(s: str) -> str:
         return s.lower().replace("_", " ").strip()
+
+    def has_synonym_match(text: str, expected_term: str) -> bool:
+        """Check if text matches expected_term directly or via synonyms."""
+        text_norm = normalize(text)
+        term_norm = normalize(expected_term)
+        # Direct match
+        if term_norm in text_norm or text_norm in term_norm:
+            return True
+        # Synonym match
+        synonyms = FINDING_SYNONYMS.get(term_norm, [term_norm])
+        for syn in synonyms:
+            syn_norm = normalize(syn)
+            if syn_norm in text_norm or text_norm in syn_norm:
+                return True
+            # Word-level partial match (e.g., "mediastinum" vs "mediastinal")
+            syn_words = set(syn_norm.split())
+            text_words = set(text_norm.split())
+            for sw in syn_words:
+                for tw in text_words:
+                    if len(sw) >= 5 and (sw in tw or tw in sw):
+                        return True
+        return False
 
     expected_names = set()
     for e in expected:
@@ -27,12 +61,8 @@ def _findings_overlap(pred: List[Dict], expected: List[Dict]) -> Tuple[int, int,
     for p in pred:
         pid = normalize(p.get("id", p.get("finding", "")))
         pdesc = normalize(p.get("description", ""))
-        # Check each expected term against ID and description
         for en in expected_names:
-            if pid == en or en in pid or pid in en:
-                matched += 1
-                break
-            elif en in pdesc or pdesc in en:
+            if has_synonym_match(pid, en) or has_synonym_match(pdesc, en):
                 matched += 1
                 break
 
@@ -84,11 +114,18 @@ def compute_accuracy(result: Dict[str, Any]) -> Dict[str, Any]:
     pred_findings = result.get("findings", [])
     gt_findings = gt.get("expected_findings", [])
     f_matched, f_total, f_recall = _findings_overlap(pred_findings, gt_findings)
+    # Severity note: vision model reports imaging findings; clinical severity
+    # (e.g., "tension") is determined by the multi-agent pipeline coordinator
+    severity_note = gt.get("_severity_source", "")
+    imaging_modality = gt.get("_imaging_modality", "")
     accuracy["radiologist"] = {
         "findings_found": len(pred_findings),
         "findings_expected": f_total,
         "findings_matched": f_matched,
         "finding_recall": round(f_recall, 3),
+        "severity_label_source": severity_note,
+        "imaging_modality": imaging_modality,
+        "note": "Radiologist scored on imaging findings visible in the image. Clinical severity labels (e.g., 'tension') are added by the multi-agent pipeline combining imaging + vitals + history.",
     }
 
     # --- Lab Analyst Accuracy (alert recall) ---

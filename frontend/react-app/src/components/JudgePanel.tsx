@@ -15,6 +15,7 @@ interface AccuracyData {
     findings_expected: number
     findings_matched: number
     finding_recall: number
+    note?: string
   }
   lab_analyst: {
     alerts_found: number
@@ -72,9 +73,10 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
           <div className="judge-scorecard-grid">
             <Score
               icon={<TrendingUp size={16}/>}
-              label="Radiologist"
+              label="Radiologist (Vision)"
               recall={accuracy.radiologist.finding_recall}
-              detail={`${accuracy.radiologist.findings_matched}/${accuracy.radiologist.findings_expected} findings`}
+              detail={`${accuracy.radiologist.findings_matched}/${accuracy.radiologist.findings_expected} imaging findings`}
+              note={accuracy.radiologist.note}
             />
             <Score
               icon={<Activity size={16}/>}
@@ -224,7 +226,7 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
   )
 }
 
-function Score({ icon, label, recall, detail }: { icon: React.ReactNode; label: string; recall: number; detail: string }) {
+function Score({ icon, label, recall, detail, note }: { icon: React.ReactNode; label: string; recall: number; detail: string; note?: string }) {
   const pct = Math.round((recall || 0) * 100)
   const color = pct >= 80 ? '#059669' : pct >= 50 ? '#d97706' : '#dc2626'
   return (
@@ -236,6 +238,7 @@ function Score({ icon, label, recall, detail }: { icon: React.ReactNode; label: 
       </div>
       <div className="judge-score-value" style={{ color }}>{pct}%</div>
       <div className="judge-score-detail">{detail}</div>
+      {note && <div className="judge-score-note">{note}</div>}
     </div>
   )
 }
