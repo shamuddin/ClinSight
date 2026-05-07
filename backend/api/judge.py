@@ -3,6 +3,7 @@ from pathlib import Path
 import json
 from typing import Dict, Any
 from backend.core.accuracy import compute_accuracy, GROUND_TRUTH
+from backend.data.medical_transparency import MODEL_MEDICAL_TRANSPARENCY, MEDICAL_TRANSPARENCY_SUMMARY
 
 router = APIRouter(prefix="/judge", tags=["judge"])
 
@@ -43,6 +44,18 @@ async def judge_accuracy_compute(result: Dict[str, Any]):
         return compute_accuracy(result)
     except Exception as e:
         return {"error": str(e)}
+
+
+@router.get("/transparency")
+async def judge_transparency():
+    """Full medical knowledge and model training transparency disclosure."""
+    return {
+        "models": MODEL_MEDICAL_TRANSPARENCY,
+        "summary": MEDICAL_TRANSPARENCY_SUMMARY.strip(),
+        "disclaimer": "These are general-purpose models. Clinical rigor comes from multi-agent architecture, not medical fine-tuning.",
+        "validation_status": "NONE — proof-of-concept only",
+        "intended_use": "Clinical decision support demo, not diagnostic tool",
+    }
 
 
 @router.get("/accuracy")

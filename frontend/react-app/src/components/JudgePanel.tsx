@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, ShieldCheck, AlertTriangle, Eye, Activity, Stethoscope, TrendingUp } from 'lucide-react'
+import { CheckCircle2, XCircle, ShieldCheck, AlertTriangle, Eye, Activity, Stethoscope, TrendingUp, Cpu, Info } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { CaseResult } from '../types'
 
@@ -40,26 +40,60 @@ interface AccuracyData {
   }
 }
 
+interface TransparencyData {
+  models: Record<string, ModelTransparency>
+  summary: string
+  disclaimer: string
+  validation_status: string
+  intended_use: string
+}
+
+interface ModelTransparency {
+  model_name: string
+  parameter_count: string
+  training_status: string
+  medical_knowledge_source: string
+  what_it_can_do: string[]
+  what_it_cannot_do: string[]
+  used_for: string
+  safety_compensation: string
+}
+
 export default function JudgePanel({ result, apiBase }: { result: CaseResult; apiBase: string }) {
   const [accuracy, setAccuracy] = useState<AccuracyData | null>(null)
+  const [transparency, setTransparency] = useState<TransparencyData | null>(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!result?.case_id) return
     setLoading(true)
-    fetch(`${apiBase}/judge/accuracy/compute`, {
+
+    // Fetch both accuracy and transparency
+    const accuracyPromise = fetch(`${apiBase}/judge/accuracy/compute`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(result),
-    })
+    }).then(r => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))
+
+    const transparencyPromise = fetch(`${apiBase}/judge/transparency`)
       .then(r => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))
-      .then((d: AccuracyData) => setAccuracy(d))
-      .catch(() => setAccuracy(null))
+
+    Promise.all([accuracyPromise, transparencyPromise])
+      .then(([acc, trans]) => {
+        setAccuracy(acc)
+        setTransparency(trans)
+      })
+      .catch(() => {
+        setAccuracy(null)
+        setTransparency(null)
+      })
       .finally(() => setLoading(false))
   }, [result, apiBase])
 
   const safetyFlags = result.safety_flags ?? []
   const audit = result.audit_log ?? []
+
+  const models = transparency?.models ?? {}
 
   return (
     <div className="judge-panel">
@@ -167,6 +201,56 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
           </tbody>
         </table>
       </div>
+
+      {/* ═══ MODEL TRANSPARENCY (OPTION A) ═══ */}
+      {transparency && (
+        <div className="judge-section">
+          <div className="judge-section-title"><Info size={14}/> Model & Medical Knowledge Transparency</div>
+          <div className="judge-transparency-banner">
+            <strong>TRUTHFUL DISCLOSURE:</strong> These are <strong>general-purpose models</strong>, not medically fine-tuned.
+            {' '}Clinical rigor comes from <strong>multi-agent architecture</strong>, not from medical fine-tuning.
+          </div>
+
+          {Object.entries(models).map(([key, model]: [string, ModelTransparency]) => (
+            <div key={key} className="judge-transparency-model">
+              <div className="judge-transparency-header">
+                <Cpu size={14}/>
+                <strong>{model.model_name}</strong>
+                <span className="judge-transparency-params">{model.parameter_count}</span>
+                <span className="judge-transparency-status">{model.training_status}</span>
+              </div>
+
+              <div className="judge-transparency-source">
+                <strong>Medical knowledge source:</strong> {model.medical_knowledge_source}
+              </div>
+
+              <div className="judge-transparency-lists">
+                <div className="judge-transparency-can">
+                  <strong>What it CAN do:</strong>
+                  <ul>{model.what_it_can_do?.map((item: string, i: number) => <li key={i}>{item}</li>)}</ul>
+                </div>
+                <div className="judge-transparency-cannot">
+                  <strong>What it CANNOT do:</strong>
+                  <ul>{model.what_it_cannot_do?.map((item: string, i: number) => <li key={i}>{item}</li>)}</ul>
+                </div>
+              </div>
+
+              <div className="judge-transparency-role">
+                <strong>Role in pipeline:</strong> {model.used_for}
+              </div>
+              <div className="judge-transparency-safety">
+                <strong>Safety compensation:</strong> {model.safety_compensation}
+              </div>
+            </div>
+          ))}
+
+          <div className="judge-transparency-footer">
+            <div><strong>Validation status:</strong> {transparency.validation_status}</div>
+            <div><strong>Intended use:</strong> {transparency.intended_use}</div>
+            <div className="judge-transparency-disclaimer">{transparency.disclaimer}</div>
+          </div>
+        </div>
+      )}
 
       {/* ═══ SAFETY VERIFICATION ═══ */}
       <div className="judge-section">
