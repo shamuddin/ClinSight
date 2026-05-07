@@ -1,0 +1,22 @@
+# ClinSight — Render Blueprint
+# One-click deploy to Render (https://render.com)
+# 
+# Usage:
+#   1. Push this repo to GitHub
+#   2. Go to https://dashboard.render.com/blueprints
+#   3. Connect your repo → Render reads this file and creates the service
+#
+# The app runs in MOCK mode (no GPU required). All 6 demo cases work out of the box.
+
+services:
+  - type: web
+    name: clinsight
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile.render
+    envVars:
+      - key: USE_MOCK
+        value: "true"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+    healthCheckPath: /health
