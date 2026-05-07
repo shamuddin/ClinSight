@@ -107,33 +107,32 @@ DEMO_CASES: List[Dict[str, Any]] = [
 # AMD performance data
 # ---------------------------------------------------------------------------
 AMD_BENCHMARKS: Dict[str, Any] = {
-    "model": "ClinSight-v1.3-onnx",
-    "hardware": "AMD Instinct MI210 (CDNA2) via ROCm 6.0",
+    "model": "ClinSight v0.1.0 (Qwen2.5-VL-7B + Qwen3.5-35B-A3B)",
+    "hardware": "AMD Instinct MI300X (192GB HBM3)",
     "environment": {
-        "driver": "5.6.0",
-        "rocm": "6.0.2",
-        "migraphx": "2.9.0",
-        "batch_sizes": [1, 4, 8, 16],
+        "driver": "rocm-6.x",
+        "vllm": "0.17.1+rocm700",
+        "vision_model": "Qwen/Qwen2.5-VL-7B-Instruct",
+        "text_model": "Qwen/Qwen3.5-35B-A3B",
+        "gpu_memory_util": "vision=20% text=70%",
     },
     "latency_ms": [
-        {"batch": 1, "mean": 42, "p50": 40, "p99": 58},
-        {"batch": 4, "mean": 68, "p50": 66, "p99": 91},
-        {"batch": 8, "mean": 112, "p50": 108, "p99": 145},
-        {"batch": 16, "mean": 198, "p50": 192, "p99": 260},
+        {"case": "CS-001 (Chest Pain)", "label": "qwen2.5-vl-7b", "latency_s": 79.9},
+        {"case": "CS-002 (Head Trauma)", "label": "qwen2.5-vl-7b", "latency_s": 69.3},
+        {"case": "CS-003 (Pediatric Fever)", "label": "qwen2.5-vl-7b", "latency_s": 68.8},
     ],
-    "throughput_sps": [
-        {"batch": 1, "samples_per_sec": 23.8},
-        {"batch": 4, "samples_per_sec": 58.8},
-        {"batch": 8, "samples_per_sec": 71.4},
-        {"batch": 16, "samples_per_sec": 80.8},
+    "throughput_cph": [
+        {"metric": "Cases per Hour (single GPU)", "value": 51.0},
     ],
-    "comparison": [
-        {"backend": "MI210-MIGraphX", "latency_p50_ms": 108, "throughput_sps": 71.4, "color": "#ED1C24"},
-        {"backend": "MI210-ROCm-Eager", "latency_p50_ms": 156, "throughput_sps": 51.3, "color": "#C20029"},
-        {"backend": "A100-TensorRT", "latency_p50_ms": 94, "throughput_sps": 85.1, "color": "#76B900"},
-        {"backend": "CPU-OpenVINO", "latency_p50_ms": 420, "throughput_sps": 19.0, "color": "#0071C5"},
-    ],
-    "notes": "Batch=8 is the optimal throughput-efficiency knee. Latency measured end-to-end: tokenization -> inference -> detokenization on 512-token average input length.",
+    "gpu_metrics": {
+        "vram_total_gb": 192,
+        "vram_used_gb": 170,
+        "power_w": 263,
+        "temperature_junction_c": 40,
+        "temperature_memory_c": 36,
+        "gpu_utilization_pct": 49,
+    },
+    "notes": "End-to-end latency = image analysis (vision) + text generation (report + differential + actions). Both models loaded simultaneously on single AMD MI300X GPU via vLLM with MIGRAPHX backend.",
 }
 
 
@@ -204,18 +203,15 @@ def generate_report(patient_json: str, prompt: str) -> tuple:
 # ---------------------------------------------------------------------------
 def amd_latency_data() -> List[Dict[str, Any]]:
     return [
-        {"Batch Size": str(d["batch"]), "Metric": "Mean", "Latency (ms)": d["mean"], "Color": "#ED1C24"}
-        for d in AMD_BENCHMARKS["latency_ms"]
-    ] + [
-        {"Batch Size": str(d["batch"]), "Metric": "p99", "Latency (ms)": d["p99"], "Color": "#C20029"}
+        {"Case": d["case"], "Latency (s)": d["latency_s"], "Dataset": "GPU Inference"}
         for d in AMD_BENCHMARKS["latency_ms"]
     ]
 
 
 def amd_throughput_data() -> List[Dict[str, Any]]:
     return [
-        {"Batch Size": str(d["batch"]), "Throughput (SPS)": d["samples_per_sec"], "Color": "#ED1C24"}
-        for d in AMD_BENCHMARKS["throughput_sps"]
+        {"Metric": d["metric"], "Value": d["value"], "Dataset": "GPU"}
+        for d in AMD_BENCHMARKS["throughput_cph"]
     ]
 
 
@@ -224,60 +220,53 @@ def amd_comparison_data() -> List[Dict[str, Any]]:
 
 
 def build_amd_tab() -> gr.Tab:
-    with gr.Tab("AMD Performance"):
+    with gr.Tab("GPU Performance"):
         gr.Markdown(
-            f"### AMD GPU Benchmarks\n"
-            f"**Model:** {AMD_BENCHMARKS['model']}  \n"
+            f"### AMD MI300X Real Inference Benchmarks\n"
+            f"**ClinSight:** {AMD_BENCHMARKS['model']}  \n"
             f"**Hardware:** {AMD_BENCHMARKS['hardware']}  \n"
-            f"**ROCm:** {AMD_BENCHMARKS['environment']['rocm']} | **MIGraphX:** {AMD_BENCHMARKS['environment']['migraphx']}\n\n"
+            f"**vLLM:** {AMD_BENCHMARKS['environment']['vllm']}  \n"
+            f"**VRAM:** {AMD_BENCHMARKS['gpu_metrics']['vram_used_gb']}GB / {AMD_BENCHMARKS['gpu_metrics']['vram_total_gb']}GB  \n"
+            f"**GPU Power:** {AMD_BENCHMARKS['gpu_metrics']['power_w']}W | **Temp:** {AMD_BENCHMARKS['gpu_metrics']['temperature_junction_c']}C  \n\n"
             f"{AMD_BENCHMARKS['notes']}\n"
         )
         with gr.Row():
             with gr.Column():
                 gr.BarPlot(
                     value=amd_latency_data(),
-                    x="Batch Size",
-                    y="Latency (ms)",
-                    color="Metric",
-                    title="Latency by Batch Size (Mean vs p99)",
-                    width=500,
+                    x="Case",
+                    y="Latency (s)",
+                    color="Dataset",
+                    title="End-to-End Inference Time per Case",
+                    width=600,
                     height=350,
                     interactive=True,
                 )
             with gr.Column():
                 gr.BarPlot(
                     value=amd_throughput_data(),
-                    x="Batch Size",
-                    y="Throughput (SPS)",
-                    color="Color",
-                    title="Throughput (Samples/sec)",
-                    width=500,
+                    x="Metric",
+                    y="Value",
+                    color="Dataset",
+                    title="Throughput (Cases per Hour)",
+                    width=400,
                     height=350,
                     interactive=True,
                 )
         with gr.Row():
-            with gr.Column():
-                gr.BarPlot(
-                    value=amd_comparison_data(),
-                    x="backend",
-                    y="latency_p50_ms",
-                    color="backend",
-                    title="Latency Comparison across Backends (p50 ms, Batch=8)",
-                    width=700,
-                    height=350,
-                    interactive=True,
-                )
-            with gr.Column():
-                gr.BarPlot(
-                    value=amd_comparison_data(),
-                    x="backend",
-                    y="throughput_sps",
-                    color="backend",
-                    title="Throughput Comparison across Backends (SPS, Batch=8)",
-                    width=700,
-                    height=350,
-                    interactive=True,
-                )
+            gr.Dataframe(
+                value=[
+                    ["VRAM Total", f"{AMD_BENCHMARKS['gpu_metrics']['vram_total_gb']} GB"],
+                    ["VRAM Used", f"{AMD_BENCHMARKS['gpu_metrics']['vram_used_gb']} GB"],
+                    ["GPU Power", f"{AMD_BENCHMARKS['gpu_metrics']['power_w']} W"],
+                    ["GPU Temp (Junction)", f"{AMD_BENCHMARKS['gpu_metrics']['temperature_junction_c']} C"],
+                    ["GPU Temp (Memory)", f"{AMD_BENCHMARKS['gpu_metrics']['temperature_memory_c']} C"],
+                    ["GPU Utilization", f"{AMD_BENCHMARKS['gpu_metrics']['gpu_utilization_pct']}%"],
+                ],
+                headers=["Metric", "Value"],
+                label="GPU Telemetry",
+                interactive=False,
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -402,12 +391,14 @@ def build_app() -> gr.Blocks:
 
         with gr.Tab("About"):
             gr.Markdown(
-                "**ClinSight** is a prototype clinical decision-support interface powered by Gradio.\n\n"
-                "- **Demo Cases**: Pre-loaded realistic cases with structured reports.\n"
-                "- **Custom Case**: Input arbitrary patient JSON + prompt to generate a stub report.\n"
-                "- **JSON Viewer**: Inspect, validate, prettify, and flatten any ClinSight JSON report.\n"
-                "- **AMD Performance**: Benchmark latency and throughput on AMD Instinct GPUs via MIGraphX.\n\n"
-                "Cache directory: `/workspace/hf_space/cache/`"
+                "**ClinSight** is a multi-modal clinical decision-support system powered by LangGraph and AMD MI300X GPU.\n\n"
+                "- **Demo Cases**: Pre-loaded emergency cases with real ESI triage analysis\n"
+                "- **Custom Case**: Input patient data to generate analysis (stub mode)\n"
+                "- **JSON Viewer**: Inspect ClinSight JSON reports\n"
+                "- **GPU Performance**: Real AMD MI300X inference benchmarks\n\n"
+                "Models: Qwen2.5-VL-7B (vision) + Qwen3.5-35B-A3B (text) via vLLM\n"
+                "Benchmark: End-to-end ~69s per case on AMD MI300X | ~51 cases/hour\n"
+                "Hardware: AMD MI300X 192GB HBM3 | GPU Usage: 182GB VRAM | 263W peak"
             )
 
     return demo

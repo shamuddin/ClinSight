@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    ports:
+      - "8002:8002"
+    environment:
+      - VLLM_VISION_URL=http://vllm-vision:8000/v1
+      - VLLM_TEXT_URL=http://vllm-text:8001/v1
+      - USE_MOCK=false
+      - API_HOST=0.0.0.0
+      - API_PORT=8002
+    volumes:
+      - ./backend:/app/backend
+      - ./data:/app/data
+    depends_on:
+      - vllm-vision
+      - vllm-text
+    command: uvicorn backend.api.main:app --host 0.0.0.0 --port 8002 --reload
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  vllm-vision:
+    image: rocm/vllm-openai-rocm:v0.17.1
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    environment:
+      - HF_HOME=/mnt/scratch/hf_cache
+      - HUGGINGFACE_HUB_CACHE=/mnt/scratch/hf_cache
+      - PYTORCH_ALLOC_CONF=expandable_segments:True
+    volumes:
+      - /mnt/scratch:/mnt/scratch
+    command: >
+      python3 -m vllm.entrypoints.openai.api_server
+      --model /mnt/scratch/hf_cache/models--Qwen--Qwen2.5-VL-7B-Instruct
+      --served-model-name qwen2.5-vl-7b
+      --dtype float16 --tensor-parallel-size 1
+      --port 8000 --host 0.0.0.0
+      --gpu-memory-utilization 0.95
+      --max-model-len 8192 --max-num-seqs 2
+      --enforce-eager --trust-remote-code
+
+  vllm-text:
+    image: rocm/vllm-openai-rocm:v0.17.1
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    environment:
+      - HF_HOME=/mnt/scratch/hf_cache
+      - HUGGINGFACE_HUB_CACHE=/mnt/scratch/hf_cache
+      - PYTORCH_ALLOC_CONF=expandable_segments:True
+    volumes:
+      - /mnt/scratch:/mnt/scratch
+    command: >
+      python3 -m vllm.entrypoints.openai.api_server
+      --model /mnt/scratch/hf_cache/models--Qwen--Qwen3.5-35B-A3B
+      --served-model-name qwen3.5-35b-a3b
+      --dtype float16 --tensor-parallel-size 1
+      --port 8001 --host 0.0.0.0
+      --gpu-memory-utilization 0.70
+      --max-model-len 4096 --max-num-seqs 2
+      --enforce-eager --trust-remote-code

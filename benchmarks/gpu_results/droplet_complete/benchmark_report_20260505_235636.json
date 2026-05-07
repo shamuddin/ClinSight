@@ -1,0 +1,195 @@
+{
+  "timestamp": "2026-05-05T23:56:36",
+  "summary": {
+    "mode": "mock",
+    "total_cases": 12,
+    "success_rate": 1.0,
+    "mean_latency_sec": 0.011,
+    "min_latency_sec": 0.011,
+    "max_latency_sec": 0.015,
+    "errors": 0,
+    "error_details": []
+  },
+  "results": [
+    {
+      "case_id": "CS-2024-001",
+      "status": "success",
+      "latency_sec": 0.015,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 2,
+      "actions_count": 4,
+      "safety_flags": 1,
+      "accuracy": {
+        "esi_accuracy": 1.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-002",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 3,
+      "findings_count": 2,
+      "alerts_count": 0,
+      "actions_count": 3,
+      "safety_flags": 2,
+      "accuracy": {
+        "esi_accuracy": 0.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-003",
+      "status": "success",
+      "latency_sec": 0.012,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 0,
+      "actions_count": 2,
+      "safety_flags": 1,
+      "accuracy": {
+        "esi_accuracy": 1.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-004",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 5,
+      "actions_count": 4,
+      "safety_flags": 0,
+      "accuracy": {
+        "esi_accuracy": 0.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-005",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 3,
+      "findings_count": 1,
+      "alerts_count": 0,
+      "actions_count": 1,
+      "safety_flags": 0,
+      "accuracy": {
+        "esi_accuracy": 0.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-006",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 2,
+      "actions_count": 3,
+      "safety_flags": 1,
+      "accuracy": {
+        "esi_accuracy": 1.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-001",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 2,
+      "actions_count": 4,
+      "safety_flags": 1,
+      "accuracy": {
+        "esi_accuracy": 1.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-002",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 3,
+      "findings_count": 2,
+      "alerts_count": 0,
+      "actions_count": 3,
+      "safety_flags": 2,
+      "accuracy": {
+        "esi_accuracy": 0.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-003",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 0,
+      "actions_count": 2,
+      "safety_flags": 1,
+      "accuracy": {
+        "esi_accuracy": 1.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-004",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 5,
+      "actions_count": 4,
+      "safety_flags": 0,
+      "accuracy": {
+        "esi_accuracy": 0.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-005",
+      "status": "success",
+      "latency_sec": 0.011,
+      "esi_level": 3,
+      "findings_count": 1,
+      "alerts_count": 0,
+      "actions_count": 1,
+      "safety_flags": 0,
+      "accuracy": {
+        "esi_accuracy": 0.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    },
+    {
+      "case_id": "CS-2024-006",
+      "status": "success",
+      "latency_sec": 0.012,
+      "esi_level": 1,
+      "findings_count": 2,
+      "alerts_count": 2,
+      "actions_count": 3,
+      "safety_flags": 1,
+      "accuracy": {
+        "esi_accuracy": 1.0,
+        "finding_recall": 1.0,
+        "action_recall": 1.0
+      }
+    }
+  ]
+}

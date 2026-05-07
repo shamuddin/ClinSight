@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-05-07T07:21:31",
+  "mode": "real",
+  "gpu": "AMD MI300X",
+  "vram_gb": 192,
+  "vram_used_gb": 170,
+  "power_w": 263,
+  "temperature_junction_c": 40,
+  "temperature_memory_c": 36,
+  "gpu_util_during_inference_pct": 49,
+  "summary": {
+    "total_cases": 3,
+    "success_rate": 1.0,
+    "mean_latency_sec": 68.539,
+    "min_latency_sec": 68.052,
+    "max_latency_sec": 69.111,
+    "errors": 0,
+    "mean_esi_accuracy": 0.333,
+    "mean_finding_recall": 1.0,
+    "mean_action_recall": 0.0
+  },
+  "cases": [
+    {"case_id":"CS-2024-001","latency_sec":69.111,"esi_level":1,"findings_count":2,"actions_count":5,"safety_flags":1,"esi_accuracy":1.0,"finding_recall":1.0},
+    {"case_id":"CS-2024-002","latency_sec":68.052,"esi_level":3,"findings_count":2,"actions_count":5,"safety_flags":2,"esi_accuracy":0.0,"finding_recall":1.0},
+    {"case_id":"CS-2024-003","latency_sec":68.453,"esi_level":3,"findings_count":2,"actions_count":5,"safety_flags":1,"esi_accuracy":0.0,"finding_recall":1.0}
+  ],
+  "e2e_times": {
+    "CS-2024-001":79.9,
+    "CS-2024-002":69.3,
+    "CS-2024-003":68.8
+  }
+}

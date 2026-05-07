@@ -1,0 +1,223 @@
+{
+  "case_id": "CS-2024-002",
+  "image_path": "frontend/react-app/public/demo-images/CS-2024-002.png",
+  "image_hash": "",
+  "lab_values": {
+    "wbc": 8.5,
+    "hemoglobin": 13.8,
+    "platelets": 220,
+    "creatinine": 1.0,
+    "glucose": 142,
+    "sodium": 138,
+    "potassium": 4.2,
+    "lactate": 1.8
+  },
+  "lab_units": {
+    "wbc": "K/uL",
+    "hemoglobin": "g/dL",
+    "platelets": "K/uL",
+    "creatinine": "mg/dL",
+    "glucose": "mg/dL",
+    "sodium": "mEq/L",
+    "potassium": "mEq/L",
+    "lactate": "mmol/L",
+    "crp": "mg/L"
+  },
+  "triage_note": "34F MVC head trauma",
+  "patient_age": 34,
+  "patient_sex": "Female",
+  "patient_race": "Black",
+  "chief_complaint": "Head trauma",
+  "vitals": {
+    "bp": "132/84",
+    "hr": 96,
+    "rr": 18,
+    "spo2": 99,
+    "temp": 36.8
+  },
+  "quality_gate": {
+    "pass": true,
+    "reasons": [
+      "DEMO_MODE_NO_PHYSICAL_IMAGE"
+    ],
+    "dimensions": [
+      512,
+      512
+    ],
+    "blur_variance": 150.0
+  },
+  "pediatric_gate": {
+    "status": "PASS"
+  },
+  "input_warnings": [],
+  "image_features": {
+    "hash": "",
+    "preprocessed": true,
+    "modality": "CXR",
+    "view": "PA",
+    "dimensions": [
+      512,
+      512
+    ]
+  },
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "pneumonia",
+      "description": "Right lower lobe consolidation with air bronchograms",
+      "confidence": 0.92,
+      "severity": "high",
+      "location": "right_lower_lobe"
+    },
+    {
+      "id": "f2",
+      "finding": "pleural_effusion",
+      "description": "Small right pleural effusion",
+      "confidence": 0.75,
+      "severity": "moderate",
+      "location": "right_costophrenic_angle"
+    }
+  ],
+  "attention_regions": [
+    {
+      "finding_id": "f1",
+      "x": 220,
+      "y": 260,
+      "w": 200,
+      "h": 180,
+      "confidence": 0.93
+    },
+    {
+      "finding_id": "f2",
+      "x": 300,
+      "y": 380,
+      "w": 120,
+      "h": 60,
+      "confidence": 0.76
+    }
+  ],
+  "lab_alerts": [],
+  "lab_patterns": [],
+  "lab_correlation": {
+    "status": "analyzed",
+    "matches": 0,
+    "mismatches": 0,
+    "patterns": []
+  },
+  "contradictions": [
+    {
+      "rule": "PNEUMONIA_WITHOUT_LEUKOCYTOSIS",
+      "severity": "MEDIUM",
+      "message": "Image suggests pneumonia but WBC and lactate normal. Consider non-infectious infiltrate.",
+      "confidence_penalty": 0.65
+    },
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "hallucination_flags": [],
+  "bias_flags": [],
+  "safety_downgrades": 0,
+  "merged_flags": [
+    {
+      "rule": "PNEUMONIA_WITHOUT_LEUKOCYTOSIS",
+      "severity": "MEDIUM",
+      "message": "Image suggests pneumonia but WBC and lactate normal. Consider non-infectious infiltrate.",
+      "confidence_penalty": 0.65
+    },
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "esi_rules_triggered": [
+    "ESI3_ACTIVE"
+  ],
+  "differential": [
+    "Bacterial pneumonia",
+    "Viral pneumonia",
+    "Pulmonary edema",
+    "Atelectasis",
+    "Pleural effusion \u2014 exudate"
+  ],
+  "suggested_actions": [
+    "Thinking Process:",
+    "Analyze the Request:**",
+    "Role: Clinical Decision Support System (CDSS).",
+    "Input Data: Findings (pneumonia 92%, pleural_effusion 75%), Lab alerts (none), Differential (Bacterial pneumonia, Viral pneumonia, Pulmonary edema, Atelectasis, Pleural effusion \u2014 exudate), Patient (34yo Female, chief complaint: Head trauma), Vitals (BP 132/84, HR 96, SpO2 99%, Temp 36.8).",
+    "Task: Suggest 3-5 specific clinical actions in order of urgency."
+  ],
+  "report": {
+    "summary": "Thinking Process:\n\n1.  **Analyze the Request:**\n    *   Input: A clinical case summary including ESI Level, Findings, Differential, Actions (Thinking Process, Analyze the Request, Role, Input Data, Task, Return a short paragraph).\n    *   Task: Summarize this clinical case in one paragraph.\n    *   Constraint: Respond with valid JSON only when requested. (The user did *not* request JSON in this specific prompt, they asked for a summary in one paragraph. However, the system instruction says \"Respond with valid JSON only when requested.\" This implies if the user asks for JSON, I must output JSON. If they ask for text, I should output text. But wait, looking at the system instruction: \"You are a clinical decision support assistant. Respond with valid JSON only when requested.\" This is a meta-instruction. The user prompt says \"Summarize this clinical case in one paragraph.\" and \"Return a short paragraph.\" It does *not* explicitly request JSON. Therefore, I should output text, not JSON. However, often these prompts are testing the ability to follow the \"JSON only when requested\" rule. Since JSON is not requested, I will output plain text.)\n    *   Wait, let me re-read the system instruction carefully: \"Respond with valid JSON only when requested.\" This means if the user asks for JSON, I output JSON. If they ask for something else, I output that something else.\n    *   User Prompt: \"Summarize this clinical case in one paragraph.\" ... \"Return a short paragraph.\"\n    *   So, I need to write a summary paragraph.\n    *   Content to summarize: 34yo Female, chief complaint: Head trauma, but findings show pneumonia (92%) and pleural effusion (75%). Vitals stable (BP 132/84, HR 96, SpO2 99%, Temp 36.8). ESI Level 3. Differential includes bacterial/viral pneumonia, pulmonary edema, etc.\n    *   Goal: One paragraph summary.\n\n2.  **Drafting the Summary:**\n    *   Patient: 34-year-old female.\n    *   Presentation: Head trauma (chief complaint), but clinical findings indicate respiratory pathology.\n    *   Findings: Pneumonia (92% probability) and pleural effusion (75% probability).",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Bacterial pneumonia",
+      "Viral pneumonia",
+      "Pulmonary edema",
+      "Atelectasis",
+      "Pleural effusion \u2014 exudate"
+    ],
+    "actions": [
+      "Thinking Process:",
+      "Analyze the Request:**",
+      "Role: Clinical Decision Support System (CDSS).",
+      "Input Data: Findings (pneumonia 92%, pleural_effusion 75%), Lab alerts (none), Differential (Bacterial pneumonia, Viral pneumonia, Pulmonary edema, Atelectasis, Pleural effusion \u2014 exudate), Patient (34yo Female, chief complaint: Head trauma), Vitals (BP 132/84, HR 96, SpO2 99%, Temp 36.8).",
+      "Task: Suggest 3-5 specific clinical actions in order of urgency."
+    ],
+    "safety_summary": {
+      "flags": 2,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-07T07:02:27.053392",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-07T07:02:27.102702",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-07T07:02:27.102728",
+      "action": "lab_analysis",
+      "alerts_count": 0,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-07T07:02:27.105785",
+      "action": "safety_review",
+      "flags_total": 2,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-07T07:03:36.356316",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 5
+    }
+  ],
+  "total_time_ms": 0.0
+}
