@@ -1,0 +1,41 @@
+declare module 'lucide-react' {
+  import type { FC, SVGProps } from 'react'
+  export const Activity: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const AlertTriangle: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Baby: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const BarChart2: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Check: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const CheckCircle2: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const ChevronDown: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const ChevronUp: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Circle: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const ClipboardList: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Clock: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Cpu: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Download: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Eye: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const EyeOff: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const FileText: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const FlaskConical: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const HelpCircle: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Info: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Loader2: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Play: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const ScanLine: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Send: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const ShieldCheck: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Shuffle: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Square: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Stethoscope: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Users: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const X: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const XCircle: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const ExternalLink: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const GitBranch: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Server: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Gauge: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const HardDrive: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const Keyboard: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const TrendingDown: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+  export const TrendingUp: FC<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+}

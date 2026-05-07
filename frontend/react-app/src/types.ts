@@ -84,6 +84,8 @@ export interface CaseResult {
   contradictions_count: number
   hallucination_count: number
   bias_count: number
+  // Image URL for real X-ray display
+  image_url?: string
 }
 
 export interface DemoCase {

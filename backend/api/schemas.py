@@ -24,3 +24,4 @@ class CaseOutput(BaseModel):
     safety_flags: List[Dict[str, Any]]
     report: Dict[str, Any]
     audit_log: List[Dict[str, Any]]
+    image_url: Optional[str] = None

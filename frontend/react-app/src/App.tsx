@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Cpu, HelpCircle, Info, Play, Square, Clock, Eye, FileText, AlertTriangle, ShieldCheck, Check, Users } from 'lucide-react'
+import { Cpu, HelpCircle, Info, Play, Square, Clock, Eye, FileText, AlertTriangle, ShieldCheck, Check, Users, Activity, Stethoscope } from 'lucide-react'
 import { CaseResult, DemoCase } from './types'
 import EvidenceRow from './components/EvidenceRow'
 import ClinicalReport from './components/ClinicalReport'
@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard'
 import WhatIfSimulator from './components/WhatIfSimulator'
 import LivePipeline from './components/LivePipeline'
 import SafetyTheater from './components/SafetyTheater'
+import DiagnosisHero from './components/DiagnosisHero'
 import AboutModal from './components/AboutModal'
 import AmdModal from './components/AmdModal'
 import EmptyHero from './components/EmptyHero'
@@ -21,24 +22,12 @@ import { getOfflineResult, OFFLINE_DEMO_CASES } from './offlineDemo'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
-const ESI_META: Record<number, { label: string }> = {
-  1: { label: 'RESUSCITATION' },
-  2: { label: 'EMERGENT' },
-  3: { label: 'URGENT' },
-  4: { label: 'LESS URGENT' },
-  5: { label: 'NON-URGENT' },
-}
-
-// ── EKG pulse animation ───────────────────────────────────────────────────────
-function EkgPulse() {
-  return (
-    <svg className="ekg-svg" viewBox="0 0 80 20" fill="none" aria-hidden="true">
-      <polyline
-        className="ekg-line"
-        points="0,10 10,10 16,3 22,17 28,3 34,10 46,10 52,7 58,10 80,10"
-      />
-    </svg>
-  )
+const ESI_META: Record<number, { label: string; color: string }> = {
+  1: { label: 'RESUSCITATION', color: '#dc2626' },
+  2: { label: 'EMERGENT', color: '#ea580c' },
+  3: { label: 'URGENT', color: '#d97706' },
+  4: { label: 'LESS URGENT', color: '#2563eb' },
+  5: { label: 'NON-URGENT', color: '#64748b' },
 }
 
 // ── Vital tile ────────────────────────────────────────────────────────────────
@@ -83,6 +72,63 @@ function confidenceClass(pct: number): 'high' | 'medium' | 'low' {
   return 'low'
 }
 
+// ── View tabs ─────────────────────────────────────────────────────────────────
+function ViewTabs({
+  mode,
+  onChange,
+}: {
+  mode: 'clinical' | 'technical'
+  onChange: (m: 'clinical' | 'technical') => void
+}) {
+  return (
+    <div className="view-tabs">
+      <button
+        type="button"
+        className={`view-tab ${mode === 'clinical' ? 'view-tab--active' : ''}`}
+        onClick={() => onChange('clinical')}
+      >
+        <Stethoscope size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+        Clinical
+      </button>
+      <button
+        type="button"
+        className={`view-tab ${mode === 'technical' ? 'view-tab--active' : ''}`}
+        onClick={() => onChange('technical')}
+      >
+        <Activity size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
+        Behind the Scenes
+      </button>
+    </div>
+  )
+}
+
+// ── Model specs card for technical view ───────────────────────────────────────
+function ModelSpecs() {
+  return (
+    <div className="result-section" style={{ padding: '20px' }}>
+      <div className="section-label">Model Stack</div>
+      <div className="hardware-stats">
+        <div>
+          <span>Vision Model</span>
+          <strong>Qwen2.5-VL-7B-Instruct</strong>
+        </div>
+        <div>
+          <span>Text Model</span>
+          <strong>Qwen3.5-35B-A3B (MoE)</strong>
+        </div>
+        <div>
+          <span>GPU</span>
+          <strong>AMD MI300X · 192 GB VRAM</strong>
+        </div>
+        <div>
+          <span>Framework</span>
+          <strong>LangGraph · vLLM · ROCm</strong>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -97,6 +143,7 @@ export default function App() {
   const [shortcutOpen, setShortcutOpen] = useState(false)
   const [demoRunning, setDemoRunning] = useState(false)
   const [demoStep, setDemoStep]       = useState(0)
+  const [viewMode, setViewMode]       = useState<'clinical' | 'technical'>('clinical')
 
   const { pipeline, startStream, stop, agentsFromResult } = usePipelineStream(API_BASE)
 
@@ -154,6 +201,7 @@ export default function App() {
     setResult(null)
     setVetoAction(null)
     setAuditOpen(false)
+    setViewMode('clinical')
     if (!keepDemo) {
       setDemoRunning(false)
       setDemoStep(0)
@@ -238,7 +286,7 @@ export default function App() {
   const isLoading    = pipeline.streaming
   const conf         = result ? systemConfidence(result) : 0
   const confCls      = confidenceClass(conf)
-  const esiMeta      = result ? (ESI_META[result.esi_level] ?? { label: 'UNKNOWN' }) : null
+  const esiMeta      = result ? (ESI_META[result.esi_level] ?? { label: 'UNKNOWN', color: '#64748b' }) : null
 
   return (
     <div className="app-shell">
@@ -252,7 +300,6 @@ export default function App() {
             <span className="logo-name">ClinSight</span>
             <span className="logo-tag">Clinical AI</span>
           </div>
-          <EkgPulse />
         </div>
 
         <button type="button" className="amd-strip" onClick={() => setAmdOpen(true)}>
@@ -309,7 +356,7 @@ export default function App() {
         <header className="story-header">
           <div>
             <span className="story-kicker">ClinSight Command Center</span>
-            <strong>12 reasoning agents catch what a single model misses</strong>
+            <strong>Multi-agent clinical decision support</strong>
           </div>
           <div className="story-header-actions">
             <button type="button" className="story-header-btn" onClick={() => setAboutOpen(true)}>
@@ -333,7 +380,7 @@ export default function App() {
             <div className="pipeline-loading">
               <div className="pipeline-loading-inner">
                 <span className="pulse-dot" />
-                Pipeline streaming — watch agents illuminate in real-time…
+                Analyzing case with 12 agents…
               </div>
             </div>
           )}
@@ -379,14 +426,23 @@ export default function App() {
           {result && (
             <div className="case-result">
 
-              {/* ▮ HERO BAND */}
+              {/* View tabs */}
+              <div style={{ padding: '16px 24px 0' }}>
+                <ViewTabs mode={viewMode} onChange={setViewMode} />
+              </div>
+
+              {/* ▮ HERO BAND (always visible) */}
               <section className="result-section result-hero">
                 <div className="hero-esi">
-                  <div className={`esi-ring esi-ring-${result.esi_level}`} aria-label={`ESI Level ${result.esi_level}`}>
+                  <div
+                    className="esi-ring"
+                    aria-label={`ESI Level ${result.esi_level}`}
+                    style={{ borderColor: esiMeta?.color, color: esiMeta?.color }}
+                  >
                     <span className="esi-number">{result.esi_level}</span>
                   </div>
                   <div className="hero-esi-detail">
-                    <div className={`esi-level-label esi-label-${result.esi_level}`}>
+                    <div className="esi-level-label" style={{ color: esiMeta?.color }}>
                       {esiMeta?.label}
                     </div>
                     <div className="esi-desc-text">{result.esi_description}</div>
@@ -417,64 +473,78 @@ export default function App() {
                 </div>
               </section>
 
-              {/* ▮ AI PIPELINE — LivePipeline (replaces AgentActivity) */}
-              <section className="result-section result-pipeline">
-                <div className="section-label">AI Pipeline</div>
-                <LivePipeline
-                  agents={displayAgents}
-                  result={result}
-                  streaming={pipeline.streaming}
-                />
-              </section>
+              {viewMode === 'clinical' ? (
+                <>
+                  {/* ▮ DIAGNOSIS HIGHLIGHT */}
+                  <section className="result-section">
+                    <div className="section-label">Diagnosis</div>
+                    <DiagnosisHero result={result} />
+                  </section>
 
-              {/* ▮ CLINICAL EVIDENCE */}
-              <section className="result-section result-evidence">
-                <div className="section-label">Clinical Evidence</div>
-                <EvidenceRow result={result} />
-              </section>
+                  {/* ▮ CLINICAL EVIDENCE */}
+                  <section className="result-section result-evidence">
+                    <div className="section-label">Clinical Evidence</div>
+                    <EvidenceRow result={result} />
+                  </section>
 
-              {/* ▮ AI SAFETY GUARDS — SafetyTheater (replaces SafetyPanel) */}
-              <section className="result-section result-safety">
-                <div className="section-label">AI Safety Guards</div>
-                <SafetyTheater result={result} />
-              </section>
+                  {/* ▮ CLINICAL REPORT */}
+                  <section className="result-section result-report">
+                    <div className="section-label">Clinical Report</div>
+                    <ClinicalReport result={result} />
+                  </section>
 
-              {/* ▮ CLINICAL REPORT */}
-              <section className="result-section result-report">
-                <div className="section-label">Clinical Report</div>
-                <ClinicalReport result={result} />
-              </section>
+                  {/* ▮ WHAT-IF SIMULATOR */}
+                  <section className="result-section result-whatif">
+                    <div className="section-label">What-If Simulator</div>
+                    <WhatIfSimulator result={result} apiBase={API_BASE} />
+                  </section>
+                </>
+              ) : (
+                <>
+                  {/* ▮ AI PIPELINE */}
+                  <section className="result-section result-pipeline">
+                    <div className="section-label">AI Pipeline — Agent Activity</div>
+                    <LivePipeline
+                      agents={displayAgents}
+                      result={result}
+                      streaming={pipeline.streaming}
+                    />
+                  </section>
 
-              {/* ▮ WHAT-IF SIMULATOR */}
-              <section className="result-section result-whatif">
-                <div className="section-label">What-If Simulator</div>
-                <WhatIfSimulator result={result} apiBase={API_BASE} />
-              </section>
+                  {/* ▮ AI SAFETY GUARDS */}
+                  <section className="result-section result-safety">
+                    <div className="section-label">AI Safety Guards</div>
+                    <SafetyTheater result={result} />
+                  </section>
 
-              {/* ▮ IMPACT */}
-              <section className="result-section">
-                <div className="section-label">Impact</div>
-                <div className="impact-grid">
-                  <div className="impact-card impact-before">
-                    <div className="impact-header">Status Quo</div>
-                    <div className="impact-metric"><Clock size={13} /> ~30 min review</div>
-                    <div className="impact-metric"><Eye size={13} /> 1 reviewer</div>
-                    <div className="impact-metric"><FileText size={13} /> No audit trail</div>
-                    <div className="impact-metric"><AlertTriangle size={13} /> Bias unflagged</div>
-                    <div className="impact-metric"><AlertTriangle size={13} /> No safety layer</div>
-                  </div>
-                  <div className="impact-vs">VS</div>
-                  <div className="impact-card impact-after">
-                    <div className="impact-header">With ClinSight</div>
-                    <div className="impact-metric"><Clock size={13} /> {result.total_time_ms} ms</div>
-                    <div className="impact-metric"><Users size={13} /> 12 agents</div>
-                    <div className="impact-metric"><FileText size={13} /> Cryptographic audit</div>
-                    <div className="impact-metric"><Check size={13} /> Bias audited</div>
-                    <div className="impact-metric"><ShieldCheck size={13} /> 4 safety guards</div>
-                  </div>
-                </div>
-              </section>
+                  {/* ▮ MODEL SPECS */}
+                  <ModelSpecs />
 
+                  {/* ▮ IMPACT */}
+                  <section className="result-section">
+                    <div className="section-label">Impact</div>
+                    <div className="impact-grid">
+                      <div className="impact-card impact-before">
+                        <div className="impact-header">Status Quo</div>
+                        <div className="impact-metric"><Clock size={13} /> ~30 min review</div>
+                        <div className="impact-metric"><Eye size={13} /> 1 reviewer</div>
+                        <div className="impact-metric"><FileText size={13} /> No audit trail</div>
+                        <div className="impact-metric"><AlertTriangle size={13} /> Bias unflagged</div>
+                        <div className="impact-metric"><AlertTriangle size={13} /> No safety layer</div>
+                      </div>
+                      <div className="impact-vs">VS</div>
+                      <div className="impact-card impact-after">
+                        <div className="impact-header">With ClinSight</div>
+                        <div className="impact-metric"><Clock size={13} /> {result.total_time_ms} ms</div>
+                        <div className="impact-metric"><Users size={13} /> 12 agents</div>
+                        <div className="impact-metric"><FileText size={13} /> Cryptographic audit</div>
+                        <div className="impact-metric"><Check size={13} /> Bias audited</div>
+                        <div className="impact-metric"><ShieldCheck size={13} /> 4 safety guards</div>
+                      </div>
+                    </div>
+                  </section>
+                </>
+              )}
             </div>
           )}
         </main>

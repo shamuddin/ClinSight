@@ -4,7 +4,7 @@ import json
 import time
 from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
 from pathlib import Path
 from pydantic import BaseModel, Field
 
@@ -121,6 +121,8 @@ def _build_response(final: dict, case: dict) -> dict:
         "lab_values":      case["lab_values"],
         "lab_units":       case["lab_units"],
         "total_time_ms":   final["total_time_ms"],
+        # Image URL for frontend
+        "image_url":       f"/demo/image/{final['case_id']}",
     }
 
 
@@ -137,6 +139,21 @@ async def list_demo_cases():
         "triage_note":      c["triage_note"],
         "vitals":           c["vitals"],
     } for c in cases]
+
+
+# ─── GET /demo/image/{case_id} ──────────────────────────────────────────────
+
+IMAGE_DIR = Path(__file__).parent.parent / "data" / "images"
+
+@router.get("/image/{case_id}")
+async def get_case_image(case_id: str):
+    """Serve the actual chest X-ray PNG for a demo case."""
+    # Strip what-if suffix
+    base_id = case_id.split("::")[0]
+    image_path = IMAGE_DIR / f"{base_id}.png"
+    if not image_path.exists():
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(str(image_path), media_type="image/png")
 
 
 # ─── GET /demo/analyze/{case_id} ─────────────────────────────────────────────

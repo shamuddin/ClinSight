@@ -1,7 +1,7 @@
 [
   {
     "case_id": "CS-2024-001",
-    "image_path": "data/images/demo_chest_pain.png",
+    "image_path": "backend/data/images/CS-2024-001.png",
     "lab_values": {
       "troponin_i": 0.12,
       "bnp": 180,
@@ -16,9 +16,9 @@
       "troponin_i": "ng/L",
       "bnp": "pg/mL",
       "crp": "mg/L",
-      "wbc": "K/μL",
+      "wbc": "K/\u00ce\u00bcL",
       "hemoglobin": "g/dL",
-      "platelets": "K/μL",
+      "platelets": "K/\u00ce\u00bcL",
       "creatinine": "mg/dL",
       "glucose": "mg/dL"
     },
@@ -37,7 +37,7 @@
   },
   {
     "case_id": "CS-2024-002",
-    "image_path": "data/images/demo_head_trauma.png",
+    "image_path": "backend/data/images/CS-2024-002.png",
     "lab_values": {
       "wbc": 8.5,
       "hemoglobin": 13.8,
@@ -49,9 +49,9 @@
       "lactate": 1.8
     },
     "lab_units": {
-      "wbc": "K/μL",
+      "wbc": "K/\u00ce\u00bcL",
       "hemoglobin": "g/dL",
-      "platelets": "K/μL",
+      "platelets": "K/\u00ce\u00bcL",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
       "sodium": "mEq/L",
@@ -73,7 +73,7 @@
   },
   {
     "case_id": "CS-2024-003",
-    "image_path": "data/images/demo_ped_rash.png",
+    "image_path": "backend/data/images/CS-2024-003.png",
     "lab_values": {
       "wbc": 11.5,
       "hemoglobin": 11.2,
@@ -85,9 +85,9 @@
       "crp": 28
     },
     "lab_units": {
-      "wbc": "K/μL",
+      "wbc": "K/\u00ce\u00bcL",
       "hemoglobin": "g/dL",
-      "platelets": "K/μL",
+      "platelets": "K/\u00ce\u00bcL",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
       "sodium": "mEq/L",
@@ -109,7 +109,7 @@
   },
   {
     "case_id": "CS-2024-004",
-    "image_path": "data/images/demo_sepsis.png",
+    "image_path": "backend/data/images/CS-2024-004.png",
     "lab_values": {
       "wbc": 2.1,
       "hemoglobin": 9.8,
@@ -124,9 +124,9 @@
       "pao2_fio2": 180
     },
     "lab_units": {
-      "wbc": "K/μL",
+      "wbc": "K/\u00ce\u00bcL",
       "hemoglobin": "g/dL",
-      "platelets": "K/μL",
+      "platelets": "K/\u00ce\u00bcL",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
       "sodium": "mEq/L",
@@ -151,7 +151,7 @@
   },
   {
     "case_id": "CS-2024-005",
-    "image_path": "data/images/demo_headache.png",
+    "image_path": "backend/data/images/CS-2024-005.png",
     "lab_values": {
       "wbc": 7.1,
       "hemoglobin": 13.5,
@@ -164,9 +164,9 @@
       "esr": 8
     },
     "lab_units": {
-      "wbc": "K/μL",
+      "wbc": "K/\u00ce\u00bcL",
       "hemoglobin": "g/dL",
-      "platelets": "K/μL",
+      "platelets": "K/\u00ce\u00bcL",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
       "sodium": "mEq/L",
@@ -189,7 +189,7 @@
   },
   {
     "case_id": "CS-2024-006",
-    "image_path": "data/images/demo_abd_pain.png",
+    "image_path": "backend/data/images/CS-2024-006.png",
     "lab_values": {
       "wbc": 16.5,
       "hemoglobin": 14.0,
@@ -203,9 +203,9 @@
       "lactate": 3.4
     },
     "lab_units": {
-      "wbc": "K/μL",
+      "wbc": "K/\u00ce\u00bcL",
       "hemoglobin": "g/dL",
-      "platelets": "K/μL",
+      "platelets": "K/\u00ce\u00bcL",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
       "sodium": "mEq/L",

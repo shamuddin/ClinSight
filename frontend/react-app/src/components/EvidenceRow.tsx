@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
 import { ChevronDown, ChevronUp, Eye, FlaskConical, ScanLine } from 'lucide-react'
 import { AttentionRegion, CaseResult, Finding, LabAlert } from '../types'
 
@@ -55,6 +55,8 @@ function labScale(alert: LabAlert): { valuePct: number; thresholdPct: number; di
   }
 }
 
+// ── Real X-ray viewer with attention overlay ─────────────────────────────────
+
 function XrayEvidence({
   result,
   activeRegionId,
@@ -68,8 +70,32 @@ function XrayEvidence({
     () => new Map(result.findings.map((finding) => [finding.id, finding])),
     [result.findings],
   )
-  const activeRegion = result.attention_regions.find((r) => r.finding_id === activeRegionId)
-  const activeFinding = activeRegion ? findingMap.get(activeRegion.finding_id) : undefined
+
+  const imgRef = useRef<HTMLImageElement>(null)
+  const [imgSize, setImgSize] = useState({ width: 0, height: 0 })
+
+  const handleImageLoad = useCallback(() => {
+    if (imgRef.current) {
+      setImgSize({
+        width: imgRef.current.clientWidth,
+        height: imgRef.current.clientHeight,
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('resize', handleImageLoad)
+    return () => window.removeEventListener('resize', handleImageLoad)
+  }, [handleImageLoad])
+
+  // NIH images are 1024x1024; scale coordinates to displayed size
+  const scaleX = imgSize.width / 1024
+  const scaleY = imgSize.height / 1024
+
+  // Use public demo-images for offline, or backend endpoint when online
+  const imageSrc = result.image_url
+    ? `${import.meta.env.VITE_API_URL || ''}${result.image_url}`
+    : `/demo-images/${result.case_id.split('::')[0]}.png`
 
   return (
     <article className="evidence-panel evidence-xray">
@@ -80,62 +106,50 @@ function XrayEvidence({
         </div>
         <span className="evidence-chip">
           <ScanLine size={12} />
-          CXR PA Demo
+          CXR PA
         </span>
       </div>
 
-      <div className="evidence-xray-frame">
-        <svg viewBox="0 0 512 512" className="evidence-xray-svg" aria-label="Chest X-ray with attention regions">
-          <rect width="512" height="512" fill="#fafafa" />
-          <ellipse cx="256" cy="214" rx="190" ry="226" fill="#f0f0f0" />
-          <ellipse cx="177" cy="224" rx="80" ry="170" fill="#e8e8e8" stroke="#d4d4d4" strokeWidth="2" />
-          <ellipse cx="335" cy="224" rx="80" ry="170" fill="#e5e5e5" stroke="#d4d4d4" strokeWidth="2" />
-          <path d="M256 70 C245 130 244 206 256 326" stroke="#737373" strokeWidth="5" fill="none" opacity="0.65" />
-          <path d="M156 140 C205 176 215 284 168 356" stroke="#a3a3a3" strokeWidth="3" fill="none" opacity="0.55" />
-          <path d="M356 140 C307 176 297 284 344 356" stroke="#a3a3a3" strokeWidth="3" fill="none" opacity="0.55" />
+      <div className="xray-viewer">
+        <img
+          ref={imgRef}
+          src={imageSrc}
+          alt={`Chest X-ray for ${result.case_id}`}
+          onLoad={handleImageLoad}
+          draggable={false}
+        />
+        {imgSize.width > 0 && (
+          <div className="xray-overlay">
+            {result.attention_regions.map((region) => {
+              const finding = findingMap.get(region.finding_id)
+              const isActive = activeRegionId === region.finding_id
+              return (
+                <div
+                  key={region.finding_id}
+                  className={`xray-region ${isActive ? 'xray-region--active' : ''}`}
+                  style={{
+                    left: `${region.x * scaleX}px`,
+                    top: `${region.y * scaleY}px`,
+                    width: `${region.w * scaleX}px`,
+                    height: `${region.h * scaleY}px`,
+                  }}
+                  onMouseEnter={() => onRegionHover(region.finding_id)}
+                  onMouseLeave={() => onRegionHover(null)}
+                  title={`${findingLabel(finding)} - ${(region.confidence * 100).toFixed(0)}% attention`}
+                >
+                  <span className="xray-region-label">
+                    {findingLabel(finding)} ({(region.confidence * 100).toFixed(0)}%)
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
 
-          {result.attention_regions.map((region) => {
-            const finding = findingMap.get(region.finding_id)
-            const isActive = activeRegionId === region.finding_id
-            return (
-              <rect
-                key={region.finding_id}
-                x={region.x}
-                y={region.y}
-                width={region.w}
-                height={region.h}
-                className={`evidence-region ${isActive ? 'evidence-region--active' : ''}`}
-                onMouseEnter={() => onRegionHover(region.finding_id)}
-                onMouseLeave={() => onRegionHover(null)}
-                rx="2"
-              >
-                <title>{findingLabel(finding)} - {(region.confidence * 100).toFixed(0)}% attention</title>
-              </rect>
-            )
-          })}
-
-          {activeRegion && (
-            <g className="evidence-region-tip">
-              <rect
-                x={Math.min(activeRegion.x + 8, 332)}
-                y={Math.max(activeRegion.y - 42, 18)}
-                width="168"
-                height="34"
-                rx="0"
-              />
-              <text x={Math.min(activeRegion.x + 18, 342)} y={Math.max(activeRegion.y - 20, 40)}>
-                {findingLabel(activeFinding).slice(0, 22)}
-              </text>
-              <text x={Math.min(activeRegion.x + 18, 342)} y={Math.max(activeRegion.y - 8, 52)} className="evidence-tip-sub">
-                {(activeRegion.confidence * 100).toFixed(0)}% attention
-              </text>
-            </g>
-          )}
-        </svg>
-        <div className="evidence-xray-footer">
-          <span>{result.attention_regions.length} attention regions</span>
-          <span>{result.findings.length} findings linked</span>
-        </div>
+      <div className="xray-viewer-footer">
+        <span>{result.attention_regions.length} attention regions</span>
+        <span>{result.findings.length} findings linked</span>
       </div>
     </article>
   )

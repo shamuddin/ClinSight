@@ -99,6 +99,7 @@ async def analyze_case(case: CaseInput):
         safety_flags=final["merged_flags"],
         report=final["report"],
         audit_log=final["audit_log"],
+        image_url=final.get("image_url"),
     )
 
 

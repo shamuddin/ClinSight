@@ -210,10 +210,10 @@ export function getOfflineResult(caseId: string): CaseResult | null {
     lab_patterns: profile.labPatterns,
     attention_regions: profile.findings.map((finding, index) => ({
       finding_id: finding.id,
-      x: 18 + index * 22,
-      y: 20 + index * 10,
-      w: 24,
-      h: 22,
+      x: 180 + index * 140,
+      y: 160 + index * 80,
+      w: 200,
+      h: 180,
       confidence: finding.confidence,
     })),
     vitals: demoCase.vitals,
@@ -228,5 +228,6 @@ export function getOfflineResult(caseId: string): CaseResult | null {
     contradictions_count: 0,
     hallucination_count: 0,
     bias_count: profile.safety.some((flag) => flag.rule === 'pediatric_scope') ? 1 : 0,
+    image_url: `/demo-images/${baseId}.png`,
   }
 }
