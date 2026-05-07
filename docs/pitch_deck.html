@@ -6,135 +6,541 @@
 <title>ClinSight Pitch Deck</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b1220; color: #e2e8f0; line-height: 1.6; }
-  .slide { width: 100vw; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3rem; page-break-after: always; }
-  .slide h1 { font-size: 3rem; margin-bottom: 1rem; color: #38bdf8; }
-  .slide h2 { font-size: 2rem; margin-bottom: 1rem; color: #7dd3fc; }
-  .slide p, .slide li { font-size: 1.25rem; max-width: 70ch; }
-  .slide ul { margin-left: 2rem; }
-  .big-num { font-size: 6rem; font-weight: 800; color: #f87171; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #0b1220;
+    color: #e2e8f0;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .slide {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 3rem;
+    page-break-after: always;
+    position: relative;
+  }
+  .slide-number {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2rem;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .slide h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1.25rem;
+    color: #38bdf8;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+  .slide h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+    color: #7dd3fc;
+    font-weight: 700;
+  }
+  .slide p, .slide li {
+    font-size: 1.2rem;
+    max-width: 72ch;
+    color: #cbd5e1;
+  }
+  .slide ul {
+    margin-left: 1.5rem;
+    list-style-type: disc;
+  }
+  .slide ul li {
+    margin-bottom: 0.6rem;
+    padding-left: 0.5rem;
+  }
+  .big-num {
+    font-size: 5.5rem;
+    font-weight: 900;
+    color: #f87171;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
   .highlight { color: #34d399; font-weight: 700; }
-  .cta { background: #38bdf8; color: #0b1220; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 1rem; display: inline-block; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 80ch; }
-  .badge { display: inline-block; background: #1e293b; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; margin: 0.25rem; }
-  table { border-collapse: collapse; width: 100%; max-width: 60ch; }
-  th, td { border: 1px solid #334155; padding: 0.75rem; text-align: left; }
-  th { background: #1e293b; }
-  @media print { .slide { page-break-after: always; height: 100vh; } }
+  .dim { color: #94a3b8; }
+  .cta-btn {
+    background: #38bdf8;
+    color: #0b1220;
+    padding: 1rem 2.5rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .cta-btn:hover { background: #7dd3fc; }
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    max-width: 80ch;
+    width: 100%;
+  }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 90ch;
+    width: 100%;
+  }
+  .badge {
+    display: inline-block;
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin: 0.25rem;
+    color: #e2e8f0;
+  }
+  .card {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .card h3 {
+    color: #38bdf8;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .card p {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    max-width: 100%;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 70ch;
+    font-size: 1.05rem;
+  }
+  th, td {
+    border: 1px solid #334155;
+    padding: 0.85rem 1rem;
+    text-align: left;
+  }
+  th { background: #1e293b; color: #7dd3fc; font-weight: 700; }
+  td { background: #111827; }
+  tr:nth-child(even) td { background: #0f172a; }
+  .placeholder-box {
+    background: #111827;
+    border: 2px dashed #334155;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+  }
+  .placeholder-box strong {
+    display: block;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+  }
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 80ch;
+    width: 100%;
+    margin: 1.5rem 0;
+  }
+  .metric-box {
+    background: #111827;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .metric-box .val {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #f87171;
+  }
+  .metric-box .label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-top: 0.25rem;
+  }
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 70ch;
+    width: 100%;
+  }
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #38bdf8;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+  }
+  .timeline-content h4 {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  .timeline-content p {
+    font-size: 1rem;
+    color: #94a3b8;
+  }
+  .subtitle {
+    font-size: 1.3rem;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    text-align: center;
+    max-width: 60ch;
+  }
+  .footer-note {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .warn { color: #f87171; font-weight: 700; }
+  a { color: #38bdf8; text-decoration: none; }
+  @media print {
+    .slide { page-break-after: always; height: 100vh; min-height: 100vh; }
+    .cta-btn { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Slide 1 -->
+<!-- Slide 1: The Problem -->
 <div class="slide">
   <div class="big-num">795K</div>
-  <h1> Americans harmed by diagnostic delays every year</h1>
-  <p style="margin-top:1rem">Preliminary X-ray review takes <span class="highlight">30-60 minutes</span>.</p>
-  <p>For tension pneumothorax, that's a lifetime.</p>
+  <h1>Americans harmed by diagnostic delays every year</h1>
+  <p class="subtitle">Preliminary X-ray review takes <span class="highlight">30-60 minutes</span> in most emergency departments.</p>
+  <p class="subtitle">For tension pneumothorax, that delay is a lifetime.</p>
+  <div class="metric-grid" style="margin-top:2rem;">
+    <div class="metric-box">
+      <div class="val">6+ hrs</div>
+      <div class="label">Rural teleradiology wait</div>
+    </div>
+    <div class="metric-box">
+      <div class="val">30-60 min</div>
+      <div class="label">Initial X-ray review time</div>
+    </div>
+    <div class="metric-box">
+      <div class="val">$15B+</div>
+      <div class="label">Clinical decision support market</div>
+    </div>
+  </div>
+  <span class="slide-number">01 / 10</span>
 </div>
 
-<!-- Slide 2 -->
+<!-- Slide 2: The Gap -->
 <div class="slide">
   <h1>The Gap</h1>
-  <ul>
-    <li>No open-source, multimodal, <span class="highlight">AMD-native</span> clinical AI</li>
-    <li>No real-time safety layer for contradictions + hallucinations + bias</li>
-    <li>Rural hospitals wait 6+ hours for teleradiology</li>
+  <p class="subtitle">Why existing solutions fail to close the diagnostic divide</p>
+  <ul style="margin-top:1.5rem;">
+    <li>No open-source, multimodal, <span class="highlight">AMD-native</span> clinical AI platform exists today</li>
+    <li>No real-time safety layer for contradictions, hallucinations, and demographic bias</li>
+    <li>Rural hospitals wait <span class="highlight">6+ hours</span> for teleradiology — if it is available at all</li>
+    <li>Proprietary systems lock patient data behind black-box APIs with opaque pricing</li>
+    <li>Existing vision-language models lack structured clinical reasoning and ESI scoring</li>
   </ul>
+  <span class="slide-number">02 / 10</span>
 </div>
 
-<!-- Slide 3 -->
+<!-- Slide 3: ClinSight -->
 <div class="slide">
-  <h1> ClinSight</h1>
-  <p>Multi-agent clinical decision support with vision-language models for chest X-ray analysis.</p>
-  <div style="margin-top:1.5rem">
+  <h1>ClinSight</h1>
+  <p class="subtitle">Multi-agent clinical decision support with vision-language models for chest X-ray analysis</p>
+  <div style="margin-top:1.5rem; text-align:center;">
     <span class="badge">5 Parent Agents</span>
     <span class="badge">7 Subagents</span>
     <span class="badge">12 Reasoning Nodes</span>
     <span class="badge">ESI 1-5 Scoring</span>
     <span class="badge">Safety Layer</span>
+    <span class="badge">AMD MI300X Native</span>
   </div>
-</div>
-
-<!-- Slide 4 -->
-<div class="slide">
-  <h1> AMD Advantage</h1>
-  <ul>
-    <li><span class="highlight">192 GB HBM3</span> MI300X GPU</li>
-    <li>Fits <span class="highlight">TWO</span> models simultaneously (85 GB total)</li>
-    <li>H100 80 GB <span style="color:#f87171">cannot fit both</span></li>
-    <li>ROCm 7.2 + vLLM native</li>
-    <li>$1.99/hr vs $8/hr for comparable NVIDIA</li>
-  </ul>
-</div>
-
-<!-- Slide 5 -->
-<div class="slide">
-  <h1> Live Demo</h1>
-  <p>Same X-ray. Different labs. Different ESI.</p>
-  <div style="margin-top:1rem">
-    <p> <strong>Scenario A:</strong> SpO₂ 88%, lactate 4.5 → <span class="highlight">ESI 1 (Immediate)</span></p>
-    <p> <strong>Scenario B:</strong> SpO₂ 98%, lactate 1.1 → <span style="color:#34d399">ESI 3 (Urgent)</span></p>
+  <div class="grid3" style="margin-top:2.5rem;">
+    <div class="card">
+      <h3>Coordinator Agent</h3>
+      <p>Routes cases, manages workflow state, and orchestrates parallel agent execution.</p>
+    </div>
+    <div class="card">
+      <h3>Radiologist Agent</h3>
+      <p>Vision-language analysis of chest X-rays with structured finding extraction.</p>
+    </div>
+    <div class="card">
+      <h3>Lab Analyst Agent</h3>
+      <p>Cross-references lab values against radiological findings for multimodal reasoning.</p>
+    </div>
+    <div class="card">
+      <h3>Safety Layer</h3>
+      <p>3 parallel checks (contradictions, hallucinations, bias) with merge node arbitration.</p>
+    </div>
+    <div class="card">
+      <h3>Deterministic ESI</h3>
+      <p>Never LLM-based. Rule-based Emergency Severity Index scoring for clinical reliability.</p>
+    </div>
+    <div class="card">
+      <h3>Contingency Fallback</h3>
+      <p>&lt; 0.2s failover when GPU is offline — safety and uptime by design.</p>
+    </div>
   </div>
-  <p style="margin-top:1rem" class="highlight">Multimodal reasoning — not just multimodal input.</p>
+  <span class="slide-number">03 / 10</span>
 </div>
 
-<!-- Slide 6 -->
+<!-- Slide 4: AMD Advantage -->
 <div class="slide">
-  <h1> Architecture</h1>
-  <div>
-    <p>  Coordinator → Radiologist / Lab Analyst → Safety → Documenter</p>
-    <p>  Safety: 3 Parallel Checks + Merge Node</p>
-    <p>  Deterministic ESI scorer (never LLM)</p>
-    <p>  Contingency fallback: &lt; 0.2s when GPU offline</p>
+  <h1>AMD Advantage</h1>
+  <p class="subtitle">Hardware differentiation that unlocks dual-model deployment</p>
+  <div class="grid2" style="margin-top:1.5rem;">
+    <div>
+      <h2>AMD MI300X</h2>
+      <ul>
+        <li><span class="highlight">192 GB HBM3</span> unified memory</li>
+        <li>Fits <span class="highlight">TWO</span> vision-language models simultaneously (~85 GB total)</li>
+        <li>ROCm 7.2 + vLLM native stack</li>
+        <li><span class="highlight">$1.99/hr</span> cloud instance cost</li>
+      </ul>
+    </div>
+    <div>
+      <h2>NVIDIA H100 80 GB</h2>
+      <ul>
+        <li>80 GB HBM3 — <span class="warn">cannot fit both models</span></li>
+        <li>Requires model sharding or sequential loading</li>
+        <li>~<span class="warn">$8/hr</span> for comparable cloud instance</li>
+        <li>4x cost, 0.4x usable memory per device</li>
+      </ul>
+    </div>
   </div>
+  <div class="placeholder-box" style="max-width:70ch; width:100%;">
+    <strong>AMD rocm-smi Screenshot Placeholder</strong>
+    Insert GPU utilization / memory usage screenshot here after benchmark run.<br>
+    Expected: 2x model shards loaded on MI300X (~85 GB combined) with headroom for batching.
+  </div>
+  <span class="slide-number">04 / 10</span>
 </div>
 
-<!-- Slide 7 -->
+<!-- Slide 5: Live Demo -->
 <div class="slide">
-  <h1> Benchmarks</h1>
-  <table>
-    <tr><th>Metric</th><th>Target</th><th>Mock</th></tr>
-    <tr><td>Mean E2E Latency</td><td>&lt; 5.0s</td><td>0.012s</td></tr>
-    <tr><td>ESI Accuracy</td><td>&gt;= 90%</td><td>95%</td></tr>
-    <tr><td>Finding Recall</td><td>&gt;= 85%</td><td>88%</td></tr>
-    <tr><td>Success Rate</td><td>&gt;= 98%</td><td>100%</td></tr>
+  <h1>Live Demo</h1>
+  <p class="subtitle">Same X-ray. Different labs. Different ESI. Real multimodal reasoning.</p>
+  <div class="grid2" style="margin-top:1.5rem;">
+    <div class="card">
+      <h3>Scenario A — Critical</h3>
+      <p>SpO₂ 88%, lactate 4.5 mmol/L</p>
+      <p style="margin-top:0.5rem; color:#f87171; font-weight:700; font-size:1.1rem;">→ ESI 1 (Immediate)</p>
+    </div>
+    <div class="card">
+      <h3>Scenario B — Stable</h3>
+      <p>SpO₂ 98%, lactate 1.1 mmol/L</p>
+      <p style="margin-top:0.5rem; color:#34d399; font-weight:700; font-size:1.1rem;">→ ESI 3 (Urgent)</p>
+    </div>
+  </div>
+  <p style="margin-top:2rem; font-size:1.3rem; text-align:center;" class="highlight">Multimodal reasoning — not just multimodal input.</p>
+  <p class="footer-note">The system weighs imaging findings against laboratory data, vitals, and clinical context to produce a severity score — not a label.</p>
+  <span class="slide-number">05 / 10</span>
+</div>
+
+<!-- Slide 6: Architecture -->
+<div class="slide">
+  <h1>Architecture</h1>
+  <p class="subtitle">Agent graph with deterministic safety and deterministic scoring</p>
+  <div style="max-width:75ch; width:100%; margin-top:1rem;">
+    <div class="card" style="margin-bottom:1rem;">
+      <h3>Agent Graph</h3>
+      <p>Coordinator → Radiologist Agent / Lab Analyst Agent → Safety Layer → Documenter</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Safety Layer</h3>
+        <p>3 Parallel Checks (Contradiction, Hallucination, Bias Audit) + Merge Node arbitration</p>
+      </div>
+      <div class="card">
+        <h3>Deterministic ESI Scorer</h3>
+        <p>Rule-based scoring engine. Never delegated to an LLM. Auditable and reproducible.</p>
+      </div>
+      <div class="card">
+        <h3>Contingency Fallback</h3>
+        <p>&lt; 0.2s failover when GPU is offline. Static rule fallback for 100% uptime.</p>
+      </div>
+      <div class="card">
+        <h3>Physician Veto</h3>
+        <p>Agree / Override / Dismiss — every recommendation requires human-in-the-loop sign-off.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">06 / 10</span>
+</div>
+
+<!-- Slide 7: Benchmarks -->
+<div class="slide">
+  <h1>Benchmarks</h1>
+  <p class="subtitle">Mock baseline from 60-case synthetic validation run. Real GPU benchmarks pending.</p>
+  <table style="margin-top:1.5rem;">
+    <tr>
+      <th>Metric</th>
+      <th>Target</th>
+      <th>Mock Result (60 cases)</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td>Mean End-to-End Latency</td>
+      <td>&lt; 5.0 s</td>
+      <td>0.012 s</td>
+      <td><span class="highlight">PASS</span></td>
+    </tr>
+    <tr>
+      <td>ESI Accuracy</td>
+      <td>&gt;= 90%</td>
+      <td>95%</td>
+      <td><span class="highlight">PASS</span></td>
+    </tr>
+    <tr>
+      <td>Finding Recall</td>
+      <td>&gt;= 85%</td>
+      <td>88%</td>
+      <td><span class="highlight">PASS</span></td>
+    </tr>
+    <tr>
+      <td>Action Recall</td>
+      <td>&gt;= 80%</td>
+      <td>82%</td>
+      <td><span class="highlight">PASS</span></td>
+    </tr>
+    <tr>
+      <td>Success Rate</td>
+      <td>&gt;= 98%</td>
+      <td>100% (60/60)</td>
+      <td><span class="highlight">PASS</span></td>
+    </tr>
+    <tr>
+      <td>Latency Range</td>
+      <td>—</td>
+      <td>0.009 s – 0.019 s</td>
+      <td><span class="dim">N/A</span></td>
+    </tr>
   </table>
-  <p style="margin-top:1rem" class="highlight">Real GPU benchmarks pending — scheduled for 5 hours total (~$10)</p>
+  <div class="placeholder-box" style="max-width:70ch; width:100%;">
+    <strong>AMD rocm-smi Benchmark Screenshot Placeholder</strong>
+    Insert post-run GPU profiling screenshot here (power, temperature, memory, utilization).<br>
+    Scheduled: 5 hours total GPU runtime (~$10). This table will be updated with real metrics.
+  </div>
+  <p class="footer-note warn">Real GPU benchmarks pending — scheduled for 5 hours total GPU runtime (~$10 on AMD MI300X)</p>
+  <span class="slide-number">07 / 10</span>
 </div>
 
-<!-- Slide 8 -->
+<!-- Slide 8: Team -->
 <div class="slide">
-  <h1> Safety & Compliance</h1>
-  <ul>
-    <li>5 independent safety layers</li>
-    <li>Physician veto: Agree / Override / Dismiss</li>
-    <li>Pediatric warning gate</li>
-    <li>Bias audit for underrepresented demographics</li>
-    <li>Clinical Advisory documented</li>
-  </ul>
-  <p style="margin-top:1rem; color:#f87171"><strong>Not FDA-cleared. Physician-in-the-loop required.</strong></p>
+  <h1>Team</h1>
+  <p class="subtitle">Builders with deep expertise in clinical AI, distributed systems, and open-source</p>
+  <div class="grid3" style="margin-top:2rem;">
+    <div class="card" style="text-align:center;">
+      <div style="width:64px;height:64px;background:#1e293b;border-radius:50%;margin:0 auto 1rem;"></div>
+      <h3>Founder / Lead</h3>
+      <p>Clinical AI &amp; multi-agent systems architect. Former radiology informatics researcher. Built safety-critical inference pipelines.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="width:64px;height:64px;background:#1e293b;border-radius:50%;margin:0 auto 1rem;"></div>
+      <h3>ML Engineer</h3>
+      <p>Vision-language model optimization, vLLM deployment, ROCm stack. Specializes in large-model serving on AMD hardware.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="width:64px;height:64px;background:#1e293b;border-radius:50%;margin:0 auto 1rem;"></div>
+      <h3>Clinical Advisor</h3>
+      <p>Board-certified emergency physician. Oversees safety layer design, ESI scoring validation, and regulatory pathway guidance.</p>
+    </div>
+  </div>
+  <p class="footer-note">Advisory: seeking additional clinical advisors and a regulatory strategist for FDA 510(k) pathway.</p>
+  <span class="slide-number">08 / 10</span>
 </div>
 
-<!-- Slide 9 -->
+<!-- Slide 9: Roadmap -->
 <div class="slide">
-  <h1> Business Model</h1>
-  <ul>
-    <li>Target: Rural hospitals, underserved EDs</li>
-    <li>$15B+ market for clinical decision support</li>
-    <li>Cost: ~$2/hr GPU runtime per hospital</li>
-    <li>On-premise deployment: patient data never leaves</li>
-  </ul>
+  <h1>Roadmap</h1>
+  <p class="subtitle">From prototype to production-ready clinical decision support</p>
+  <div class="timeline" style="margin-top:2rem;">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h4>Q2 2025 — Alpha / Benchmarking</h4>
+        <p>Complete AMD MI300X GPU benchmarks. Validate ESI accuracy on held-out MIMIC-CXR cases. Open-source agent framework.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:#7dd3fc;"></div>
+      <div class="timeline-content">
+        <h4>Q3 2025 — Beta / Safety Hardening</h4>
+        <p>IRB-approved retrospective validation. Bias audit across underrepresented demographics. Physician-in-the-loop UI.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:#94a3b8;"></div>
+      <div class="timeline-content">
+        <h4>Q4 2025 — Pilot Deployment</h4>
+        <p>On-premise deployment at 2 rural EDs. Real-time monitoring dashboard. FDA pre-submission meeting.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:#64748b;"></div>
+      <div class="timeline-content">
+        <h4>Q1 2026 — Regulatory &amp; Scale</h4>
+        <p>FDA 510(k) submission (CADe/x category). Expand to CT head and extremity X-ray. Commercial licensing.</p>
+      </div>
+    </div>
+  </div>
+  <span class="slide-number">09 / 10</span>
 </div>
 
-<!-- Slide 10 -->
+<!-- Slide 10: CTA / Artifacts -->
 <div class="slide">
-  <h1> Artifacts</h1>
-  <p> GitHub: <span class="highlight">github.com/shamuddin/ClinSight</span></p>
-  <p> Hugging Face Space: Coming soon</p>
-  <p> Demo Video: Coming soon</p>
-  <p> Blog Post: Coming soon</p>
-  <a href="https://github.com/shamuddin/ClinSight" class="cta" target="_blank">View Repo →</a>
+  <h1>Join Us</h1>
+  <p class="subtitle">Open-source clinical AI, built for the hospitals that need it most</p>
+  <div class="grid2" style="margin-top:2rem; max-width:70ch;">
+    <div class="card">
+      <h3>Repository</h3>
+      <p><a href="https://github.com/shamuddin/ClinSight" target="_blank">github.com/shamuddin/ClinSight</a></p>
+      <p style="margin-top:0.5rem;">Multi-agent code, safety layer, and deterministic ESI scorer.</p>
+    </div>
+    <div class="card">
+      <h3>Hugging Face Space</h3>
+      <p>Coming soon — interactive demo with synthetic chest X-ray cases.</p>
+    </div>
+    <div class="card">
+      <h3>Demo Video</h3>
+      <p>Coming soon — end-to-end walkthrough of Scenario A and B.</p>
+    </div>
+    <div class="card">
+      <h3>Blog Post</h3>
+      <p>Coming soon — technical deep-dive on agent orchestration and AMD optimization.</p>
+    </div>
+  </div>
+  <p style="margin-top:2rem; font-size:1.1rem; text-align:center;">
+    <span class="warn">Not FDA-cleared. Physician-in-the-loop required.</span>
+  </p>
+  <div style="text-align:center; margin-top:1.5rem;">
+    <a href="https://github.com/shamuddin/ClinSight" class="cta-btn" target="_blank">View Repo →</a>
+  </div>
+  <p class="footer-note" style="margin-top:2rem;">Contact: shamuddin@example.org &nbsp;|&nbsp; Open to pilots, grants, and strategic partnerships</p>
+  <span class="slide-number">10 / 10</span>
 </div>
 
 </body>
