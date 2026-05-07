@@ -10,9 +10,18 @@ from backend.api.schemas import CaseInput, CaseOutput
 from backend.core.state import AgentState
 from backend.agents.graph import run_pipeline
 from backend.api.demo import router as demo_router
+from backend.api.judge import router as judge_router
 
 # Path to built frontend assets
 FRONTEND_DIST = Path(__file__).parent.parent.parent / "frontend" / "react-app" / "dist"
+
+CORS_ORIGINS = [
+    "http://localhost:3000", "http://localhost:5173", "http://localhost:8000",
+    "http://127.0.0.1:8000", "http://127.0.0.1:3000",
+    "http://134.199.193.58:3000", "http://134.199.193.58", "http://134.199.193.58:5173",
+    "http://134.199.193.58:80", "http://134.199.193.58:8080",
+    "http://10.128.0.2:3000",
+]
 
 
 @asynccontextmanager
@@ -32,7 +41,7 @@ app = FastAPI(
 # CORS — allow frontend dev server and local browsing
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://localhost:8000", "http://127.0.0.1:8000"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,6 +49,7 @@ app.add_middleware(
 
 # Demo routes
 app.include_router(demo_router)
+app.include_router(judge_router)
 
 # API routes
 @app.get("/health")

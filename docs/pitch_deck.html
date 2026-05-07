@@ -66,12 +66,12 @@ th{color:var(--primary);font-weight:600}
 <!-- SLIDE 5: GPU Performance -->
 <div class="slide">
   <h2>Real GPU Performance <span class="badge">AMD MI300X</span></h2>
-  <p>Both models loaded simultaneously on a single AMD MI300X GPU. Full end-to-end inference on 3 clinical cases.</p>
+  <p>Both models loaded simultaneously on a single AMD MI300X VF GPU (192 GB VRAM). Full end-to-end inference on 3 clinical cases using Qwen2.5-VL-7B + Qwen3.5-35B-A3B via vLLM 0.17.1+rocm700.</p>
   <div class="grid">
-    <div class="card"><div class="value">69s</div><div class="label">Mean End-to-End Latency (3 cases)</div></div>
-    <div class="card"><div class="value">182GB</div><div class="label">VRAM Used / 206GB Total</div></div>
-    <div class="card"><div class="value">263W</div><div class="label">Peak Power During Inference</div></div>
-    <div class="card"><div class="value">49%</div><div class="label">GPU Utilization During E2E</div></div>
+    <div class="card"><div class="value">72s</div><div class="label">Mean E2E Latency (3 cases)</div></div>
+    <div class="card"><div class="value">141 GB</div><div class="label">VRAM Used / 192 GB Total</div></div>
+    <div class="card"><div class="value">35B</div><div class="label">Text Model Parameters</div></div>
+    <div class="card"><div class="value">50%</div><div class="label">GPU Utilization During Inference</div></div>
   </div>
 </div>
 

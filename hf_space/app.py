@@ -107,32 +107,37 @@ DEMO_CASES: List[Dict[str, Any]] = [
 # AMD performance data
 # ---------------------------------------------------------------------------
 AMD_BENCHMARKS: Dict[str, Any] = {
-    "model": "ClinSight v0.1.0 (Qwen2.5-VL-7B + Qwen3.5-35B-A3B)",
-    "hardware": "AMD Instinct MI300X (192GB HBM3)",
+    "model": "ClinSight v0.2.0 (Qwen2.5-VL-7B + Qwen3.5-35B-A3B)",
+    "hardware": "AMD Instinct MI300X VF (192 GB HBM3)",
     "environment": {
-        "driver": "rocm-6.x",
+        "driver": "rocm-7.0.0",
         "vllm": "0.17.1+rocm700",
         "vision_model": "Qwen/Qwen2.5-VL-7B-Instruct",
         "text_model": "Qwen/Qwen3.5-35B-A3B",
-        "gpu_memory_util": "vision=20% text=70%",
+        "gpu_memory_util": "vision=20% text=50%",
     },
     "latency_ms": [
-        {"case": "CS-001 (Chest Pain)", "label": "qwen2.5-vl-7b", "latency_s": 79.9},
-        {"case": "CS-002 (Head Trauma)", "label": "qwen2.5-vl-7b", "latency_s": 69.3},
-        {"case": "CS-003 (Pediatric Fever)", "label": "qwen2.5-vl-7b", "latency_s": 68.8},
+        {"case": "CS-2024-001 (Tension Pneumothorax)", "label": "qwen2.5-vl-7b + qwen3.5-35b", "latency_s": 82.2},
+        {"case": "CS-2024-002 (Pneumonia)", "label": "qwen2.5-vl-7b + qwen3.5-35b", "latency_s": 67.2},
+        {"case": "CS-2024-003 (Pulmonary Edema)", "label": "qwen2.5-vl-7b + qwen3.5-35b", "latency_s": 67.3},
     ],
     "throughput_cph": [
-        {"metric": "Cases per Hour (single GPU)", "value": 51.0},
+        {"metric": "Cases per Hour (single GPU)", "value": round(3600 / 72.2, 1)},
     ],
     "gpu_metrics": {
         "vram_total_gb": 192,
-        "vram_used_gb": 170,
-        "power_w": 263,
-        "temperature_junction_c": 40,
-        "temperature_memory_c": 36,
-        "gpu_utilization_pct": 49,
+        "vram_used_gb": 141,
+        "power_w": "~300",
+        "temperature_junction_c": "observed during inference",
+        "temperature_memory_c": "observed during inference",
+        "gpu_utilization_pct": 50,
     },
-    "notes": "End-to-end latency = image analysis (vision) + text generation (report + differential + actions). Both models loaded simultaneously on single AMD MI300X GPU via vLLM with MIGRAPHX backend.",
+    "comparison": [
+        {"Agent": "Vision Analysis", "Latency (s)": "~15", "GPU VRAM (GB)": 30, "Notes": "Qwen2.5-VL-7B image encoding + decoding"},
+        {"Agent": "Text Generation", "Latency (s)": "~45", "GPU VRAM (GB)": 88, "Notes": "Qwen3.5-35B-A3B report + differential + actions"},
+        {"Agent": "Safety & ESI", "Latency (s)": "~5", "GPU VRAM (GB)": 0, "Notes": "Rule-based scoring, no GPU"},
+    ],
+    "notes": "End-to-end latency = vision model inference + text model inference + LangGraph orchestration overhead (~5 s). Both models loaded simultaneously on a single AMD MI300X VF GPU via vLLM with ROCm backend. Mean latency: 72.2 s per case (3 real cases).",
 }
 
 

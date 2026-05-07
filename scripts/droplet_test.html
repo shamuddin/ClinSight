@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ClinSight Test — Latest Changes</title>
+<style>
+body { font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,monospace; background: #0f172a; color: #e2e8f0; max-width: 1000px; margin: 0 auto; padding: 24px; }
+h1 { border-bottom: 2px solid #0ea5e9; padding-bottom: 12px; color: #38bdf8; }
+h2 { color: #0ea5e9; margin-top: 32px; }
+.status-ok { color: #22c55e; font-weight: bold; }
+.status-fail { color: #ef4444; font-weight: bold; }
+pre { background: #1e293b; padding: 16px; border-radius: 8px; overflow: auto; font-size: 13px; }
+.card { background: #1e293b; margin: 16px 0; padding: 20px; border-radius: 12px; border: 1px solid #334155; }
+.model-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.badge { padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; background: rgba(217,119,6,0.15); color: #d97706; }
+.can { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.25); padding: 10px 14px; border-radius: 8px; margin: 6px 0; }
+.cannot { background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.2); padding: 10px 14px; border-radius: 8px; margin: 6px 0; }
+ul { margin: 8px 0; padding-left: 20px; }
+li { margin: 4px 0; }
+.banner { padding: 12px 16px; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.3); border-radius: 8px; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+.footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid #334155; font-size: 12px; color: #94a3b8; }
+button { background: #0ea5e9; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+button:hover { background: #0284c7; }
+.loading { color: #94a3b8; font-style: italic; }
+</style>
+</head>
+<body>
+<h1>ClinSight — Latest Changes Test Page</h1>
+<div class="banner">
+<strong>TRUTHFUL DISCLOSURE:</strong> These are <strong>general-purpose models</strong>, not medically fine-tuned.
+Clinical rigor comes from <strong>multi-agent architecture</strong>, not from medical fine-tuning.
+</div>
+
+<h2>1. Backend Health</h2>
+<div class="card">
+  <div id="health">Loading...</div>
+</div>
+
+<h2>2. Judge / Transparency Endpoint</h2>
+<div class="card">
+  <div id="transparency" class="loading">Click button to test...</div>
+  <br>
+  <button onclick="loadTransparency()">Fetch Transparency Data</button>
+</div>
+
+<h2>3. Judge / Accuracy Endpoint</h2>
+<div class="card">
+  <div id="accuracy" class="loading">Click button to test...</div>
+  <br>
+  <button onclick="loadAccuracy()">Fetch Accuracy Metadata (CS-2024-001)</button>
+</div>
+
+<h2>4. Run a Demo Case</h2>
+<div class="card">
+  <div id="demo-result" class="loading">Click button to run...</div>
+  <br>
+  <button onclick="runDemo()">Run Demo Case CS-2024-001</button>
+</div>
+
+<div class="footer">
+  Droplet: 134.199.193.58 | This is a test page for verifying latest backend changes.
+  The React frontend requires a dist/ rebuild (no Node on droplet) — this page is for API verification.
+</div>
+
+<script>
+const API = window.location.href.startsWith('http://134.199.193.58') ? '' : 'http://134.199.193.58:3000';
+
+// 1. Health check
+fetch(API + '/health')
+  .then(r => r.json())
+  .then(d => document.getElementById('health').innerHTML = '<span class="status-ok">OK</span> — version: ' + d.version)
+  .catch(e => document.getElementById('health').innerHTML = '<span class="status-fail">FAIL</span> — ' + e);
+
+// 2. Transparency
+function loadTransparency() {
+  fetch(API + '/judge/transparency')
+    .then(r => r.json())
+    .then(d => {
+      let html = '<div>';
+      html += '<div class="banner"><strong>Validation:</strong> ' + d.validation_status + '<br><strong>Use:</strong> ' + d.intended_use + '</div>';
+      for (const [key, model] of Object.entries(d.models)) {
+        html += '<div class="card">';
+        html += '<div class="model-header"><strong>' + model.model_name + '</strong> <span class="badge">' + model.training_status + '</span></div>';
+        html += '<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;">' + model.parameter_count + ' | ' + model.medical_knowledge_source.slice(0,80) + '...</div>';
+        html += '<div class="can"><strong>CAN:</strong><ul>' + model.what_it_can_do.map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
+        html += '<div class="cannot"><strong>CANNOT:</strong><ul>' + model.what_it_cannot_do.map(x => '<li>' + x + '</li>').join('') + '</ul></div>';
+        html += '<div style="font-size:12px;margin-top:8px;border-top:1px solid #334155;padding-top:8px;"><strong>Role:</strong> ' + model.used_for + '<br><strong>Safety:</strong> ' + model.safety_compensation + '</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '<div class="footer">' + d.disclaimer + '</div>';
+      document.getElementById('transparency').innerHTML = html;
+    })
+    .catch(e => document.getElementById('transparency').innerHTML = '<span class="status-fail">FAIL: ' + e + '</span>');
+}
+
+// 3. Accuracy
+function loadAccuracy() {
+  fetch(API + '/judge/accuracy/CS-2024-001')
+    .then(r => r.json())
+    .then(d => document.getElementById('accuracy').innerHTML = '<pre>' + JSON.stringify(d, null, 2) + '</pre>')
+    .catch(e => document.getElementById('accuracy').innerHTML = '<span class="status-fail">FAIL: ' + e + '</span>');
+}
+
+// 4. Run Demo
+function runDemo() {
+  document.getElementById('demo-result').innerHTML = 'Running (this takes ~60s)...';
+  fetch(API + '/demo/analyze/CS-2024-001', { method: 'POST' })
+    .then(r => r.json())
+    .then(d => {
+      let html = '<div class="status-ok">DONE</div>';
+      html += '<p><strong>Case:</strong> ' + d.case_id + '<br>';
+      html += '<strong>ESI:</strong> ' + d.esi_level + '<br>';
+      html += '<strong>Time:</strong> ' + Math.round(d.total_time_ms) + 'ms<br>';
+      html += '<strong>Findings:</strong> ' + d.findings?.length + '<br>';
+      html += '<strong>Safety flags:</strong> ' + (d.safety_flags?.length || 0) + '</p>';
+      html += '<p><a href="javascript:void(0)" onclick="loadDemoAccuracy()">Compute Accuracy</a></p>';
+      html += '<div id="demo-acc"></div>';
+      document.getElementById('demo-result').innerHTML = html;
+      window.lastResult = d;
+    })
+    .catch(e => document.getElementById('demo-result').innerHTML = '<span class="status-fail">FAIL: ' + e + '</span>');
+}
+
+function loadDemoAccuracy() {
+  if (!window.lastResult) return;
+  document.getElementById('demo-acc').innerHTML = 'Computing...';
+  fetch(API + '/judge/accuracy/compute', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(window.lastResult)
+  })
+    .then(r => r.json())
+    .then(d => {
+      let html = '<div class="card" style="margin-top:12px;">';
+      html += '<h3>Accuracy Scorecard</h3>';
+      html += '<p>Radiologist: <strong>' + Math.round((d.radiologist?.finding_recall || 0) * 100) + '%</strong><br>';
+      html += 'Lab Analyst: <strong>' + Math.round((d.lab_analyst?.alert_recall || 0) * 100) + '%</strong><br>';
+      html += 'Safety: <strong>' + Math.round((d.safety?.flag_recall || 0) * 100) + '%</strong><br>';
+      html += 'Documenter: <strong>' + Math.round((d.documenter?.differential_recall || 0) * 100) + '%</strong><br>';
+      html += 'Mean Recall: <strong>' + Math.round((d.overall?.mean_recall || 0) * 100) + '%</strong></p>';
+      if (d.radiologist?.note) html += '<p style="font-size:11px;color:#94a3b8;">' + d.radiologist.note + '</p>';
+      html += '</div>';
+      document.getElementById('demo-acc').innerHTML = html;
+    });
+}
+</script>
+</body>
+</html>

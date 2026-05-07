@@ -6,9 +6,9 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/demo':    { target: 'http://localhost:8000', changeOrigin: true },
-      '/analyze': { target: 'http://localhost:8000', changeOrigin: true },
-      '/health':  { target: 'http://localhost:8000', changeOrigin: true },
+      '/demo':    { target: 'http://localhost:8080', changeOrigin: true },
+      '/analyze': { target: 'http://localhost:8080', changeOrigin: true },
+      '/health':  { target: 'http://localhost:8080', changeOrigin: true },
     },
   },
 })
