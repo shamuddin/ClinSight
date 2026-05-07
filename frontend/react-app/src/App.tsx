@@ -557,7 +557,7 @@ export default function App() {
                   {/* ▮ JUDGE VERIFICATION */}
                   <section className="result-section">
                     <div className="section-label">Judge Verification Panel</div>
-                    <JudgePanel result={result} />
+                    <JudgePanel result={result} apiBase={API_BASE} />
                   </section>
                 </>
               )}
