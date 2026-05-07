@@ -1,0 +1,235 @@
+
+/* ═══════════════════════════════════════════════════════════════
+   JUDGE VERIFICATION PANEL STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+.judge-panel {
+  padding: 16px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.judge-panel--error {
+  color: var(--critical);
+  border-color: var(--critical);
+}
+
+.judge-verdict {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+
+.judge-verdict--pass {
+  background: rgba(5, 150, 105, 0.08);
+  border: 1px solid rgba(5, 150, 105, 0.3);
+  color: var(--success);
+}
+
+.judge-verdict--fail {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: var(--critical);
+}
+
+.judge-verdict-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.judge-verdict-sub {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.judge-section {
+  margin-bottom: 24px;
+}
+
+.judge-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--fg-muted);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.judge-section-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  margin: 12px 0 8px;
+}
+
+.judge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.judge-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+}
+
+.judge-card strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--fg-dim);
+  margin-bottom: 6px;
+}
+
+.judge-card span {
+  font-size: 13px;
+  color: var(--fg);
+}
+
+.judge-card ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.judge-card li {
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-bottom: 2px;
+}
+
+.judge-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.judge-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--fg-dim);
+  border-bottom: 1px solid var(--border);
+}
+
+.judge-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-muted);
+}
+
+.judge-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.judge-badge--coordinator { background: rgba(13, 148, 136, 0.12); color: var(--accent); }
+.judge-badge--radiologist { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+.judge-badge--lab_analyst { background: rgba(217, 119, 6, 0.12); color: #d97706; }
+.judge-badge--safety { background: rgba(220, 38, 38, 0.12); color: var(--critical); }
+.judge-badge--clinical_documenter { background: rgba(100, 116, 139, 0.12); color: var(--fg-muted); }
+
+.judge-safety-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.judge-safety-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.judge-safety-item.pass {
+  background: rgba(5, 150, 105, 0.06);
+  border-color: rgba(5, 150, 105, 0.25);
+}
+
+.judge-safety-item.fail {
+  background: rgba(220, 38, 38, 0.06);
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.judge-safety-item strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.judge-flags {
+  margin-top: 12px;
+}
+
+.judge-flag {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--warning);
+  background: var(--bg);
+  margin-bottom: 8px;
+}
+
+.judge-flag--high {
+  border-left-color: var(--critical);
+  background: rgba(220, 38, 38, 0.04);
+}
+
+.judge-flag strong {
+  font-size: 12px;
+  color: var(--fg);
+}
+
+.judge-flag span {
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.judge-flag .mono {
+  font-size: 11px;
+  color: var(--fg-dim);
+}
+
+.judge-report {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.judge-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--fg-dim);
+  text-align: center;
+}

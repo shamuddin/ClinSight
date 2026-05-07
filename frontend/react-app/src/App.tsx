@@ -15,6 +15,7 @@ import AboutModal from './components/AboutModal'
 import AmdModal from './components/AmdModal'
 import EmptyHero from './components/EmptyHero'
 import ShortcutModal from './components/ShortcutModal'
+import JudgePanel from './components/JudgePanel'
 import { useKeyboard } from './hooks/useKeyboard'
 import { usePipelineStream } from './hooks/usePipelineStream'
 import { DEMO_STEP_MS, GRAND_DEMO_SEQUENCE } from './DemoSequence'
@@ -77,8 +78,8 @@ function ViewTabs({
   mode,
   onChange,
 }: {
-  mode: 'clinical' | 'technical'
-  onChange: (m: 'clinical' | 'technical') => void
+  mode: 'clinical' | 'technical' | 'judge'
+  onChange: (m: 'clinical' | 'technical' | 'judge') => void
 }) {
   return (
     <div className="view-tabs">
@@ -97,6 +98,13 @@ function ViewTabs({
       >
         <Activity size={13} style={{ marginRight: 4, verticalAlign: 'middle' }} />
         Behind the Scenes
+      </button>
+      <button
+        type="button"
+        className={`view-tab ${mode === 'judge' ? 'view-tab--active' : ''}`}
+        onClick={() => onChange('judge')}
+      >
+        Judge Verification
       </button>
     </div>
   )
@@ -143,7 +151,7 @@ export default function App() {
   const [shortcutOpen, setShortcutOpen] = useState(false)
   const [demoRunning, setDemoRunning] = useState(false)
   const [demoStep, setDemoStep]       = useState(0)
-  const [viewMode, setViewMode]       = useState<'clinical' | 'technical'>('clinical')
+  const [viewMode, setViewMode]       = useState<'clinical' | 'technical' | 'judge'>('clinical')
 
   const { pipeline, startStream, stop, agentsFromResult } = usePipelineStream(API_BASE)
 
@@ -499,7 +507,7 @@ export default function App() {
                     <WhatIfSimulator result={result} apiBase={API_BASE} />
                   </section>
                 </>
-              ) : (
+              ) : viewMode === 'technical' ? (
                 <>
                   {/* ▮ AI PIPELINE */}
                   <section className="result-section result-pipeline">
@@ -542,6 +550,14 @@ export default function App() {
                         <div className="impact-metric"><ShieldCheck size={13} /> 4 safety guards</div>
                       </div>
                     </div>
+                  </section>
+                </>
+              ) : (
+                <>
+                  {/* ▮ JUDGE VERIFICATION */}
+                  <section className="result-section">
+                    <div className="section-label">Judge Verification Panel</div>
+                    <JudgePanel result={result} />
                   </section>
                 </>
               )}
