@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # Inference endpoints
     vllm_vision_url: str = "http://localhost:8000/v1"
     vllm_text_url: str = "http://localhost:8001/v1"
-    use_mock: bool = True  # Local dev without GPU
+    use_mock: bool = False  # LIVE AMD MI300X inference
 
     # Paths
     base_dir: Path = Path(__file__).resolve().parent.parent
