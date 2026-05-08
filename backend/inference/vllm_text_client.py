@@ -108,9 +108,29 @@ class VLLMTextClient:
         )
         return response.choices[0].message.content or ""
 
+    def _strip_thinking(self, text: str) -> str:
+        """Strip Qwen3.5 thinking process markers."""
+        # Remove everything before the first actual answer marker
+        markers = [
+            "Final Answer:", "Answer:", "Output:", "Actions:",
+            "Clinical Actions:", "Suggested Actions:", "Recommendations:",
+        ]
+        lower = text.lower()
+        best_idx = len(text)
+        for m in markers:
+            idx = lower.find(m.lower())
+            if idx != -1:
+                best_idx = min(best_idx, idx + len(m))
+        if best_idx < len(text):
+            text = text[best_idx:]
+        # Also strip common thinking headers
+        for header in ["Thinking Process:", "Analyze the Request:", "Role:", "Input:", "Task:", "Output Format:", "Constraints:"]:
+            text = text.replace(header, "")
+        return text.strip()
+
     def _parse_json_array(self, text: str) -> list:
-        """Extract JSON array from LLM response."""
-        text = text.strip()
+        """Extract JSON array from LLM response, handling Qwen3.5 thinking output."""
+        text = self._strip_thinking(text)
         # Remove markdown fences
         if text.startswith("```"):
             lines = text.splitlines()
@@ -125,12 +145,19 @@ class VLLMTextClient:
                 return [str(item) for item in data]
         except json.JSONDecodeError:
             pass
-        # Fallback: parse bullet points / numbered lines
+        # Fallback: parse bullet points / numbered lines, skip thinking artifacts
+        skip_prefixes = {"thinking", "process", "analyze", "request", "role", "input", "task", "output", "format", "constraints", "note", "important"}
         actions = []
         for line in text.splitlines():
             line = line.strip().lstrip("-*0123456789. ").strip()
-            if line:
-                actions.append(line)
+            if not line:
+                continue
+            lower = line.lower()
+            if any(lower.startswith(p) for p in skip_prefixes):
+                continue
+            if lower in {"json array of strings", "only", "return only"}:
+                continue
+            actions.append(line)
         return actions[:5]
 
     async def generate_actions(self, state: dict) -> list:

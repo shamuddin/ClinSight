@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 
 from backend.api.schemas import CaseInput, CaseOutput
 from backend.core.state import AgentState
+from backend.core.config import settings
 from backend.agents.graph import run_pipeline
 from backend.api.demo import router as demo_router
 from backend.api.judge import router as judge_router
@@ -54,7 +55,7 @@ app.include_router(judge_router)
 # API routes
 @app.get("/health")
 async def health():
-    return {"status": "ok", "version": "0.1.0"}
+    return {"status": "ok", "version": "0.1.0", "cached": settings.use_mock}
 
 
 @app.post("/analyze", response_model=CaseOutput)

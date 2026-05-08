@@ -304,7 +304,11 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
       <div className="judge-footer">
         Total inference time: <strong className="mono">{result.total_time_ms} ms</strong>
         {' · '}
-        LLM calls: <strong>LIVE (no cache)</strong>
+        {result.cached ? (
+          <strong style={{ color: '#f59e0b' }}>CACHED — demo data</strong>
+        ) : (
+          <strong style={{ color: '#00ff88' }}>LIVE — AMD MI300X · Qwen2.5-VL-7B + Qwen3.5-35B-A3B</strong>
+        )}
       </div>
     </div>
   )

@@ -145,6 +145,7 @@ export default function App() {
   const [error, setError]             = useState('')
   const [auditOpen, setAuditOpen]     = useState(false)
   const [vetoAction, setVetoAction]   = useState<string | null>(null)
+  const [cached, setCached]           = useState(false)
   const [selectedId, setSelectedId]   = useState('')
   const [aboutOpen, setAboutOpen]     = useState(false)
   const [amdOpen, setAmdOpen]         = useState(false)
@@ -156,6 +157,13 @@ export default function App() {
   const { pipeline, startStream, stop, agentsFromResult } = usePipelineStream(API_BASE)
 
   // Load demo case list on mount
+  useEffect(() => {
+    fetch(`${API_BASE}/health`)
+      .then(r => r.ok ? r.json() : {})
+      .then((data: any) => setCached(!!data.cached))
+      .catch(() => setCached(false))
+  }, [])
+
   useEffect(() => {
     fetch(`${API_BASE}/demo/cases`)
       .then(r => r.ok ? r.json() : [])
@@ -354,8 +362,8 @@ export default function App() {
               Keys: 1–6 · A agree · O override · D dismiss · R rerun
             </span>
           </div>
-          <div className="live-badge" style={{ fontSize: '10px', color: '#00ff88', textAlign: 'center', marginTop: '6px', fontWeight: 'bold' }}>
-            ◉ LIVE — no cache · 35B inference
+          <div className="live-badge" style={{ fontSize: '10px', color: cached ? '#f59e0b' : '#00ff88', textAlign: 'center', marginTop: '6px', fontWeight: 'bold' }}>
+            {cached ? '◉ CACHED — demo data' : '◉ LIVE — AMD MI300X · Qwen VL7B + 35B'}
           </div>
           <SafetyBanner />
         </div>
@@ -459,7 +467,7 @@ export default function App() {
                     <div className="esi-desc-text">{result.esi_description}</div>
                     <div className="hero-meta">
                       <span className="hero-case-id">{result.case_id}</span>
-                      <span className="hero-timing">⏱ {(result.total_time_ms >= 1000) ? `${(result.total_time_ms/1000).toFixed(1)}s` : `${result.total_time_ms}ms`} · LIVE · {result.model || '35B'}</span>
+                      <span className="hero-timing">⏱ {(result.total_time_ms >= 1000) ? `${(result.total_time_ms/1000).toFixed(1)}s` : `${result.total_time_ms}ms`} · {result.cached ? 'CACHED' : 'LIVE — AMD MI300X'} · {'35B'}</span>
                     </div>
                     <div className="system-confidence">
                       <span className="confidence-label">Confidence</span>

@@ -9,6 +9,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 
 from backend.core.state import AgentState
+from backend.core.config import settings
 from backend.agents.graph import run_pipeline, app as pipeline_graph
 
 router = APIRouter(prefix="/demo", tags=["demo"])
@@ -121,6 +122,7 @@ def _build_response(final: dict, case: dict) -> dict:
         "lab_values":      case["lab_values"],
         "lab_units":       case["lab_units"],
         "total_time_ms":   final["total_time_ms"],
+        "cached":          settings.use_mock,
         # Image URL for frontend
         "image_url":       f"/demo/image/{final['case_id']}",
     }
@@ -143,15 +145,27 @@ async def list_demo_cases():
 
 # ─── GET /demo/image/{case_id} ──────────────────────────────────────────────
 
-IMAGE_DIR = Path(__file__).parent.parent / "data" / "images"
+# ─── Image serving ───────────────────────────────────────────────────────────
+# Try multiple locations: deployed dist/ → dev public/ → fallback data/images/
+_IMAGE_DIRS = [
+    Path(__file__).parent.parent.parent / "frontend" / "react-app" / "dist" / "demo-images",
+    Path(__file__).parent.parent.parent / "frontend" / "react-app" / "public" / "demo-images",
+    Path(__file__).parent.parent / "data" / "images",
+]
+
+def _find_image(base_id: str) -> Path:
+    for d in _IMAGE_DIRS:
+        p = d / f"{base_id}.png"
+        if p.exists():
+            return p
+    return None
 
 @router.get("/image/{case_id}")
 async def get_case_image(case_id: str):
     """Serve the actual chest X-ray PNG for a demo case."""
-    # Strip what-if suffix
     base_id = case_id.split("::")[0]
-    image_path = IMAGE_DIR / f"{base_id}.png"
-    if not image_path.exists():
+    image_path = _find_image(base_id)
+    if not image_path:
         raise HTTPException(status_code=404, detail="Image not found")
     return FileResponse(str(image_path), media_type="image/png")
 

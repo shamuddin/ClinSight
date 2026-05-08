@@ -2,6 +2,9 @@ from pathlib import Path
 import json
 import re
 
+from backend.inference.mock_clinical import get_mock_clinical_output, is_demo_case
+
+
 class MockVLLMVisionClient:
     """Returns pre-defined responses for demo cases.
     Supports both CS-2024-00X and legacy case_00X naming."""
@@ -18,6 +21,16 @@ class MockVLLMVisionClient:
         cache_file = self.cache_dir / f"{case_id}_vision.json"
         if cache_file.exists():
             return json.loads(cache_file.read_text())
+
+        # Use ground-truth-aligned mock clinical data for demo cases
+        if is_demo_case(case_id):
+            data = get_mock_clinical_output(case_id)
+            return {
+                "findings": data["findings"],
+                "attention_regions": data.get("attention_regions", []),
+                "overall_assessment": data.get("overall_assessment", ""),
+            }
+
         mapped = self._map_case_id(case_id)
         return self._default_response(mapped)
 
@@ -124,6 +137,10 @@ class MockVLLMTextClient:
 
     async def generate_actions(self, state: dict) -> list:
         """Deterministic action generation from case state."""
+        case_id = state.get("case_id", "")
+        if is_demo_case(case_id):
+            return get_mock_clinical_output(case_id)["suggested_actions"]
+
         esi = state.get("esi_level", 5)
         findings = state.get("findings", [])
         alerts = state.get("lab_alerts", [])
@@ -181,6 +198,26 @@ class MockVLLMTextClient:
 
     async def generate_report(self, state: dict) -> dict:
         """Deterministic report generation."""
+        case_id = state.get("case_id", "")
+        if is_demo_case(case_id):
+            data = get_mock_clinical_output(case_id)
+            return {
+                "summary": f"ESI {data['esi_level']} — {data['esi_description']}. "
+                           f"{len(data['findings'])} findings, {len(data['lab_alerts'])} lab alerts, "
+                           f"{len(data['safety_flags'])} safety flags.",
+                "esi": {
+                    "level": data["esi_level"],
+                    "description": data["esi_description"],
+                    "rules": data["esi_rules_triggered"],
+                },
+                "differential": data["differential"],
+                "actions": data["suggested_actions"],
+                "safety_summary": {
+                    "flags": len(data["safety_flags"]),
+                    "downgrades": 0,
+                },
+            }
+
         return {
             "summary": f"ESI {state.get('esi_level', '?')} — {state.get('esi_description', '')}. "
                        f"{len(state.get('findings', []))} findings, {len(state.get('lab_alerts', []))} lab alerts, "

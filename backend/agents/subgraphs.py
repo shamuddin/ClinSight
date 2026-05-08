@@ -11,6 +11,7 @@ from pathlib import Path
 from backend.core.state import AgentState
 from backend.core.config import settings
 from backend.inference.mock_client import MockVLLMVisionClient
+from backend.inference.mock_clinical import is_demo_case, get_mock_clinical_output
 from backend.safety.image_quality import check_image_quality
 from backend.safety.rules import check_contradictions
 
@@ -80,6 +81,12 @@ async def pathology_analyzer(state: AgentState) -> AgentState:
 # ═══════════════════════════════════════════════════════════════
 def critical_value_detector(state: AgentState) -> AgentState:
     """Run lab values against 14 emergency thresholds."""
+    case_id = state.get("case_id", "")
+    if is_demo_case(case_id):
+        data = get_mock_clinical_output(case_id)
+        state["lab_alerts"] = data["lab_alerts"]
+        return state
+
     from backend.safety.rules import check_lab_thresholds
     labs = state.get("lab_values", {})
     units = state.get("lab_units", {})
@@ -209,6 +216,15 @@ def bias_auditor(state: AgentState) -> AgentState:
 # ═══════════════════════════════════════════════════════════════
 def safety_merge(state: AgentState) -> AgentState:
     """Merge all safety subagent outputs, apply confidence penalties."""
+    case_id = state.get("case_id", "")
+    if is_demo_case(case_id):
+        data = get_mock_clinical_output(case_id)
+        merged = data["safety_flags"]
+        downgrades = sum(1 for f in merged if f.get("severity") in {"HIGH", "CRITICAL"})
+        state["merged_flags"] = merged
+        state["safety_downgrades"] = downgrades
+        return state
+
     contradictions = state.get("contradictions", [])
     hallucinations = state.get("hallucination_flags", [])
     bias = state.get("bias_flags", [])
@@ -235,6 +251,14 @@ def safety_merge(state: AgentState) -> AgentState:
 # ═══════════════════════════════════════════════════════════════
 def esi_scorer_sub(state: AgentState) -> AgentState:
     """Rules-based Emergency Severity Index scoring."""
+    case_id = state.get("case_id", "")
+    if is_demo_case(case_id):
+        data = get_mock_clinical_output(case_id)
+        state["esi_level"] = data["esi_level"]
+        state["esi_description"] = data["esi_description"]
+        state["esi_rules_triggered"] = data["esi_rules_triggered"]
+        return state
+
     findings = state.get("findings", [])
     alerts = state.get("lab_alerts", [])
     patterns = state.get("lab_patterns", [])
@@ -298,6 +322,12 @@ def esi_scorer_sub(state: AgentState) -> AgentState:
 # ═══════════════════════════════════════════════════════════════
 def differential_builder(state: AgentState) -> AgentState:
     """Build ranked differential diagnosis from findings + lab patterns."""
+    case_id = state.get("case_id", "")
+    if is_demo_case(case_id):
+        data = get_mock_clinical_output(case_id)
+        state["differential"] = data["differential"]
+        return state
+
     findings = state.get("findings", [])
     patterns = state.get("lab_patterns", [])
     flags = state.get("merged_flags", [])

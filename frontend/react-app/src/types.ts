@@ -80,6 +80,7 @@ export interface CaseResult {
   lab_values: Record<string, number>
   lab_units: Record<string, string>
   total_time_ms: number
+  cached?: boolean
   // Safety sub-counts (from SafetyTheater)
   contradictions_count: number
   hallucination_count: number
