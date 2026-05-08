@@ -1,25 +1,47 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""ClinSight Pitch Deck Assembler Agent
+Generates docs/pitch_deck.html from live repo data per master document spec.
+Usage: python scripts/pitch_deck_assembler.py
+"""
+import json, os
+from pathlib import Path
+from datetime import datetime
+
+BASE = Path(__file__).resolve().parent.parent
+BENCH_DIR = BASE / "benchmarks"
+OUTPUT = BASE / "docs" / "pitch_deck.html"
+
+# Load real benchmark data if available
+bench_files = list(BENCH_DIR.glob("benchmark_report_*.json")) + list((BENCH_DIR / "gpu_results").glob("benchmark_*.json"))
+latest_bench = max(bench_files, key=lambda p: p.stat().st_mtime) if bench_files else None
+bench_data = json.loads(latest_bench.read_text()) if latest_bench else {}
+stats = bench_data.get("stats", {})
+
+# Count demo cases
+meta_count = len(list(BENCH_DIR.glob("CS-2024-*_meta.json")))
+
+html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>ClinSight — Pitch Deck</title>
 <style>
-  body { font-family: Inter, system-ui, sans-serif; background: #0a0a0a; color: #e2e8f0; margin: 0; }
-  .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 60px; box-sizing: border-box; border-bottom: 1px solid #1e293b; }
-  h1 { font-size: 3rem; margin: 0 0 20px; color: #f8fafc; }
-  h2 { font-size: 2rem; color: #38bdf8; margin: 0 0 16px; }
-  p { font-size: 1.2rem; max-width: 800px; line-height: 1.6; }
-  .metric { font-size: 2.5rem; font-weight: 900; color: #4ade80; }
-  .label { font-size: 0.9rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; max-width: 900px; width: 100%; }
-  .card { background: #1e293b; border-radius: 12px; padding: 24px; text-align: center; }
-  .warning { color: #f87171; }
-  .ok { color: #4ade80; }
-  ul { max-width: 700px; text-align: left; }
-  li { margin: 8px 0; }
-  .qr { font-family: monospace; background: #fff; color: #000; padding: 12px; border-radius: 8px; display: inline-block; }
-  footer { font-size: 0.8rem; color: #64748b; margin-top: 40px; }
+  body {{ font-family: Inter, system-ui, sans-serif; background: #0a0a0a; color: #e2e8f0; margin: 0; }}
+  .slide {{ min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 60px; box-sizing: border-box; border-bottom: 1px solid #1e293b; }}
+  h1 {{ font-size: 3rem; margin: 0 0 20px; color: #f8fafc; }}
+  h2 {{ font-size: 2rem; color: #38bdf8; margin: 0 0 16px; }}
+  p {{ font-size: 1.2rem; max-width: 800px; line-height: 1.6; }}
+  .metric {{ font-size: 2.5rem; font-weight: 900; color: #4ade80; }}
+  .label {{ font-size: 0.9rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }}
+  .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; max-width: 900px; width: 100%; }}
+  .card {{ background: #1e293b; border-radius: 12px; padding: 24px; text-align: center; }}
+  .warning {{ color: #f87171; }}
+  .ok {{ color: #4ade80; }}
+  ul {{ max-width: 700px; text-align: left; }}
+  li {{ margin: 8px 0; }}
+  .qr {{ font-family: monospace; background: #fff; color: #000; padding: 12px; border-radius: 8px; display: inline-block; }}
+  footer {{ font-size: 0.8rem; color: #64748b; margin-top: 40px; }}
 </style>
 </head>
 <body>
@@ -72,8 +94,8 @@
 <div class="slide">
   <h2>Live Inference on AMD MI300X</h2>
   <div class="grid">
-    <div class="card"><div class="metric">~40–65s</div><div class="label">Mean E2E Latency</div></div>
-    <div class="card"><div class="metric">10</div><div class="label">Demo Cases Verified</div></div>
+    <div class="card"><div class="metric">{stats.get("mean_sec", "~40–65")}s</div><div class="label">Mean E2E Latency</div></div>
+    <div class="card"><div class="metric">{stats.get("count", meta_count)}</div><div class="label">Demo Cases Verified</div></div>
     <div class="card"><div class="metric">vLLM</div><div class="label">ROCm 7.0 Serving</div></div>
     <div class="card"><div class="metric">LIVE</div><div class="label">No Cache · 35B Inference</div></div>
   </div>
@@ -97,12 +119,12 @@
 <div class="slide">
   <h2>Benchmarks</h2>
   <div class="grid">
-    <div class="card"><div class="metric">TBDs</div><div class="label">Mean Latency</div></div>
-    <div class="card"><div class="metric">TBDs</div><div class="label">Min Latency</div></div>
-    <div class="card"><div class="metric">TBDs</div><div class="label">Max Latency</div></div>
-    <div class="card"><div class="metric">TBDs</div><div class="label">Std Dev</div></div>
+    <div class="card"><div class="metric">{stats.get("mean_sec", "TBD")}s</div><div class="label">Mean Latency</div></div>
+    <div class="card"><div class="metric">{stats.get("min_sec", "TBD")}s</div><div class="label">Min Latency</div></div>
+    <div class="card"><div class="metric">{stats.get("max_sec", "TBD")}s</div><div class="label">Max Latency</div></div>
+    <div class="card"><div class="metric">{stats.get("stdev_sec", "TBD")}s</div><div class="label">Std Dev</div></div>
   </div>
-  <p>Real N runs on AMD MI300X via vLLM. Raw CSV in repo.</p>
+  <p>Real {stats.get("count", "N")} runs on AMD MI300X via vLLM. Raw CSV in repo.</p>
 </div>
 
 <!-- SLIDE 8: Safety -->
@@ -141,3 +163,7 @@
 
 </body>
 </html>
+"""
+
+OUTPUT.write_text(html)
+print(f"Pitch deck generated: {OUTPUT} ({len(html)} chars)")

@@ -1,2 +1,1 @@
-gradio>=4.0
-pandas
+gradio>=4.0.0
