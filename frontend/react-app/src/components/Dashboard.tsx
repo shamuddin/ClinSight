@@ -27,7 +27,7 @@ export default function Dashboard({
             {c.patient_age}yo {c.patient_sex} — {c.chief_complaint}
           </div>
           <div className="case-vitals mono">
-            BP {String(c.vitals.bp ?? '—')} · HR {String(c.vitals.hr ?? '—')} · SpO₂ {String(c.vitals.spo2 ?? '—')}%
+            BP {String(c.vitals?.bp ?? '—')} · HR {String(c.vitals?.hr ?? '—')} · SpO₂ {String(c.vitals?.spo2 ?? '—')}%
           </div>
         </button>
       ))}

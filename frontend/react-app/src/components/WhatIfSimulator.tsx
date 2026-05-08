@@ -157,9 +157,9 @@ export default function WhatIfSimulator({ result, apiBase }: { result: CaseResul
 
               {scenarioResult && (
                 <div className="whatif-result-line">
-                  {scenarioResult.safety_flags.length === 0 ? <CheckCircle2 size={13} /> : <AlertTriangle size={13} />}
+                  {(scenarioResult.safety_flags ?? []).length === 0 ? <CheckCircle2 size={13} /> : <AlertTriangle size={13} />}
                   <span>
-                    {scenarioResult.lab_alerts.length} lab alerts, {scenarioResult.safety_flags.length} safety flags, {scenarioResult.total_time_ms} ms
+                    {(scenarioResult.lab_alerts ?? []).length} lab alerts, {(scenarioResult.safety_flags ?? []).length} safety flags, {scenarioResult.total_time_ms} ms
                   </span>
                 </div>
               )}

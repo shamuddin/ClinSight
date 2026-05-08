@@ -1,118 +1,237 @@
 # ═══════════════════════════════════════════════════════════════════════
-# GROUND TRUTH — Per-Agent Accuracy Scoring
-# ═══════════════════════════════════════════════════════════════════════
-#
-# IMPORTANT: Radiologist is scored on IMAGING FINDINGS, not clinical
-# diagnosis. Clinical severity labels (e.g., "tension") are determined
-# by the multi-agent pipeline (coordinator + documenter), not the vision
-# model alone.
-#
-# Example CS-2024-001:
-#   Radiologist finds:  pneumothorax + mediastinal shift  (imaging)
-#   Documenter labels:  "Tension Pneumothorax"              (clinical)
-#
-# This separation is INTENTIONAL — it mirrors real radiology workflow:
-#   1. Radiologist reads the image → reports findings
-#   2. Clinician correlates findings + vitals → makes diagnosis
-#
+# GROUND TRUTH — Per-Agent Accuracy Scoring for 10 Emergency Cases
 # ═══════════════════════════════════════════════════════════════════════
 
 GROUND_TRUTH = {
     "CS-2024-001": {
-        "esi_level": 1,
-        # IMAGING FINDINGS — what a radiologist sees on the X-ray
+        "case_id": "CS-2024-001",
+        "esi_level": 2,
         "expected_findings": [
-            {"id": "pneumothorax", "name": "Pneumothorax", "note": "visible on X-ray"},
-            {"id": "mediastinal_shift", "name": "Mediastinal Shift", "note": "visible on X-ray"},
+            {"id": "tension_pneumothorax", "name": "Tension Pneumothorax", "keywords": ["pneumothorax", "tension"]},
+            {"id": "mediastinal_shift", "name": "Mediastinal Shift", "keywords": ["mediastinal", "shift", "trachea", "deviated"]},
+            {"id": "hypoxemia", "name": "Severe Hypoxemia", "keywords": ["hypoxemia", "hypoxia", "spo2", "oxygen"]},
         ],
         "expected_lab_alerts": [
-            {"lab": "troponin", "threshold": 0.04, "expected": "elevated"},
+            {"code": "SPO2_LOW", "lab": "SpO2", "keywords": ["spo2", "oxygen", "hypoxemia"]},
+            {"code": "HR_ELEVATED", "lab": "Heart Rate", "keywords": ["hr", "heart rate", "tachycardia"]},
         ],
         "expected_safety_flags": [
-            {"rule": "TENSION_PNEUMOTHORAX_STABLE", "severity": "HIGH", "note": "clinical severity determined by multi-agent pipeline"},
+            {"rule": "LIFE_THREATENING", "keywords": ["life-threatening", "critical", "emergent"]},
+            {"rule": "DESATURATION", "keywords": ["desaturation", "hypoxemia", "spo2"]},
         ],
-        # CLINICAL DIAGNOSIS — what the full pipeline should conclude
-        "expected_differential": ["Tension Pneumothorax"],
-        "_imaging_modality": "chest_xray",
-        "_severity_source": "coordinator_vitals + documenter_clinical_reasoning",
+        "expected_differential": [
+            "Tension Pneumothorax",
+            "Large Spontaneous Pneumothorax",
+            "Hemopneumothorax",
+            "Acute Pulmonary Embolism",
+        ]
     },
     "CS-2024-002": {
-        "esi_level": 1,
+        "case_id": "CS-2024-002",
+        "esi_level": 2,
         "expected_findings": [
-            {"id": "intracranial_hemorrhage", "name": "Intracranial Hemorrhage", "note": "visible on CT"},
-            {"id": "midline_shift", "name": "Midline Shift", "note": "visible on CT"},
+            {"id": "head_trauma", "name": "Head Trauma", "keywords": ["head trauma", "trauma", "fall"]},
+            {"id": "brief_loc", "name": "Brief Loss of Consciousness", "keywords": ["loc", "consciousness", "unconscious"]},
         ],
         "expected_lab_alerts": [
-            {"lab": "coagulopathy", "note": "from medication history"},
+            {"code": "GCS_MONITOR", "lab": "GCS", "keywords": ["gcs", "consciousness", "neurologic"]},
         ],
         "expected_safety_flags": [
-            {"rule": "ICH_ANTICOAG", "severity": "HIGH", "note": "clinical risk from history"},
+            {"rule": "TRAUMA_PROTOCOL", "keywords": ["trauma", "head", "injury"]},
         ],
-        "expected_differential": ["Intracranial Hemorrhage"],
-        "_imaging_modality": "ct_head",
+        "expected_differential": [
+            "Concussion",
+            "Mild Traumatic Brain Injury",
+            "Skull Fracture",
+            "Intracranial Hemorrhage",
+        ]
     },
     "CS-2024-003": {
+        "case_id": "CS-2024-003",
         "esi_level": 3,
         "expected_findings": [
-            {"id": "viral_rash", "name": "Viral Rash", "note": "physical exam finding (not imaging)"},
+            {"id": "viral_exanthem", "name": "Viral Exanthem", "keywords": ["rash", "exanthem", "viral"]},
+            {"id": "fever", "name": "Fever", "keywords": ["fever", "pyrexia", "temperature"]},
         ],
-        "expected_lab_alerts": [],
-        "expected_safety_flags": [],
-        "expected_differential": ["Viral Exanthem"],
-        "_imaging_modality": "clinical_photo",
-        "_note": "pediatric case — rash visible on clinical photograph",
+        "expected_lab_alerts": [
+            {"code": "FEVER", "lab": "Temperature", "keywords": ["temperature", "fever", "temp"]},
+        ],
+        "expected_safety_flags": [
+            {"rule": "PEDIATRIC_MONITOR", "keywords": ["pediatric", "child", "peds"]},
+        ],
+        "expected_differential": [
+            "Viral Exanthem",
+            "Roseola Infantum",
+            "Measles",
+            "Scarlet Fever",
+            "Kawasaki Disease",
+        ]
     },
     "CS-2024-004": {
+        "case_id": "CS-2024-004",
         "esi_level": 1,
         "expected_findings": [
-            {"id": "septic_changes", "name": "Septic Changes", "note": "clinical presentation"},
+            {"id": "altered_mental_status", "name": "Altered Mental Status", "keywords": ["altered", "confusion", "mental", "ams"]},
+            {"id": "sepsis", "name": "Sepsis", "keywords": ["sepsis", "septic", "infection"]},
+            {"id": "hypotension", "name": "Hypotension", "keywords": ["hypotension", "bp", "blood pressure"]},
         ],
         "expected_lab_alerts": [
-            {"lab": "lactate", "threshold": 2.0, "expected": "elevated"},
-            {"lab": "wbc", "expected": "abnormal"},
+            {"code": "BP_LOW", "lab": "Blood Pressure", "keywords": ["bp", "blood pressure", "hypotension"]},
+            {"code": "HR_ELEVATED", "lab": "Heart Rate", "keywords": ["hr", "heart rate", "tachycardia"]},
+            {"code": "FEVER", "lab": "Temperature", "keywords": ["temperature", "fever", "hyperthermia"]},
         ],
         "expected_safety_flags": [
-            {"rule": "SEPSIS_STABLE_VITALS", "severity": "HIGH", "note": "clinical contradiction"},
+            {"rule": "SEPSIS_ALERT", "keywords": ["sepsis", "septic", "shock"]},
+            {"rule": "LIFE_THREATENING", "keywords": ["life-threatening", "critical"]},
         ],
-        "expected_differential": ["Septic Shock"],
-        "_imaging_modality": "clinical",
+        "expected_differential": [
+            "Septic Shock",
+            "Severe Sepsis",
+            "Meningitis",
+            "Encephalitis",
+            "Urinary Tract Infection with Sepsis",
+        ]
     },
     "CS-2024-005": {
-        "esi_level": 2,
+        "case_id": "CS-2024-005",
+        "esi_level": 1,
         "expected_findings": [
-            {"id": "subarachnoid_hemorrhage", "name": "Subarachnoid Hemorrhage", "note": "visible on CT/CTA"},
+            {"id": "hematemesis", "name": "Hematemesis", "keywords": ["hematemesis", "vomiting", "blood"]},
+            {"id": "hypotension", "name": "Hypotension", "keywords": ["hypotension", "bp", "shock"]},
+            {"id": "gi_bleeding", "name": "GI Bleeding", "keywords": ["bleeding", "gi", "gastrointestinal"]},
         ],
         "expected_lab_alerts": [
-            {"lab": "bp", "expected": "elevated"},
+            {"code": "BP_LOW", "lab": "Blood Pressure", "keywords": ["bp", "blood pressure"]},
+            {"code": "HR_ELEVATED", "lab": "Heart Rate", "keywords": ["hr", "heart rate"]},
         ],
         "expected_safety_flags": [
-            {"rule": "SAH_MILD_HEADACHE", "severity": "MEDIUM", "note": "presentation mismatch"},
+            {"rule": "HEMORRHAGIC_SHOCK", "keywords": ["hemorrhage", "shock", "bleeding"]},
+            {"rule": "LIFE_THREATENING", "keywords": ["life-threatening", "critical"]},
         ],
-        "expected_differential": ["Subarachnoid Hemorrhage"],
-        "_imaging_modality": "ct_head",
+        "expected_differential": [
+            "Upper GI Bleed",
+            "Peptic Ulcer Bleeding",
+            "Esophageal Varices",
+            "Mallory-Weiss Tear",
+            "Gastric Perforation",
+        ]
     },
     "CS-2024-006": {
-        "esi_level": 2,
+        "case_id": "CS-2024-006",
+        "esi_level": 3,
         "expected_findings": [
-            {"id": "abdominal_aortic_aneurysm", "name": "Abdominal Aortic Aneurysm", "note": "visible on CT"},
+            {"id": "asthma_exacerbation", "name": "Asthma Exacerbation", "keywords": ["asthma", "wheezing", "bronchospasm"]},
+            {"id": "respiratory_distress", "name": "Respiratory Distress", "keywords": ["respiratory", "distress", "dyspnea"]},
         ],
         "expected_lab_alerts": [
-            {"lab": "creatinine", "expected": "elevated"},
+            {"code": "SPO2_LOW", "lab": "SpO2", "keywords": ["spo2", "oxygen", "saturation"]},
+            {"code": "RR_ELEVATED", "lab": "Respiratory Rate", "keywords": ["rr", "respiratory rate", "tachypnea"]},
         ],
         "expected_safety_flags": [
-            {"rule": "AAA_NORMAL_BP", "severity": "MEDIUM", "note": "presentation mismatch"},
+            {"rule": "PEDIATRIC_MONITOR", "keywords": ["pediatric", "child", "peds"]},
+            {"rule": "RESPIRATORY_DISTRESS", "keywords": ["respiratory", "distress", "breathing"]},
         ],
-        "expected_differential": ["Abdominal Aortic Aneurysm"],
-        "_imaging_modality": "ct_abdomen",
+        "expected_differential": [
+            "Asthma Exacerbation",
+            "Viral Bronchiolitis",
+            "Pneumonia",
+            "Anaphylaxis",
+            "Foreign Body Aspiration",
+        ]
     },
-}
-
-# Aggregate metadata for judge reporting
-CASE_METADATA = {
-    "CS-2024-001": {
-        "clinical_diagnosis": "Tension Pneumothorax",
-        "severity": "Life-threatening",
-        "imaging_finding": "Pneumothorax + Mediastinal Shift",
-        "severity_rationale": "Clinical severity determined by coordinator combining imaging findings + vital signs (HR 102, BP 148/92) + triage note (substernal chest pressure). Documenter labels it 'Tension Pneumothorax' based on multi-agent consensus.",
+    "CS-2024-007": {
+        "case_id": "CS-2024-007",
+        "esi_level": 2,
+        "expected_findings": [
+            {"id": "acs", "name": "Acute Coronary Syndrome", "keywords": ["acs", "coronary", "mi", "infarction"]},
+            {"id": "chest_pain", "name": "Chest Pain", "keywords": ["chest pain", "angina"]},
+            {"id": "hypertension", "name": "Hypertension", "keywords": ["hypertension", "bp", "blood pressure"]},
+        ],
+        "expected_lab_alerts": [
+            {"code": "BP_ELEVATED", "lab": "Blood Pressure", "keywords": ["bp", "blood pressure", "hypertension"]},
+            {"code": "HR_ELEVATED", "lab": "Heart Rate", "keywords": ["hr", "heart rate"]},
+        ],
+        "expected_safety_flags": [
+            {"rule": "ACS_ALERT", "keywords": ["acs", "coronary", "cardiac"]},
+            {"rule": "HYPERTENSION", "keywords": ["hypertension", "bp"]},
+        ],
+        "expected_differential": [
+            "Acute Coronary Syndrome",
+            "STEMI",
+            "NSTEMI",
+            "Unstable Angina",
+            "Aortic Dissection",
+        ]
+    },
+    "CS-2024-008": {
+        "case_id": "CS-2024-008",
+        "esi_level": 2,
+        "expected_findings": [
+            {"id": "laceration", "name": "Deep Laceration", "keywords": ["laceration", "wound", "cut"]},
+            {"id": "arterial_bleeding", "name": "Arterial Bleeding", "keywords": ["arterial", "bleeding", "hemorrhage"]},
+            {"id": "hypotension", "name": "Hypotension", "keywords": ["hypotension", "bp"]},
+        ],
+        "expected_lab_alerts": [
+            {"code": "BP_LOW", "lab": "Blood Pressure", "keywords": ["bp", "blood pressure"]},
+            {"code": "HR_ELEVATED", "lab": "Heart Rate", "keywords": ["hr", "heart rate"]},
+        ],
+        "expected_safety_flags": [
+            {"rule": "HEMORRHAGIC_SHOCK", "keywords": ["hemorrhage", "shock", "bleeding"]},
+            {"rule": "TRAUMA_PROTOCOL", "keywords": ["trauma", "injury"]},
+        ],
+        "expected_differential": [
+            "Hemorrhagic Shock",
+            "Vascular Injury",
+            "Tendon Laceration",
+            "Nerve Injury",
+            "Compartment Syndrome",
+        ]
+    },
+    "CS-2024-009": {
+        "case_id": "CS-2024-009",
+        "esi_level": 1,
+        "expected_findings": [
+            {"id": "poisoning", "name": "Poisoning/Overdose", "keywords": ["poisoning", "overdose", "toxicity"]},
+            {"id": "respiratory_depression", "name": "Respiratory Depression", "keywords": ["respiratory", "depression", "bradypnea"]},
+            {"id": "coma", "name": "Coma/Altered Consciousness", "keywords": ["coma", "gcs", "consciousness"]},
+        ],
+        "expected_lab_alerts": [
+            {"code": "RR_LOW", "lab": "Respiratory Rate", "keywords": ["rr", "respiratory rate", "bradypnea"]},
+            {"code": "SPO2_LOW", "lab": "SpO2", "keywords": ["spo2", "oxygen"]},
+        ],
+        "expected_safety_flags": [
+            {"rule": "LIFE_THREATENING", "keywords": ["life-threatening", "critical"]},
+            {"rule": "OVERDOSE_PROTOCOL", "keywords": ["overdose", "poisoning", "toxicity"]},
+        ],
+        "expected_differential": [
+            "Acetaminophen Overdose",
+            "Opioid Overdose",
+            "Benzodiazepine Overdose",
+            "Mixed Drug Toxicity",
+            "Hypoglycemic Coma",
+        ]
+    },
+    "CS-2024-010": {
+        "case_id": "CS-2024-010",
+        "esi_level": 2,
+        "expected_findings": [
+            {"id": "chemical_burn", "name": "Chemical Burn", "keywords": ["chemical", "burn", "splash"]},
+            {"id": "eye_injury", "name": "Eye Injury", "keywords": ["eye", "ocular", "vision"]},
+            {"id": "vision_threat", "name": "Vision Threat", "keywords": ["vision", "visual", "sight"]},
+        ],
+        "expected_lab_alerts": [
+            {"code": "VISION_DECREASED", "lab": "Visual Acuity", "keywords": ["vision", "visual", "acuity"]},
+        ],
+        "expected_safety_flags": [
+            {"rule": "VISION_THREAT", "keywords": ["vision", "eye", "sight"]},
+            {"rule": "CHEMICAL_EXPOSURE", "keywords": ["chemical", "exposure", "burn"]},
+        ],
+        "expected_differential": [
+            "Chemical Conjunctivitis",
+            "Corneal Burn",
+            "Anterior Chamber Damage",
+            "Cataract Formation",
+            "Retinal Damage",
+        ]
     },
 }

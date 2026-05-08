@@ -169,7 +169,7 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
           </div>
           <div className="judge-card">
             <strong>Vitals</strong>
-            <span>BP {(result.vitals as any).bp} · HR {(result.vitals as any).hr} · SpO₂ {(result.vitals as any).spo2}%</span>
+            <span>BP {(result.vitals as any)?.bp ?? '—'} · HR {(result.vitals as any)?.hr ?? '—'} · SpO₂ {(result.vitals as any)?.spo2 ?? '—'}%</span>
           </div>
           <div className="judge-card">
             <strong>Chief Complaint</strong>

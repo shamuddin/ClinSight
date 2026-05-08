@@ -302,7 +302,7 @@ function LabValueBar({ alert }: { alert: LabAlert }) {
 }
 
 function LabsEvidence({ result }: { result: CaseResult }) {
-  const rawLabs = Object.entries(result.lab_values).slice(0, 8)
+  const rawLabs = Object.entries(result.lab_values ?? {}).slice(0, 8)
 
   return (
     <article className="evidence-panel">
@@ -313,21 +313,21 @@ function LabsEvidence({ result }: { result: CaseResult }) {
         </div>
         <span className="evidence-chip">
           <FlaskConical size={12} />
-          {result.lab_alerts.length} alerts
+          {(result.lab_alerts ?? []).length} alerts
         </span>
       </div>
 
       <div className="lab-threshold-list">
-        {result.lab_alerts.length === 0 ? (
+        {(result.lab_alerts ?? []).length === 0 ? (
           <p className="evidence-empty">No threshold-crossing values.</p>
         ) : (
-          result.lab_alerts.map((alert) => <LabValueBar key={`${alert.code}-${alert.lab}`} alert={alert} />)
+          (result.lab_alerts ?? []).map((alert) => <LabValueBar key={`${alert.code}-${alert.lab}`} alert={alert} />)
         )}
       </div>
 
-      {result.lab_patterns.length > 0 && (
+      {(result.lab_patterns ?? []).length > 0 && (
         <div className="evidence-patterns">
-          {result.lab_patterns.map((pattern) => (
+          {(result.lab_patterns ?? []).map((pattern) => (
             <span key={pattern}>{pattern.replace(/_/g, ' ')}</span>
           ))}
         </div>
@@ -337,7 +337,7 @@ function LabsEvidence({ result }: { result: CaseResult }) {
         {rawLabs.map(([key, value]) => (
           <div key={key} className="compact-lab">
             <span>{key}</span>
-            <strong>{value} {result.lab_units[key] ?? ''}</strong>
+            <strong>{value} {(result.lab_units ?? {})[key] ?? ''}</strong>
           </div>
         ))}
       </div>

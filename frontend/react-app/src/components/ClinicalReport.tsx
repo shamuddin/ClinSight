@@ -18,10 +18,10 @@ function diagnosisWeight(result: CaseResult, diagnosis: string, index: number): 
     text.includes(finding.finding.replace(/_/g, ' ').toLowerCase()) ||
     finding.description.toLowerCase().includes(text.split(' ')[0] ?? ''),
   ) ? 20 : 0
-  const labBoost = result.lab_patterns.some((pattern) =>
+  const labBoost = (result.lab_patterns ?? []).some((pattern) =>
     text.includes(pattern.replace(/_/g, ' ').toLowerCase().split(' ')[0] ?? ''),
   ) ? 14 : 0
-  const safetyPenalty = result.safety_flags.length * 4
+  const safetyPenalty = (result.safety_flags ?? []).length * 4
   return Math.max(28, Math.min(96, 90 - index * 11 + findingBoost + labBoost - safetyPenalty))
 }
 
@@ -39,7 +39,7 @@ export default function ClinicalReport({ result }: { result: CaseResult }) {
     () => result.differential.map((diagnosis, index) => diagnosisWeight(result, diagnosis, index)),
     [result],
   )
-  const safetyPassed = result.safety_flags.length === 0
+  const safetyPassed = (result.safety_flags ?? []).length === 0
 
   return (
     <div className="clinical-report">

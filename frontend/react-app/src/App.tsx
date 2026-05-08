@@ -329,11 +329,11 @@ export default function App() {
             </div>
             <div className="patient-complaint">{result.chief_complaint}</div>
             <div className="vitals-grid">
-              <VitalTile label="BP"   value={String(result.vitals.bp ?? '—')} />
-              <VitalTile label="HR"   value={String(result.vitals.hr ?? '—')} status={vitalStatus('hr',   Number(result.vitals.hr))} />
-              <VitalTile label="RR"   value={String(result.vitals.rr ?? '—')} status={vitalStatus('rr',   Number(result.vitals.rr))} />
-              <VitalTile label="SpO₂" value={`${result.vitals.spo2 ?? '—'}%`} status={vitalStatus('spo2', Number(result.vitals.spo2))} />
-              <VitalTile label="Temp" value={`${result.vitals.temp ?? '—'}°C`} />
+              <VitalTile label="BP"   value={String(result.vitals?.bp ?? '—')} />
+              <VitalTile label="HR"   value={String(result.vitals?.hr ?? '—')} status={vitalStatus('hr',   Number(result.vitals?.hr))} />
+              <VitalTile label="RR"   value={String(result.vitals?.rr ?? '—')} status={vitalStatus('rr',   Number(result.vitals?.rr))} />
+              <VitalTile label="SpO₂" value={`${result.vitals?.spo2 ?? '—'}%`} status={vitalStatus('spo2', Number(result.vitals?.spo2))} />
+              <VitalTile label="Temp" value={`${result.vitals?.temp ?? '—'}°C`} />
             </div>
           </div>
         )}
@@ -353,6 +353,9 @@ export default function App() {
             <span style={{ fontSize: '10px', color: 'var(--fg-dim)' }}>
               Keys: 1–6 · A agree · O override · D dismiss · R rerun
             </span>
+          </div>
+          <div className="live-badge" style={{ fontSize: '10px', color: '#00ff88', textAlign: 'center', marginTop: '6px', fontWeight: 'bold' }}>
+            ◉ LIVE — no cache · 35B inference
           </div>
           <SafetyBanner />
         </div>
@@ -456,7 +459,7 @@ export default function App() {
                     <div className="esi-desc-text">{result.esi_description}</div>
                     <div className="hero-meta">
                       <span className="hero-case-id">{result.case_id}</span>
-                      <span className="hero-timing">⏱ {result.total_time_ms} ms</span>
+                      <span className="hero-timing">⏱ {(result.total_time_ms >= 1000) ? `${(result.total_time_ms/1000).toFixed(1)}s` : `${result.total_time_ms}ms`} · LIVE · {result.model || '35B'}</span>
                     </div>
                     <div className="system-confidence">
                       <span className="confidence-label">Confidence</span>
