@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
 """Real benchmark on AMD MI300X for ClinSight."""
-import json, urllib.request, time, csv, statistics
+import json, urllib.request, time, csv, statistics, os
 from datetime import datetime
 
 CASES = ["CS-2024-001", "CS-2024-002", "CS-2024-003", "CS-2024-004", "CS-2024-005", "CS-2024-006"]
 RESULTS = []
 
+# Detect if running inside docker container
+if os.path.exists("/.dockerenv"):
+    BASE_URL = "http://172.17.0.1:3000"
+else:
+    BASE_URL = "http://localhost:3000"
+
 print("=== CLINSIGHT REAL BENCHMARK ===")
 print("Start:", datetime.now().isoformat())
 print("Cases:", CASES)
+print("Base URL:", BASE_URL)
 print()
 
 for case_id in CASES:
     start = time.time()
     try:
-        # When running inside docker container, use host gateway IP
-    import os
-    if os.path.exists("/.dockerenv"):
-        base_url = "http://172.17.0.1:3000"
-    else:
-        base_url = "http://localhost:3000"
-    url = base_url + "/demo/analyze/" + case_id
+        url = BASE_URL + "/demo/analyze/" + case_id
         resp = urllib.request.urlopen(url, timeout=300)
         data = json.load(resp)
         elapsed = time.time() - start
