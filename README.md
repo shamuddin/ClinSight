@@ -72,12 +72,35 @@ PYTHONPATH=.. uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
 
 | ID | Scenario | ESI |
 |---|---|---|
-| CS-2024-001 | Chest pain + elevated troponin | 1 |
-| CS-2024-002 | Head trauma (MVC) | 3 |
-| CS-2024-003 | Pediatric fever + rash | 1 |
-| CS-2024-004 | Sepsis + altered mental status | 1 |
-| CS-2024-005 | Severe headache | 3 |
-| CS-2024-006 | Peritoneal signs + elevated WBC | 1 |
+| CS-2024-001 | Tension pneumothorax + elevated troponin | 1 |
+| CS-2024-002 | Bilateral pneumonia + sepsis pattern | 2 |
+| CS-2024-003 | Large pleural effusion + hypoxemia | 3 |
+| CS-2024-004 | Focal pneumonia + leukocytosis | 1 |
+| CS-2024-005 | Normal CXR + normal labs | 5 |
+| CS-2024-006 | Pulmonary edema + elevated BNP | 3 |
+
+## Live Demo
+
+- 🌐 **Live AMD MI300X Inference:** http://129.212.176.125:3000
+- 🤗 **Hugging Face Space:** https://huggingface.co/spaces/shamuddin/clinsight
+- 📊 **Benchmark Data:** See `benchmarks/real_benchmark.json`
+
+## Real Benchmarks (AMD MI300X)
+
+| Metric | Value |
+|--------|-------|
+| Mean latency | **67.7s** |
+| Min latency | **67.3s** |
+| Max latency | **68.3s** |
+| Std dev | **0.3s** |
+| Success rate | **100% (6/6)** |
+| GPU utilization (inference) | **100%** |
+| GPU power (inference) | **280–285W** |
+| GPU temp | **38–40°C** |
+
+**Hardware:** AMD Instinct MI300X (192GB HBM3) | **ROCm:** 7.0 | **vLLM:** ROCm backend
+
+![Latency Histogram](benchmarks/latency_histogram_real.png)
 
 ## Run Tests
 
@@ -88,14 +111,27 @@ PYTHONPATH=. python -m pytest tests/ -v --cov=backend --cov-report=html
 ## Benchmarks
 
 ```bash
-# Mock mode (no GPU required)
-python scripts/run_benchmark.py --mode mock --cases 6 --iterations 10
+# Run real benchmark on MI300X droplet
+bash scripts/run_droplet_benchmark.sh
 
-# Real mode (requires GPU droplet with vLLM running)
-python scripts/run_benchmark.py --mode real --cases 6 --iterations 5
+# Or manually
+docker exec rocm python3 benchmarks/run_real_benchmark.py
 ```
 
-See [docs/benchmark_results.md](docs/benchmark_results.md) for historical data.
+See `benchmarks/real_benchmark.json` and `benchmarks/real_benchmark.csv` for raw data.
+
+## Technical Walkthrough
+
+Read the full technical walkthrough: [docs/TECHNICAL_WALKTHROUGH.md](docs/TECHNICAL_WALKTHROUGH.md)
+
+Topics covered:
+- Why AMD MI300X for healthcare AI
+- Model selection (Qwen2.5-VL + Qwen3.5 MoE)
+- VRAM math (99GB / 192GB)
+- vLLM serving on ROCm 7.0
+- LangGraph agent architecture
+- Safety subgraph with 3 parallel checks
+- Real benchmarks and rocm-smi evidence
 
 ## GPU Setup
 
