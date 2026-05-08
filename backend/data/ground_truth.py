@@ -5,7 +5,7 @@
 GROUND_TRUTH = {
     "CS-2024-001": {
         "case_id": "CS-2024-001",
-        "esi_level": 2,
+        "esi_level": 1,
         "expected_findings": [
             {"id": "tension_pneumothorax", "name": "Tension Pneumothorax", "keywords": ["pneumothorax", "tension"]},
             {"id": "mediastinal_shift", "name": "Mediastinal Shift", "keywords": ["mediastinal", "shift", "trachea", "deviated"]},
