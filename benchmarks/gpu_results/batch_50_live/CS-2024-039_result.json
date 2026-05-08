@@ -1,0 +1,145 @@
+{
+  "case_id": "CS-2024-039",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Battery in Esophagus",
+      "description": "A metallic foreign body is visualized in the esophagus, consistent with a swallowed button battery.",
+      "confidence": 0.95,
+      "severity": "high",
+      "location": "Esophagus"
+    },
+    {
+      "id": "f2",
+      "finding": "No Pneumothorax",
+      "description": "No evidence of pneumothorax noted on the chest x-ray.",
+      "confidence": 0.95,
+      "severity": "none",
+      "location": "Lungs"
+    },
+    {
+      "id": "f3",
+      "finding": "No Pneumonia",
+      "description": "No signs of pneumonia such as consolidation or interstitial markings are observed.",
+      "confidence": 0.95,
+      "severity": "none",
+      "location": "Lungs"
+    },
+    {
+      "id": "f4",
+      "finding": "No Effusion",
+      "description": "No pleural effusion is seen on the chest x-ray.",
+      "confidence": 0.95,
+      "severity": "none",
+      "location": "Pleura"
+    },
+    {
+      "id": "f5",
+      "finding": "No Cardiomegaly",
+      "description": "The heart size appears within normal limits for age and size.",
+      "confidence": 0.95,
+      "severity": "none",
+      "location": "Heart"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "Heart Rate",
+      "value": 105,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Pneumothorax",
+    "Traumatic pneumothorax",
+    "Pneumothorax secondary to COPD",
+    "Bacterial pneumonia",
+    "Viral pneumonia"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring"
+  ],
+  "safety_flags": [
+    {
+      "rule": "PNEUMONIA_WITHOUT_LEUKOCYTOSIS",
+      "severity": "MEDIUM",
+      "message": "Image suggests pneumonia but WBC and lactate normal. Consider non-infectious infiltrate.",
+      "confidence_penalty": 0.65
+    },
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: Battery in Esophagus; No Pneumothorax; No Pneumonia; No Effusion; No Cardiomegaly. Differential: Pneumothorax; Traumatic pneumothorax; Pneumothorax secondary to COPD; Bacterial pneumonia; Viral pneumonia. Actions: Urgent workup and monitoring.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Pneumothorax",
+      "Traumatic pneumothorax",
+      "Pneumothorax secondary to COPD",
+      "Bacterial pneumonia",
+      "Viral pneumonia"
+    ],
+    "actions": [
+      "Urgent workup and monitoring"
+    ],
+    "safety_summary": {
+      "flags": 2,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T18:01:35.908131",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T18:01:46.379156",
+      "action": "image_analysis",
+      "findings_count": 5
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T18:01:46.379190",
+      "action": "lab_analysis",
+      "alerts_count": 1,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T18:01:46.379739",
+      "action": "safety_review",
+      "flags_total": 2,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:02:03.268040",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

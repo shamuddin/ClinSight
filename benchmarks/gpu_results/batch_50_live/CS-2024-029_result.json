@@ -1,0 +1,115 @@
+{
+  "case_id": "CS-2024-029",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pleural Effusion",
+      "description": "Small amount of fluid accumulation in the right pleural space, suggestive of possible pulmonary contusion or other causes.",
+      "confidence": 0.7,
+      "severity": "low",
+      "location": "right lung base"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette, which may be secondary to underlying conditions such as hypertension or heart failure.",
+      "confidence": 0.6,
+      "severity": "low",
+      "location": "mediastinum"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 12.5,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate",
+    "Pleural effusion \u2014 transudate"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: Pleural Effusion; Cardiomegaly. Differential: Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate; Pleural effusion \u2014 transudate. Actions: Urgent workup and monitoring.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate",
+      "Pleural effusion \u2014 transudate"
+    ],
+    "actions": [
+      "Urgent workup and monitoring"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:57:47.486483",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:57:52.670836",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:57:52.670873",
+      "action": "lab_analysis",
+      "alerts_count": 1,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:57:52.671473",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:58:10.255032",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

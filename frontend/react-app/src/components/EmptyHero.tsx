@@ -43,7 +43,7 @@ export default function EmptyHero({ onRunDemo }: { onRunDemo: () => void }) {
         <div className="empty-hero-actions">
           <button type="button" className="primary-demo-btn" onClick={onRunDemo}>
             <Play size={14} />
-            Run Grand Demo
+            Run Demo
           </button>
           <span className="empty-hero-hint dim">or press 1–6 to load a case</span>
         </div>

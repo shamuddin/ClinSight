@@ -14,7 +14,7 @@ from backend.api.demo import router as demo_router
 from backend.api.judge import router as judge_router
 
 # Path to built frontend assets
-FRONTEND_DIST = Path(__file__).parent.parent.parent / "frontend" / "react-app" / "dist"
+FRONTEND_DIST = Path("/shared-docker/clinsight/frontend-dist")
 
 CORS_ORIGINS = [
     "http://localhost:3000", "http://localhost:5173", "http://localhost:8000",

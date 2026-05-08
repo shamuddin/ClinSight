@@ -17,46 +17,54 @@ from backend.core.config import settings
 from backend.inference.mock_client import MockVLLMVisionClient
 
 
-VISION_PROMPT = """You are a board-certified radiologist analyzing a chest X-ray.
+VISION_PROMPT_TEMPLATE = """You are a board-certified radiologist analyzing a chest X-ray.
+
+CLINICAL CONTEXT:
+- Patient: {age}yo {sex}, {race}
+- Chief Complaint: {chief_complaint}
+- Triage Note: {triage_note}
+- Vitals: BP {bp}, HR {hr}, RR {rr}, SpO2 {spo2}%, Temp {temp}C
 
 Provide your findings in this exact JSON format:
-{
+{{
   "findings": [
-    {
+    {{
       "id": "f1",
       "finding": "string_name_of_finding",
       "description": "Detailed description of the finding",
       "confidence": 0.0-1.0,
       "severity": "none|low|moderate|high|critical",
       "location": "anatomical_location"
-    }
+    }}
   ],
   "attention_regions": [
-    {
+    {{
       "finding_id": "f1",
       "x": 0-512,
       "y": 0-512,
       "w": 0-512,
       "h": 0-512,
       "confidence": 0.0-1.0
-    }
+    }}
   ],
   "overall_assessment": "One-sentence summary"
-}
+}}
 
 Important:
 - Use evidence-based terminology
 - Only describe findings visible on a CHEST X-RAY
 - Do NOT mention fractures outside the rib cage, abdominal organs, or skull
 - Confidence should reflect true model uncertainty
-- If normal, return exactly: findings: [{"finding": "normal", "confidence": 0.95, ...}]
+- Pay special attention to findings suggested by the clinical context (e.g., pneumothorax, pneumonia, effusion, edema, cardiomegaly)
+- Every significant finding MUST have a corresponding attention_region
+- If normal, return exactly: findings: [{{"finding": "normal", "confidence": 0.95, ...}}]
 """
 
 
 class VLLMVisionClient:
     """OpenAI-compatible vision client for chest X-ray analysis."""
 
-    def __init__(self, base_url: str = None, model: str = "default"):
+    def __init__(self, base_url: str = None, model: str = "qwen2.5-vl-7b"):
         self.base_url = base_url or settings.vllm_vision_url
         self.model = model
         self._mock = MockVLLMVisionClient()
@@ -106,7 +114,24 @@ class VLLMVisionClient:
             pass
         return {}
 
-    async def analyze_chest_xray(self, image_path: str, case_id: str) -> dict:
+    def _build_vision_prompt(self, context: dict) -> str:
+        """Build vision prompt with clinical context."""
+        vitals = context.get("vitals", {})
+        bp = vitals.get("bp", "?")
+        hr = vitals.get("hr", "?")
+        rr = vitals.get("rr", "?")
+        spo2 = vitals.get("spo2", "?")
+        temp = vitals.get("temp", "?")
+        return VISION_PROMPT_TEMPLATE.format(
+            age=context.get("patient_age", "?"),
+            sex=context.get("patient_sex", "?"),
+            race=context.get("patient_race", "?"),
+            chief_complaint=context.get("chief_complaint", "?"),
+            triage_note=context.get("triage_note", "?"),
+            bp=bp, hr=hr, rr=rr, spo2=spo2, temp=temp,
+        )
+
+    async def analyze_chest_xray(self, image_path: str, case_id: str, context: dict = None) -> dict:
         """Analyze chest X-ray. Falls back to mock on failure or if USE_MOCK."""
         if settings.use_mock:
             return await self._mock.analyze_chest_xray(image_path, case_id)
@@ -121,13 +146,14 @@ class VLLMVisionClient:
                 # Fallback to mock if file missing
                 return await self._mock.analyze_chest_xray(image_path, case_id)
 
+            prompt = self._build_vision_prompt(context or {})
             response = await self._client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": VISION_PROMPT},
+                            {"type": "text", "text": prompt},
                             {"type": "image_url", "image_url": {"url": image_uri}},
                         ],
                     }

@@ -1,0 +1,105 @@
+{
+  "case_id": "CS-2024-010",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "possible pleural effusion",
+      "description": "Blunting of costophrenic angles and possible hazy density in the left hemithorax.",
+      "confidence": 0.6,
+      "severity": "low",
+      "location": "left lung base"
+    }
+  ],
+  "lab_alerts": [],
+  "differential": [
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate",
+    "Pleural effusion \u2014 transudate"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: cardiomegaly; possible pleural effusion. Differential: Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate; Pleural effusion \u2014 transudate. Actions: Urgent workup and monitoring.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate",
+      "Pleural effusion \u2014 transudate"
+    ],
+    "actions": [
+      "Urgent workup and monitoring"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:50:26.687600",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:50:31.622090",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:50:31.622127",
+      "action": "lab_analysis",
+      "alerts_count": 0,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:50:31.622763",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:50:48.487507",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

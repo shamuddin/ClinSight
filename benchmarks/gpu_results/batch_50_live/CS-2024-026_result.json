@@ -1,0 +1,151 @@
+{
+  "case_id": "CS-2024-026",
+  "esi_level": 2,
+  "esi_description": "Emergent: High-confidence findings with multiple abnormalities",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "pneumothorax",
+      "description": "No evidence of pneumothorax noted.",
+      "confidence": 0.9,
+      "severity": "none",
+      "location": "pleural space"
+    },
+    {
+      "id": "f3",
+      "finding": "effusion",
+      "description": "No pleural effusion noted.",
+      "confidence": 0.8,
+      "severity": "none",
+      "location": "pleural space"
+    },
+    {
+      "id": "f4",
+      "finding": "edema",
+      "description": "No pulmonary edema noted.",
+      "confidence": 0.9,
+      "severity": "none",
+      "location": "lung fields"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 15.2,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 105,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 38.2,
+      "unit": "C",
+      "threshold": 38.0,
+      "code": "FEVER",
+      "description": "Elevated body temperature",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Pneumothorax",
+    "Traumatic pneumothorax",
+    "Pneumothorax secondary to COPD",
+    "Cardiogenic pulmonary edema",
+    "ARDS"
+  ],
+  "suggested_actions": [
+    "Rapid assessment and intervention",
+    "Chest tube placement if symptomatic or enlarging"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 2 \u2014 Emergent: High-confidence findings with multiple abnormalities. Findings: cardiomegaly; pneumothorax; effusion; edema. Differential: Pneumothorax; Traumatic pneumothorax; Pneumothorax secondary to COPD; Cardiogenic pulmonary edema; ARDS. Actions: Rapid assessment and intervention; Chest tube placement if symptomatic or enlarging.",
+    "esi": {
+      "level": 2,
+      "description": "Emergent: High-confidence findings with multiple abnormalities",
+      "rules": [
+        "ESI2_MULTI"
+      ]
+    },
+    "differential": [
+      "Pneumothorax",
+      "Traumatic pneumothorax",
+      "Pneumothorax secondary to COPD",
+      "Cardiogenic pulmonary edema",
+      "ARDS"
+    ],
+    "actions": [
+      "Rapid assessment and intervention",
+      "Chest tube placement if symptomatic or enlarging"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:56:37.906894",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:56:45.912666",
+      "action": "image_analysis",
+      "findings_count": 4
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:56:45.912701",
+      "action": "lab_analysis",
+      "alerts_count": 3,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:56:45.913219",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:57:03.176605",
+      "action": "report_generation",
+      "esi": 2,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

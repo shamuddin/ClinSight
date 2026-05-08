@@ -4,7 +4,7 @@ export interface DemoStep {
   narration: string
 }
 
-export const GRAND_DEMO_SEQUENCE: DemoStep[] = [
+export const DEMO_SEQUENCE: DemoStep[] = [
   { caseId: 'CS-2024-001', title: 'Critical chest pain — tension pneumothorax', narration: 'Rapid triage and immediate intervention for life-threatening respiratory compromise.' },
   { caseId: 'CS-2024-004', title: 'Sepsis with shock — altered mental status', narration: 'Multi-agent detection of sepsis cascade triggering rapid fluid resuscitation and antibiotics.' },
   { caseId: 'CS-2024-005', title: 'GI hemorrhage — hematemesis', narration: 'Massive upper GI bleed requiring emergent blood products and endoscopy.' },

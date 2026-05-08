@@ -1,0 +1,133 @@
+{
+  "case_id": "CS-2024-017",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Left-sided pleural effusion",
+      "description": "A moderate amount of fluid is seen in the left hemithorax, compressing the left lung and causing blunting of the costophrenic angle.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "left hemithorax"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "The heart size appears enlarged, with an estimated cardiothoracic ratio greater than 50%.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "SpO2",
+      "value": 90,
+      "unit": "%",
+      "threshold": 92,
+      "code": "SPO2_LOW",
+      "description": "Low oxygen saturation",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 102,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 26,
+      "unit": "bpm",
+      "threshold": 24,
+      "code": "RR_ELEVATED",
+      "description": "Elevated respiratory rate",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate",
+    "Pleural effusion \u2014 transudate"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Left-sided pleural effusion; Cardiomegaly. Differential: Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate; Pleural effusion \u2014 transudate. Actions: Immediate resuscitation per ACLS protocols.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SPO2_LOW"
+      ]
+    },
+    "differential": [
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate",
+      "Pleural effusion \u2014 transudate"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:53:07.015724",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:53:12.195779",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:53:12.195816",
+      "action": "lab_analysis",
+      "alerts_count": 3,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:53:12.196386",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:53:29.128776",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

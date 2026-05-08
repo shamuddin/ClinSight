@@ -1,0 +1,170 @@
+{
+  "case_id": "CS-2024-046",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pleural Effusion",
+      "description": "Moderate right-sided pleural effusion with blunting of the costophrenic angle and mediastinal shift to the left.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "right lung base"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f3",
+      "finding": "Pneumonia",
+      "description": "Patchy opacities in the lower left lung field suggestive of pneumonia.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "left lower lung field"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 3.2,
+      "unit": "K/uL",
+      "threshold": 4000,
+      "code": "LOW_WBC",
+      "description": "Leukopenia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 3.0,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "platelets",
+      "value": 85,
+      "unit": "K/uL",
+      "threshold": 150000,
+      "code": "THROMBOCYTOPENIA",
+      "description": "Thrombocytopenia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "creatinine",
+      "value": 2.8,
+      "unit": "mg/dL",
+      "threshold": 2.0,
+      "code": "ACUTE_KIDNEY_INJURY",
+      "description": "AKI",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 105,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 38.8,
+      "unit": "C",
+      "threshold": 38.0,
+      "code": "FEVER",
+      "description": "Elevated body temperature",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Bacterial pneumonia",
+    "Viral pneumonia",
+    "Pulmonary edema",
+    "Atelectasis",
+    "Congestive heart failure"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring",
+    "Hold nephrotoxins, renal consult if persistent"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: Pleural Effusion; Cardiomegaly; Pneumonia. Differential: Bacterial pneumonia; Viral pneumonia; Pulmonary edema; Atelectasis; Congestive heart failure. Actions: Urgent workup and monitoring; Hold nephrotoxins, renal consult if persistent.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Bacterial pneumonia",
+      "Viral pneumonia",
+      "Pulmonary edema",
+      "Atelectasis",
+      "Congestive heart failure"
+    ],
+    "actions": [
+      "Urgent workup and monitoring",
+      "Hold nephrotoxins, renal consult if persistent"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T18:04:18.493975",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T18:04:25.555463",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T18:04:25.555500",
+      "action": "lab_analysis",
+      "alerts_count": 6,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T18:04:25.556034",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:04:42.373146",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

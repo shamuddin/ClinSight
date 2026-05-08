@@ -1,0 +1,94 @@
+{
+  "case_id": "CS-2024-032",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "interstitial lung markings",
+      "description": "Increased interstitial markings bilaterally, possibly suggestive of pulmonary edema.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    }
+  ],
+  "lab_alerts": [],
+  "differential": [
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: cardiomegaly; interstitial lung markings. Differential: Congestive heart failure; Cardiomyopathy; Pericardial effusion. Actions: Urgent workup and monitoring.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion"
+    ],
+    "actions": [
+      "Urgent workup and monitoring"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:58:58.392941",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:59:03.153279",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:59:03.153313",
+      "action": "lab_analysis",
+      "alerts_count": 0,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:59:03.153877",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:59:20.106468",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 3,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

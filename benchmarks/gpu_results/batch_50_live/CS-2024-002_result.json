@@ -1,0 +1,108 @@
+{
+  "case_id": "CS-2024-002",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pulmonary Edema",
+      "description": "Diffuse interstitial and alveolar opacities consistent with pulmonary edema.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "mediastinum"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "GCS",
+      "value": 13,
+      "unit": "score",
+      "threshold": 15,
+      "code": "GCS_MONITOR",
+      "description": "GCS requires frequent monitoring",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Cardiogenic pulmonary edema",
+    "ARDS",
+    "Volume overload",
+    "Congestive heart failure",
+    "Cardiomyopathy"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: Pulmonary Edema; Cardiomegaly. Differential: Cardiogenic pulmonary edema; ARDS; Volume overload; Congestive heart failure; Cardiomyopathy. Actions: Urgent workup and monitoring.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Cardiogenic pulmonary edema",
+      "ARDS",
+      "Volume overload",
+      "Congestive heart failure",
+      "Cardiomyopathy"
+    ],
+    "actions": [
+      "Urgent workup and monitoring"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:47:20.946609",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:47:25.780274",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:47:25.780314",
+      "action": "lab_analysis",
+      "alerts_count": 1,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:47:25.780900",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:47:43.046691",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

@@ -62,11 +62,8 @@ interface ModelTransparency {
 export default function JudgePanel({ result, apiBase }: { result: CaseResult; apiBase: string }) {
   const [accuracy, setAccuracy] = useState<AccuracyData | null>(null)
   const [transparency, setTransparency] = useState<TransparencyData | null>(null)
-  const [loading, setLoading] = useState(false)
-
   useEffect(() => {
     if (!result?.case_id) return
-    setLoading(true)
 
     // Fetch both accuracy and transparency
     const accuracyPromise = fetch(`${apiBase}/judge/accuracy/compute`, {
@@ -87,7 +84,6 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
         setAccuracy(null)
         setTransparency(null)
       })
-      .finally(() => setLoading(false))
   }, [result, apiBase])
 
   const safetyFlags = result.safety_flags ?? []
@@ -97,63 +93,49 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
 
   return (
     <div className="judge-panel">
-      {/* ═══ ACCURACY SCORECARD ═══ */}
+      {/* ═══ SAFETY & VERIFICATION STATUS ═══ */}
       {accuracy && (
-        <div className="judge-scorecard">
-          <div className="judge-scorecard-header">
-            <TrendingUp size={18}/>
-            <span>Model Accuracy Scorecard</span>
-          </div>
-          <div className="judge-scorecard-grid">
-            <Score
-              icon={<TrendingUp size={16}/>}
-              label="Radiologist (Vision)"
-              recall={accuracy.radiologist.finding_recall}
-              detail={`${accuracy.radiologist.findings_matched}/${accuracy.radiologist.findings_expected} imaging findings`}
-              note={accuracy.radiologist.note}
-            />
-            <Score
-              icon={<Activity size={16}/>}
-              label="Lab Analyst"
-              recall={accuracy.lab_analyst.alert_recall}
-              detail={`${accuracy.lab_analyst.alerts_matched}/${accuracy.lab_analyst.alerts_expected} alerts`}
-            />
-            <Score
-              icon={<ShieldCheck size={16}/>}
-              label="Safety Guard"
-              recall={accuracy.safety.flag_recall}
-              detail={`${accuracy.safety.flags_matched}/${accuracy.safety.flags_expected} flags`}
-            />
-            <Score
-              icon={<Stethoscope size={16}/>}
-              label="Documenter"
-              recall={accuracy.documenter.differential_recall}
-              detail={`${accuracy.documenter.differential_matched}/${accuracy.documenter.differential_expected} hits`}
-            />
-          </div>
-          <div className="judge-overall">
-            Mean Component Recall: <strong>{(accuracy.overall.mean_recall * 100).toFixed(1)}%</strong>
-            {' · '}
-            ESI: <strong className={accuracy.overall.esi_correct ? 'judge-pass' : 'judge-fail'}>
-              {accuracy.overall.esi_correct ? 'CORRECT' : 'WRONG'} (predicted={accuracy.overall.esi_predicted}, GT={accuracy.overall.esi_ground_truth})
-            </strong>
+        <div className={`judge-verdict ${accuracy.overall.esi_correct ? 'judge-verdict--pass' : 'judge-verdict--fail'}`}>
+          {accuracy.overall.esi_correct ? <CheckCircle2 size={28} /> : <XCircle size={28} />}
+          <div>
+            <div className="judge-verdict-title">
+              {accuracy.overall.esi_correct ? 'ESI ACCURATE' : 'ESI MISMATCH'}
+            </div>
+            <div className="judge-verdict-sub">
+              Ground Truth: ESI {accuracy.overall.esi_ground_truth ?? '—'} · Predicted: ESI {result.esi_level}
+            </div>
           </div>
         </div>
       )}
-      {loading && <div className="judge-loading">Computing accuracy…</div>}
 
-      {/* ═══ ACCURACY VERDICT ═══ */}
-      <div className={`judge-verdict ${accuracy?.overall?.esi_correct ? 'judge-verdict--pass' : 'judge-verdict--fail'}`}>
-        {accuracy?.overall?.esi_correct ? <CheckCircle2 size={28} /> : <XCircle size={28} />}
-        <div>
-          <div className="judge-verdict-title">
-            {accuracy?.overall?.esi_correct ? 'ESI ACCURATE' : 'ESI MISMATCH'}
-          </div>
-          <div className="judge-verdict-sub">
-            Ground Truth: ESI {accuracy?.overall?.esi_ground_truth ?? '—'} · Predicted: ESI {result.esi_level}
+      {/* ═══ OVERALL ACCURACY ═══ */}
+      {accuracy && (
+        <div className="judge-section">
+          <div className="judge-section-title"><TrendingUp size={14}/> Overall Accuracy</div>
+          <div className="judge-grid">
+            <div className="judge-card">
+              <strong>Mean Component Recall</strong>
+              <span style={{ fontSize: 18, fontWeight: 800, color: (accuracy.overall.mean_recall * 100) >= 60 ? '#059669' : '#d97706' }}>
+                {(accuracy.overall.mean_recall * 100).toFixed(1)}%
+              </span>
+            </div>
+            <div className="judge-card">
+              <strong>ESI Accuracy</strong>
+              <span style={{ fontSize: 18, fontWeight: 800, color: accuracy.overall.esi_correct ? '#059669' : '#dc2626' }}>
+                {accuracy.overall.esi_correct ? 'CORRECT' : 'WRONG'}
+              </span>
+            </div>
+            <div className="judge-card">
+              <strong>Components Scored</strong>
+              <span style={{ fontSize: 18, fontWeight: 800 }}>{accuracy.overall.components_scored}</span>
+            </div>
+            <div className="judge-card">
+              <strong>Case ID</strong>
+              <span className="mono">{result.case_id}</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ═══ INPUTS ═══ */}
       <div className="judge-section">
@@ -260,8 +242,8 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
             <span>{safetyFlags.length > 0 ? <CheckCircle2 size={14}/> : <XCircle size={14}/>}</span>
             <strong>Re-verification Active</strong>
           </div>
-          <div className={`judge-safety-item ${(result as any).contradictions_count > 0 ? 'pass' : ''}`}>
-            <span>{(result as any).contradictions_count > 0 ? <CheckCircle2 size={14}/> : <XCircle size={14}/>}</span>
+          <div className={`judge-safety-item ${(result as any).contradictions_count === 0 ? 'pass' : 'fail'}`}>
+            <span>{(result as any).contradictions_count === 0 ? <CheckCircle2 size={14}/> : <AlertTriangle size={14}/>}</span>
             <strong>Contradiction Detection</strong>
           </div>
           <div className={`judge-safety-item ${(result as any).hallucination_count === 0 ? 'pass' : 'fail'}`}>
@@ -314,19 +296,4 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
   )
 }
 
-function Score({ icon, label, recall, detail, note }: { icon: React.ReactNode; label: string; recall: number; detail: string; note?: string }) {
-  const pct = Math.round((recall || 0) * 100)
-  const color = pct >= 80 ? '#059669' : pct >= 50 ? '#d97706' : '#dc2626'
-  return (
-    <div className="judge-score">
-      <div className="judge-score-icon">{icon}</div>
-      <div className="judge-score-label">{label}</div>
-      <div className="judge-score-bar">
-        <div className="judge-score-fill" style={{ width: `${pct}%`, background: color }} />
-      </div>
-      <div className="judge-score-value" style={{ color }}>{pct}%</div>
-      <div className="judge-score-detail">{detail}</div>
-      {note && <div className="judge-score-note">{note}</div>}
-    </div>
-  )
-}
+

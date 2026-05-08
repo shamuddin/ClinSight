@@ -1,0 +1,201 @@
+{
+  "case_id": "CS-2024-030",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pleural Effusion",
+      "description": "Moderate right-sided pleural effusion with blunting of the costophrenic angle and loss of the right hemidiaphragm sharpness.",
+      "confidence": 0.75,
+      "severity": "moderate",
+      "location": "right lung base"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio, suggestive of cardiomegaly.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f3",
+      "finding": "Increased Interstitial markings",
+      "description": "Increased interstitial markings throughout both lungs, more prominent in the lower zones.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "both lungs"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 22.5,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 6.5,
+      "unit": "mmol/L",
+      "threshold": 4.0,
+      "code": "SEVERE_LACTIC_ACIDOSIS",
+      "description": "Severe lactic acidosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 6.5,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "platelets",
+      "value": 85,
+      "unit": "K/uL",
+      "threshold": 150000,
+      "code": "THROMBOCYTOPENIA",
+      "description": "Thrombocytopenia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "creatinine",
+      "value": 2.1,
+      "unit": "mg/dL",
+      "threshold": 2.0,
+      "code": "ACUTE_KIDNEY_INJURY",
+      "description": "AKI",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 92,
+      "unit": "%",
+      "threshold": 95,
+      "code": "SPO2_MILD",
+      "description": "Mild hypoxemia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 128,
+      "unit": "bpm",
+      "threshold": 120,
+      "code": "HR_TACHYCARDIA",
+      "description": "Severe tachycardia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 26,
+      "unit": "bpm",
+      "threshold": 24,
+      "code": "RR_ELEVATED",
+      "description": "Elevated respiratory rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 40.1,
+      "unit": "C",
+      "threshold": 39.0,
+      "code": "HIGH_FEVER",
+      "description": "High fever",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Septic shock",
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Aggressive fluid resuscitation, vasopressors if hypotensive",
+    "Hold nephrotoxins, renal consult if persistent"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Pleural Effusion; Cardiomegaly; Increased Interstitial markings. Differential: Septic shock; Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate. Actions: Immediate resuscitation per ACLS protocols; Aggressive fluid resuscitation, vasopressors if hypotensive; Hold nephrotoxins, renal consult if persistent.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SEVERE_LACTIC_ACIDOSIS"
+      ]
+    },
+    "differential": [
+      "Septic shock",
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Aggressive fluid resuscitation, vasopressors if hypotensive",
+      "Hold nephrotoxins, renal consult if persistent"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:58:10.368812",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:58:17.541581",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:58:17.541624",
+      "action": "lab_analysis",
+      "alerts_count": 9,
+      "patterns": [
+        "SEPSIS_PATTERN"
+      ]
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:58:17.542212",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:58:34.428823",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 3,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

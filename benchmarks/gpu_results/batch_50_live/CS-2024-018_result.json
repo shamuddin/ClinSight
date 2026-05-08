@@ -1,0 +1,161 @@
+{
+  "case_id": "CS-2024-018",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Increased interstitial markings",
+      "description": "Prominent bilateral interstitial markings consistent with chronic obstructive pulmonary disease (COPD) and possible acute exacerbation.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f2",
+      "finding": "Possible right-sided pleural effusion",
+      "description": "There appears to be a subtle increase in density in the right hemithorax, which could represent a small pleural effusion. This is concerning given the patient's clinical context.",
+      "confidence": 0.6,
+      "severity": "low",
+      "location": "right lung base"
+    },
+    {
+      "id": "f3",
+      "finding": "Cardiomegaly",
+      "description": "The heart size appears to be enlarged, suggesting possible cardiomegaly, which may be secondary to the patient's COPD exacerbation.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "cardiac silhouette"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 13.2,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 2.2,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 84,
+      "unit": "%",
+      "threshold": 90,
+      "code": "SPO2_LOW",
+      "description": "Severe hypoxemia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 115,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 32,
+      "unit": "bpm",
+      "threshold": 30,
+      "code": "RR_TACHYPNEA",
+      "description": "Severe tachypnea",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Septic shock",
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Increased interstitial markings; Possible right-sided pleural effusion; Cardiomegaly. Differential: Septic shock; Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate. Actions: Immediate resuscitation per ACLS protocols.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SPO2_LOW"
+      ]
+    },
+    "differential": [
+      "Septic shock",
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:53:29.236817",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:53:36.839189",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:53:36.839228",
+      "action": "lab_analysis",
+      "alerts_count": 5,
+      "patterns": [
+        "SEPSIS_PATTERN"
+      ]
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:53:36.839776",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:53:53.801022",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

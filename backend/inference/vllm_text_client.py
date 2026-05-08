@@ -80,32 +80,27 @@ class VLLMTextClient:
         d_str = "; ".join(diff) or "undetermined"
 
         return (
-            f"You are a clinical decision support system.\n"
-            f"Findings: {f_str}\n"
-            f"Lab alerts: {l_str}\n"
-            f"Differential: {d_str}\n"
-            f"Patient: {state.get('patient_age','?')}yo {state.get('patient_sex','?')}, "
-            f"chief complaint: {state.get('chief_complaint','?')}\n"
-            f"Vitals: BP {vitals.get('bp','?')}, HR {vitals.get('hr','?')}, "
-            f"SpO2 {vitals.get('spo2','?')}%, Temp {vitals.get('temp','?')}\n\n"
-            f"Suggest 3-5 specific clinical actions in order of urgency. "
-            f"Return ONLY a JSON array of strings."
+            f"Orders for {state.get('patient_age','?')}yo {state.get('patient_sex','?')} with {state.get('chief_complaint','?')}. "
+            f"Vitals: BP {vitals.get('bp','?')}, HR {vitals.get('hr','?')}, RR {vitals.get('rr','?')}, SpO2 {vitals.get('spo2','?')}%. "
+            f"Imaging: {f_str}. Labs: {l_str}.\n\n"
+            f'Respond with exactly one JSON array like this example and nothing else:\n'
+            f'["Needle decompression", "High-flow O2", "IV access", "Type and cross", "Chest tube"]'
         )
 
-    async def _call_llm(self, prompt: str) -> str:
+    async def _call_llm(self, prompt: str, guided_json: dict = None) -> str:
         """Call the LLM and return raw text."""
         if self._client is None:
             raise RuntimeError("Real client not initialized (USE_MOCK=true)")
 
-        response = await self._client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": "You are a clinical decision support assistant. Respond with valid JSON only when requested."},
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0.2,
-            max_tokens=512,
-        )
+        kwargs = {
+            "model": self.model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.0,
+            "max_tokens": 256,
+        }
+        if guided_json:
+            kwargs["extra_body"] = {"guided_json": guided_json}
+        response = await self._client.chat.completions.create(**kwargs)
         return response.choices[0].message.content or ""
 
     def _strip_thinking(self, text: str) -> str:
@@ -146,14 +141,27 @@ class VLLMTextClient:
         except json.JSONDecodeError:
             pass
         # Fallback: parse bullet points / numbered lines, skip thinking artifacts
-        skip_prefixes = {"thinking", "process", "analyze", "request", "role", "input", "task", "output", "format", "constraints", "note", "important"}
+        skip_prefixes = {
+            "thinking", "process", "analyze", "request", "role", "input", "task",
+            "output", "format", "constraints", "note", "important", "write", "list",
+            "example", "respond", "orders for", "patient:", "vitals:", "imaging:",
+            "labs:", "json array", "you are", "emergency medicine", "concise clinical",
+            "never explain", "never repeat", "always respond", "only and nothing",
+        }
+        skip_phrases = {
+            "json array", "nothing else", "example output", "respond with exactly",
+            "emergency medicine", "clinical orders only", "never explain",
+            "never repeat", "always respond",
+        }
         actions = []
         for line in text.splitlines():
-            line = line.strip().lstrip("-*0123456789. ").strip()
+            line = line.strip().lstrip("-*0123456789. \"[]'").strip()
             if not line:
                 continue
             lower = line.lower()
             if any(lower.startswith(p) for p in skip_prefixes):
+                continue
+            if any(p in lower for p in skip_phrases):
                 continue
             if lower in {"json array of strings", "only", "return only"}:
                 continue
@@ -166,43 +174,55 @@ class VLLMTextClient:
             return await self._mock.generate_actions(state)
 
         prompt = self._build_actions_prompt(state)
+        # vLLM guided_json schema to force array-of-strings output
+        guided_schema = {
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 3,
+            "maxItems": 6,
+        }
         try:
-            raw = await self._call_llm(prompt)
-            return self._parse_json_array(raw)
+            raw = await self._call_llm(prompt, guided_json=guided_schema)
+            data = json.loads(raw.strip())
+            if isinstance(data, list):
+                return [str(item) for item in data[:5]]
         except Exception:
             traceback.print_exc()
-            return await self._mock.generate_actions(state)
+        return await self._mock.generate_actions(state)
 
     async def generate_report(self, state: dict) -> dict:
-        """Generate structured clinical report. Falls back to deterministic generation."""
+        """Generate structured clinical report. Deterministic — no LLM call needed."""
         if settings.use_mock:
             return await self._mock.generate_report(state)
 
-        # Very simple prompt — deterministic formatting is sufficient for report
-        prompt = (
-            f"Summarize this clinical case in one paragraph.\n"
-            f"ESI Level: {state.get('esi_level','?')} — {state.get('esi_description','?')}\n"
-            f"Findings: {'; '.join(f.get('finding','') for f in state.get('findings',[]))}\n"
-            f"Differential: {'; '.join(state.get('differential',[]))}\n"
-            f"Actions: {'; '.join(state.get('suggested_actions',[]))}\n"
-            f"Return a short paragraph."
+        findings = state.get("findings", [])
+        diff = state.get("differential", [])
+        actions = state.get("suggested_actions", [])
+        esi_level = state.get("esi_level", "?")
+        esi_desc = state.get("esi_description", "")
+
+        finding_str = "; ".join(f.get("finding", "") for f in findings) or "none"
+        diff_str = "; ".join(diff) or "undetermined"
+        action_str = "; ".join(actions) or "none"
+
+        summary = (
+            f"ESI {esi_level} — {esi_desc}. "
+            f"Findings: {finding_str}. "
+            f"Differential: {diff_str}. "
+            f"Actions: {action_str}."
         )
-        try:
-            raw = await self._call_llm(prompt)
-            return {
-                "summary": raw.strip(),
-                "esi": {
-                    "level": state.get("esi_level"),
-                    "description": state.get("esi_description"),
-                    "rules": state.get("esi_rules_triggered", []),
-                },
-                "differential": state.get("differential", []),
-                "actions": state.get("suggested_actions", []),
-                "safety_summary": {
-                    "flags": len(state.get("merged_flags", [])),
-                    "downgrades": state.get("safety_downgrades", 0),
-                },
-            }
-        except Exception:
-            traceback.print_exc()
-            return await self._mock.generate_report(state)
+
+        return {
+            "summary": summary,
+            "esi": {
+                "level": esi_level,
+                "description": esi_desc,
+                "rules": state.get("esi_rules_triggered", []),
+            },
+            "differential": diff,
+            "actions": actions,
+            "safety_summary": {
+                "flags": len(state.get("merged_flags", [])),
+                "downgrades": state.get("safety_downgrades", 0),
+            },
+        }

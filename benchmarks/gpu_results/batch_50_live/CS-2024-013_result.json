@@ -1,0 +1,132 @@
+{
+  "case_id": "CS-2024-013",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "Pulmonary Edema",
+      "description": "Increased interstitial markings and possible perihilar opacities suggestive of pulmonary edema.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f3",
+      "finding": "Right Pleural Effusion",
+      "description": "Blunting of the costophrenic angle on the right side, consistent with pleural effusion.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "right hemithorax"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "SpO2",
+      "value": 89,
+      "unit": "%",
+      "threshold": 90,
+      "code": "SPO2_LOW",
+      "description": "Severe hypoxemia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 26,
+      "unit": "bpm",
+      "threshold": 24,
+      "code": "RR_ELEVATED",
+      "description": "Elevated respiratory rate",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Cardiogenic pulmonary edema",
+    "ARDS",
+    "Volume overload",
+    "Congestive heart failure",
+    "Cardiomyopathy"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Cardiomegaly; Pulmonary Edema; Right Pleural Effusion. Differential: Cardiogenic pulmonary edema; ARDS; Volume overload; Congestive heart failure; Cardiomyopathy. Actions: Immediate resuscitation per ACLS protocols.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SPO2_LOW"
+      ]
+    },
+    "differential": [
+      "Cardiogenic pulmonary edema",
+      "ARDS",
+      "Volume overload",
+      "Congestive heart failure",
+      "Cardiomyopathy"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:51:32.157449",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:51:39.208239",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:51:39.208278",
+      "action": "lab_analysis",
+      "alerts_count": 2,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:51:39.208913",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:51:56.268582",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

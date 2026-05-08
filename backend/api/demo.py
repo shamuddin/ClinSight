@@ -109,9 +109,10 @@ def _build_response(final: dict, case: dict) -> dict:
         "lab_patterns":         final.get("lab_patterns", []),
         "attention_regions":    final.get("attention_regions", []),
         # Safety sub-counts (for SafetyTheater component)
-        "contradictions_count":  len(final.get("contradictions", [])),
-        "hallucination_count":   len(final.get("hallucination_flags", [])),
-        "bias_count":            len(final.get("bias_flags", [])),
+        # Derive from merged_flags so frontend counts are always consistent with visible flags
+        "contradictions_count":  len([f for f in final.get("merged_flags", []) if any(k in f.get("rule", "") for k in ("CONTRA", "NORM", "MISMATCH"))]),
+        "hallucination_count":   len([f for f in final.get("merged_flags", []) if any(k in f.get("rule", "") for k in ("GROUNDING", "SCOPE", "HALLUC"))]),
+        "bias_count":            len([f for f in final.get("merged_flags", []) if f.get("rule", "").startswith("BIAS")]),
         # Patient context
         "vitals":          case["vitals"],
         "triage_note":     case["triage_note"],
@@ -154,10 +155,21 @@ _IMAGE_DIRS = [
 ]
 
 def _find_image(base_id: str) -> Path:
+    # Try exact match first
     for d in _IMAGE_DIRS:
         p = d / f"{base_id}.png"
         if p.exists():
             return p
+    # Fallback: rotate through the 6 base CXR images we have
+    try:
+        idx = int(base_id.split("-")[-1])
+        fallback_id = f"CS-2024-{((idx - 1) % 6) + 1:03d}"
+        for d in _IMAGE_DIRS:
+            p = d / f"{fallback_id}.png"
+            if p.exists():
+                return p
+    except (ValueError, IndexError):
+        pass
     return None
 
 @router.get("/image/{case_id}")

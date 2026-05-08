@@ -3,224 +3,1822 @@
     "case_id": "CS-2024-001",
     "image_path": "backend/data/images/CS-2024-001.png",
     "lab_values": {
-      "troponin_i": 0.12,
-      "bnp": 180,
-      "crp": 12,
-      "wbc": 9.2,
-      "hemoglobin": 14.1,
-      "platelets": 245,
-      "creatinine": 0.9,
-      "glucose": 105
+      "wbc": 12.5,
+      "crp": 45,
+      "bnp": 850,
+      "troponin_i": 0.85,
+      "creatinine": 1.4,
+      "glucose": 142,
+      "hemoglobin": 13.2,
+      "platelets": 220,
+      "sodium": 135,
+      "potassium": 5.1
     },
     "lab_units": {
-      "troponin_i": "ng/L",
-      "bnp": "pg/mL",
+      "wbc": "K/μL",
       "crp": "mg/L",
-      "wbc": "K/\u00ce\u00bcL",
-      "hemoglobin": "g/dL",
-      "platelets": "K/\u00ce\u00bcL",
+      "bnp": "pg/mL",
+      "troponin_i": "ng/L",
       "creatinine": "mg/dL",
-      "glucose": "mg/dL"
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
     },
-    "triage_note": "52M presents with 2hr substernal chest pressure, radiating to L arm. No prior MI. Nausea + diaphoresis.",
-    "patient_age": 52,
+    "triage_note": "68M acute onset severe dyspnea, orthopnea, pink frothy sputum. History of CHF.",
+    "patient_age": 25,
     "patient_sex": "male",
-    "patient_race": "White",
-    "chief_complaint": "Chest pain",
+    "patient_race": "Asian",
+    "chief_complaint": "Severe dyspnea and chest pain",
     "vitals": {
-      "bp": "148/92",
-      "hr": 102,
-      "rr": 20,
-      "spo2": 97,
-      "temp": 37.1
+      "bp": "78/52",
+      "hr": 132,
+      "rr": 34,
+      "spo2": 84,
+      "temp": 36.8
     }
   },
   {
     "case_id": "CS-2024-002",
     "image_path": "backend/data/images/CS-2024-002.png",
     "lab_values": {
-      "wbc": 8.5,
-      "hemoglobin": 13.8,
-      "platelets": 220,
-      "creatinine": 1.0,
-      "glucose": 142,
+      "wbc": 9.0,
+      "crp": 8,
+      "lactate": 4.2,
+      "creatinine": 1.1,
+      "glucose": 110,
+      "hemoglobin": 11.5,
+      "platelets": 280,
       "sodium": 138,
-      "potassium": 4.2,
-      "lactate": 1.8
+      "potassium": 4.0
     },
     "lab_units": {
-      "wbc": "K/\u00ce\u00bcL",
-      "hemoglobin": "g/dL",
-      "platelets": "K/\u00ce\u00bcL",
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "lactate": "mmol/L",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
       "sodium": "mEq/L",
-      "potassium": "mEq/L",
-      "lactate": "mmol/L"
+      "potassium": "mEq/L"
     },
-    "triage_note": "34F MVC, restrained driver, LOC ~3min. GCS 13 on arrival. R parietal scalp hematoma. Neuro checks q15min.",
-    "patient_age": 34,
-    "patient_sex": "female",
+    "triage_note": "24M tall thin male sudden L-sided chest pain after lifting weights, rapidly deteriorating.",
+    "patient_age": 40,
+    "patient_sex": "male",
     "patient_race": "Black",
-    "chief_complaint": "Head trauma with brief LOC",
+    "chief_complaint": "Sudden chest pain and collapse",
     "vitals": {
-      "bp": "132/84",
-      "hr": 96,
-      "rr": 18,
-      "spo2": 99,
-      "temp": 36.8
+      "bp": "65/40",
+      "hr": 145,
+      "rr": 38,
+      "spo2": 72,
+      "temp": 36.5
     }
   },
   {
     "case_id": "CS-2024-003",
     "image_path": "backend/data/images/CS-2024-003.png",
     "lab_values": {
-      "wbc": 11.5,
-      "hemoglobin": 11.2,
-      "platelets": 310,
-      "creatinine": 0.4,
+      "wbc": 18.5,
+      "crp": 120,
+      "creatinine": 0.9,
       "glucose": 95,
+      "hemoglobin": 8.2,
+      "platelets": 450,
       "sodium": 140,
-      "potassium": 3.9,
-      "crp": 28
+      "potassium": 3.8
     },
     "lab_units": {
-      "wbc": "K/\u00ce\u00bcL",
-      "hemoglobin": "g/dL",
-      "platelets": "K/\u00ce\u00bcL",
+      "wbc": "K/μL",
+      "crp": "mg/L",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
       "sodium": "mEq/L",
-      "potassium": "mEq/L",
-      "crp": "mg/L"
+      "potassium": "mEq/L"
     },
-    "triage_note": "4YO F with 3-day history of fever up to 39.4C, now with diffuse erythematous rash on trunk/extremities. Tolerating PO.",
-    "patient_age": 4,
-    "patient_sex": "female",
-    "patient_race": "Hispanic",
-    "chief_complaint": "Fever and rash",
+    "triage_note": "45M active smoker coughing 300mL blood over 2 hours. Weight loss 10kg over 3 months.",
+    "patient_age": 24,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": "Massive hemoptysis",
     "vitals": {
-      "bp": "85/52",
-      "hr": 125,
-      "rr": 28,
-      "spo2": 98,
-      "temp": 38.6
+      "bp": "90/60",
+      "hr": 128,
+      "rr": 32,
+      "spo2": 88,
+      "temp": 38.9
     }
   },
   {
     "case_id": "CS-2024-004",
     "image_path": "backend/data/images/CS-2024-004.png",
     "lab_values": {
-      "wbc": 2.1,
-      "hemoglobin": 9.8,
-      "platelets": 89,
-      "creatinine": 2.4,
-      "glucose": 68,
-      "sodium": 132,
-      "potassium": 5.8,
-      "lactate": 5.2,
-      "bilirubin": 3.1,
-      "inr": 1.8,
-      "pao2_fio2": 180
+      "wbc": 14.0,
+      "crp": 25,
+      "creatinine": 1.0,
+      "glucose": 130,
+      "hemoglobin": 10.5,
+      "platelets": 200,
+      "sodium": 138,
+      "potassium": 4.2
     },
     "lab_units": {
-      "wbc": "K/\u00ce\u00bcL",
-      "hemoglobin": "g/dL",
-      "platelets": "K/\u00ce\u00bcL",
+      "wbc": "K/μL",
+      "crp": "mg/L",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
       "sodium": "mEq/L",
-      "potassium": "mEq/L",
-      "lactate": "mmol/L",
-      "bilirubin": "mg/dL",
-      "inr": "ratio",
-      "pao2_fio2": "mmHg"
+      "potassium": "mEq/L"
     },
-    "triage_note": "67M nursing home resident with altered mental status x 24hr. Hypotensive, oliguric. Suspected UTI source. Pressors started.",
+    "triage_note": "32M high-speed MVC, restrained. Severe R chest wall tenderness, crepitus, decreased breath sounds R.",
     "patient_age": 67,
     "patient_sex": "male",
     "patient_race": "White",
-    "chief_complaint": "Altered mental status",
+    "chief_complaint": "Chest pain after MVC",
     "vitals": {
-      "bp": "78/42",
-      "hr": 118,
-      "rr": 28,
-      "spo2": 91,
-      "temp": 38.9
+      "bp": "85/55",
+      "hr": 125,
+      "rr": 30,
+      "spo2": 90,
+      "temp": 36.6
     }
   },
   {
     "case_id": "CS-2024-005",
     "image_path": "backend/data/images/CS-2024-005.png",
     "lab_values": {
-      "wbc": 12.5,
-      "hemoglobin": 8.2,
-      "platelets": 180,
-      "creatinine": 1.2,
-      "glucose": 110,
-      "sodium": 138,
-      "potassium": 4.2,
-      "lactate": 4.5,
-      "inr": 1.5,
-      "bilirubin": 1.8
+      "wbc": 2.5,
+      "crp": 280,
+      "lactate": 6.8,
+      "creatinine": 2.4,
+      "glucose": 180,
+      "hemoglobin": 9.8,
+      "platelets": 85,
+      "sodium": 132,
+      "potassium": 5.5
     },
     "lab_units": {
-      "wbc": "K/\u00ce\u00bcL",
-      "hemoglobin": "g/dL",
-      "platelets": "K/\u00ce\u00bcL",
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "lactate": "mmol/L",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
       "sodium": "mEq/L",
-      "potassium": "mEq/L",
-      "lactate": "mmol/L",
-      "inr": "ratio",
-      "bilirubin": "mg/dL"
+      "potassium": "mEq/L"
     },
-    "triage_note": "55M with hematemesis and coffee-ground emesis x 4hr. Dizziness, syncope x1. History of NSAID use.",
-    "patient_age": 55,
+    "triage_note": "58F post-op day 3 after colectomy, sudden severe dyspnea, hypoxemic respiratory failure.",
+    "patient_age": 22,
     "patient_sex": "male",
-    "patient_race": "Asian",
-    "chief_complaint": "GI bleeding",
+    "patient_race": "Black",
+    "chief_complaint": "Severe sepsis with respiratory failure",
     "vitals": {
-      "bp": "85/50",
-      "hr": 128,
-      "rr": 24,
-      "spo2": 94,
-      "temp": 36.5
+      "bp": "70/45",
+      "hr": 155,
+      "rr": 40,
+      "spo2": 68,
+      "temp": 39.5
     }
   },
   {
     "case_id": "CS-2024-006",
     "image_path": "backend/data/images/CS-2024-006.png",
     "lab_values": {
-      "wbc": 9.5,
-      "hemoglobin": 13.2,
-      "platelets": 250,
+      "wbc": 11.0,
+      "crp": 15,
+      "d_dimer": 4500,
+      "creatinine": 1.3,
+      "glucose": 125,
+      "hemoglobin": 12.8,
+      "platelets": 210,
+      "sodium": 138,
+      "potassium": 4.3
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "d_dimer": "ng/mL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "67M tearing chest pain radiating to interscapular region, BP differential 40mmHg between arms.",
+    "patient_age": 78,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": " Crushing chest pain radiating to back",
+    "vitals": {
+      "bp": "195/120",
+      "hr": 110,
+      "rr": 26,
+      "spo2": 94,
+      "temp": 36.7
+    }
+  },
+  {
+    "case_id": "CS-2024-007",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 16.8,
+      "crp": 180,
       "creatinine": 0.9,
+      "glucose": 105,
+      "hemoglobin": 13.5,
+      "platelets": 310,
+      "sodium": 139,
+      "potassium": 3.9
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "55M 4-day productive cough, fever, sharp R pleuritic chest pain. Former smoker.",
+    "patient_age": 33,
+    "patient_sex": "female",
+    "patient_race": "Black",
+    "chief_complaint": "Pleuritic chest pain and dyspnea",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 108,
+      "rr": 24,
+      "spo2": 91,
+      "temp": 39.1
+    }
+  },
+  {
+    "case_id": "CS-2024-008",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 8.5,
+      "crp": 12,
+      "creatinine": 0.8,
       "glucose": 95,
+      "hemoglobin": 14.2,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.1
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "19M tall thin male sudden L chest pain and dyspnea while playing basketball. No trauma.",
+    "patient_age": 68,
+    "patient_sex": "female",
+    "patient_race": "White",
+    "chief_complaint": "Spontaneous pneumothorax",
+    "vitals": {
+      "bp": "128/82",
+      "hr": 98,
+      "rr": 22,
+      "spo2": 93,
+      "temp": 37.0
+    }
+  },
+  {
+    "case_id": "CS-2024-009",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 9.2,
+      "crp": 65,
+      "creatinine": 1.0,
+      "glucose": 102,
+      "hemoglobin": 11.8,
+      "platelets": 380,
+      "sodium": 138,
+      "potassium": 3.7
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "62F 3-week progressive dyspnea, 15kg weight loss, night sweats. Former smoker 40 pack-years.",
+    "patient_age": 30,
+    "patient_sex": "female",
+    "patient_race": "Asian",
+    "chief_complaint": "Progressive dyspnea on exertion",
+    "vitals": {
+      "bp": "132/84",
+      "hr": 102,
+      "rr": 24,
+      "spo2": 90,
+      "temp": 37.5
+    }
+  },
+  {
+    "case_id": "CS-2024-010",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 10.5,
+      "crp": 22,
+      "bnp": 1200,
+      "troponin_i": 2.5,
+      "creatinine": 1.1,
+      "glucose": 145,
+      "hemoglobin": 13.8,
+      "platelets": 240,
+      "sodium": 136,
+      "potassium": 4.8
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "bnp": "pg/mL",
+      "troponin_i": "ng/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "71M crushing substernal chest pain 2 hours, radiating to L jaw. Diaphoretic, nauseated.",
+    "patient_age": 45,
+    "patient_sex": "male",
+    "patient_race": "Black",
+    "chief_complaint": "Chest pain with ST elevation",
+    "vitals": {
+      "bp": "165/105",
+      "hr": 115,
+      "rr": 26,
+      "spo2": 89,
+      "temp": 37.0
+    }
+  },
+  {
+    "case_id": "CS-2024-011",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 22.0,
+      "crp": 250,
+      "creatinine": 1.0,
+      "glucose": 110,
+      "hemoglobin": 12.5,
+      "platelets": 420,
+      "sodium": 138,
+      "potassium": 3.5
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "48M alcoholic, 1-week productive cough with foul-smelling sputum, fevers, night sweats.",
+    "patient_age": 55,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Fever and productive cough",
+    "vitals": {
+      "bp": "125/78",
+      "hr": 115,
+      "rr": 28,
+      "spo2": 89,
+      "temp": 39.8
+    }
+  },
+  {
+    "case_id": "CS-2024-012",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 11.5,
+      "crp": 18,
+      "creatinine": 0.9,
+      "glucose": 115,
+      "hemoglobin": 14.0,
+      "platelets": 260,
       "sodium": 140,
       "potassium": 3.8
     },
     "lab_units": {
-      "wbc": "K/\u00ce\u00bcL",
-      "hemoglobin": "g/dL",
-      "platelets": "K/\u00ce\u00bcL",
+      "wbc": "K/μL",
+      "crp": "mg/L",
       "creatinine": "mg/dL",
       "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
       "sodium": "mEq/L",
       "potassium": "mEq/L"
     },
-    "triage_note": "8YO M with known asthma, worsening dyspnea and wheezing x 6hr. Rescue inhaler used 4 times without relief. Tachypneic.",
-    "patient_age": 8,
+    "triage_note": "28F known asthmatic, exposure to cats, severe wheeze, using accessory muscles, cannot speak in full sentences.",
+    "patient_age": 60,
+    "patient_sex": "male",
+    "patient_race": "Asian",
+    "chief_complaint": "Acute asthma exacerbation",
+    "vitals": {
+      "bp": "138/88",
+      "hr": 118,
+      "rr": 30,
+      "spo2": 88,
+      "temp": 37.2
+    }
+  },
+  {
+    "case_id": "CS-2024-013",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 12.0,
+      "crp": 45,
+      "creatinine": 0.9,
+      "glucose": 98,
+      "hemoglobin": 10.2,
+      "platelets": 350,
+      "sodium": 138,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "58M 40 pack-year smoker, 3-month cough, 12kg weight loss, intermittent hemoptysis.",
+    "patient_age": 55,
+    "patient_sex": "female",
+    "patient_race": "White",
+    "chief_complaint": "Hemoptysis and weight loss",
+    "vitals": {
+      "bp": "128/78",
+      "hr": 95,
+      "rr": 20,
+      "spo2": 92,
+      "temp": 37.3
+    }
+  },
+  {
+    "case_id": "CS-2024-014",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 9.5,
+      "crp": 25,
+      "d_dimer": 3200,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 13.5,
+      "platelets": 210,
+      "sodium": 140,
+      "potassium": 4.1
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "d_dimer": "ng/mL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "42F 14-hour flight yesterday, sudden pleuritic chest pain, mild hemoptysis, tachypneic.",
+    "patient_age": 71,
     "patient_sex": "male",
     "patient_race": "Hispanic",
-    "chief_complaint": "Asthma exacerbation",
+    "chief_complaint": "Chest pain after long flight",
+    "vitals": {
+      "bp": "120/80",
+      "hr": 118,
+      "rr": 24,
+      "spo2": 91,
+      "temp": 37.0
+    }
+  },
+  {
+    "case_id": "CS-2024-015",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 14.5,
+      "crp": 35,
+      "creatinine": 1.0,
+      "glucose": 120,
+      "hemoglobin": 11.8,
+      "platelets": 230,
+      "sodium": 138,
+      "potassium": 4.2
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "35M fall from ladder 6m, L chest wall deformity, severe tenderness, subcutaneous crepitus.",
+    "patient_age": 22,
+    "patient_sex": "female",
+    "patient_race": "Native American",
+    "chief_complaint": "Traumatic chest wall injury",
+    "vitals": {
+      "bp": "115/72",
+      "hr": 108,
+      "rr": 26,
+      "spo2": 90,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-016",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 14.2,
+      "crp": 95,
+      "creatinine": 0.8,
+      "glucose": 105,
+      "hemoglobin": 13.8,
+      "platelets": 280,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "38M 5-day cough with yellow sputum, fever, pleuritic R chest pain. No comorbidities.",
+    "patient_age": 58,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Fever and cough",
+    "vitals": {
+      "bp": "128/82",
+      "hr": 102,
+      "rr": 22,
+      "spo2": 93,
+      "temp": 38.7
+    }
+  },
+  {
+    "case_id": "CS-2024-017",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 10.5,
+      "crp": 28,
+      "creatinine": 1.0,
+      "glucose": 110,
+      "hemoglobin": 15.2,
+      "platelets": 240,
+      "sodium": 138,
+      "potassium": 4.3
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "65M 40 pack-year smoker, progressive dyspnea 2 years, chronic productive cough, barrel chest.",
+    "patient_age": 16,
+    "patient_sex": "male",
+    "patient_race": "Asian",
+    "chief_complaint": "Chronic cough and dyspnea",
+    "vitals": {
+      "bp": "145/90",
+      "hr": 95,
+      "rr": 20,
+      "spo2": 91,
+      "temp": 37.0
+    }
+  },
+  {
+    "case_id": "CS-2024-018",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 5,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 14.5,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "22M tall thin male, sudden L-sided pleuritic pain at rest. Mild dyspnea. No trauma.",
+    "patient_age": 22,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Pleuritic chest pain",
+    "vitals": {
+      "bp": "130/82",
+      "hr": 88,
+      "rr": 18,
+      "spo2": 96,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-019",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 12.0,
+      "crp": 55,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 12.5,
+      "platelets": 300,
+      "sodium": 139,
+      "potassium": 4.1
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "52F 3 episodes R lower lobe pneumonia in 6 months. Persistent cough, low-grade fever.",
+    "patient_age": 60,
+    "patient_sex": "female",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Recurrent pneumonia",
+    "vitals": {
+      "bp": "125/78",
+      "hr": 95,
+      "rr": 20,
+      "spo2": 94,
+      "temp": 37.8
+    }
+  },
+  {
+    "case_id": "CS-2024-020",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 9.5,
+      "crp": 40,
+      "creatinine": 0.9,
+      "glucose": 95,
+      "hemoglobin": 11.5,
+      "platelets": 280,
+      "sodium": 140,
+      "potassium": 3.9
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "35M recent immigrant, night sweats, weight loss 8kg, intermittent blood-streaked sputum.",
+    "patient_age": 58,
+    "patient_sex": "male",
+    "patient_race": "Asian",
+    "chief_complaint": "Intermittent hemoptysis",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 92,
+      "rr": 18,
+      "spo2": 95,
+      "temp": 37.5
+    }
+  },
+  {
+    "case_id": "CS-2024-021",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 8.5,
+      "crp": 35,
+      "creatinine": 1.0,
+      "glucose": 100,
+      "hemoglobin": 13.8,
+      "platelets": 220,
+      "sodium": 140,
+      "potassium": 4.2
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "68M progressive exertional dyspnea 18 months, dry cough, Velcro crackles at bases bilaterally.",
+    "patient_age": 55,
+    "patient_sex": "male",
+    "patient_race": "Asian",
+    "chief_complaint": "Dyspnea on exertion",
+    "vitals": {
+      "bp": "135/85",
+      "hr": 95,
+      "rr": 20,
+      "spo2": 90,
+      "temp": 36.9
+    }
+  },
+  {
+    "case_id": "CS-2024-022",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 11.0,
+      "crp": 15,
+      "creatinine": 1.1,
+      "glucose": 110,
+      "hemoglobin": 14.0,
+      "platelets": 240,
+      "sodium": 138,
+      "potassium": 4.5
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "29M chest pain and neck swelling after cocaine use. Hamman crunch on auscultation.",
+    "patient_age": 21,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": "Chest pain after cocaine use",
+    "vitals": {
+      "bp": "155/95",
+      "hr": 125,
+      "rr": 24,
+      "spo2": 94,
+      "temp": 37.2
+    }
+  },
+  {
+    "case_id": "CS-2024-023",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 15.5,
+      "crp": 120,
+      "creatinine": 0.9,
+      "glucose": 105,
+      "hemoglobin": 13.5,
+      "platelets": 290,
+      "sodium": 139,
+      "potassium": 3.8
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "45F 4-day fever, productive cough with rust-colored sputum, pleuritic L chest pain.",
+    "patient_age": 40,
+    "patient_sex": "male",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Productive cough and fever",
+    "vitals": {
+      "bp": "132/84",
+      "hr": 105,
+      "rr": 22,
+      "spo2": 93,
+      "temp": 38.9
+    }
+  },
+  {
+    "case_id": "CS-2024-024",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 12,
+      "bnp": 680,
+      "creatinine": 1.3,
+      "glucose": 110,
+      "hemoglobin": 12.5,
+      "platelets": 200,
+      "sodium": 133,
+      "potassium": 4.8
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "bnp": "pg/mL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "74F worsening dyspnea, orthopnea, bilateral ankle edema. Known CHF, non-compliant with meds.",
+    "patient_age": 60,
+    "patient_sex": "female",
+    "patient_race": "Native American",
+    "chief_complaint": "Shortness of breath",
+    "vitals": {
+      "bp": "142/88",
+      "hr": 98,
+      "rr": 22,
+      "spo2": 91,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-025",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 10.0,
+      "crp": 30,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 12.8,
+      "platelets": 260,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "50F prior TB history, chronic cavitary lesion, now with hemoptysis. Weight stable.",
+    "patient_age": 38,
+    "patient_sex": "female",
+    "patient_race": "White",
+    "chief_complaint": "Chronic cough with blood-streaked sputum",
+    "vitals": {
+      "bp": "128/80",
+      "hr": 88,
+      "rr": 18,
+      "spo2": 95,
+      "temp": 37.0
+    }
+  },
+  {
+    "case_id": "CS-2024-026",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 11.0,
+      "crp": 45,
+      "creatinine": 0.8,
+      "glucose": 100,
+      "hemoglobin": 14.0,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "33M URI symptoms 1 week, now with chest tightness, diffuse wheeze, productive cough.",
+    "patient_age": 38,
+    "patient_sex": "male",
+    "patient_race": "Asian",
+    "chief_complaint": "Chest tightness and wheeze",
+    "vitals": {
+      "bp": "130/84",
+      "hr": 95,
+      "rr": 20,
+      "spo2": 94,
+      "temp": 37.5
+    }
+  },
+  {
+    "case_id": "CS-2024-027",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 9.0,
+      "crp": 55,
+      "creatinine": 1.0,
+      "glucose": 95,
+      "hemoglobin": 11.5,
+      "platelets": 350,
+      "sodium": 138,
+      "potassium": 3.7
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "60F 2-week progressive dyspnea, dullness to percussion R base, decreased breath sounds R.",
+    "patient_age": 62,
+    "patient_sex": "female",
+    "patient_race": "White",
+    "chief_complaint": "Unilateral pleural effusion workup",
+    "vitals": {
+      "bp": "125/78",
+      "hr": 95,
+      "rr": 20,
+      "spo2": 93,
+      "temp": 37.3
+    }
+  },
+  {
+    "case_id": "CS-2024-028",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 11.0,
+      "crp": 35,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 14.0,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "25F 3-day cough, mild fever, otherwise well. No comorbidities. Works as teacher.",
+    "patient_age": 35,
+    "patient_sex": "female",
+    "patient_race": "Black",
+    "chief_complaint": "Mild cough and low-grade fever",
+    "vitals": {
+      "bp": "120/78",
+      "hr": 85,
+      "rr": 16,
+      "spo2": 97,
+      "temp": 37.8
+    }
+  },
+  {
+    "case_id": "CS-2024-029",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 8.5,
+      "crp": 15,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 13.8,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "30M minor MVC, seatbelt on, focal L chest wall tenderness over 6th rib. No dyspnea.",
+    "patient_age": 76,
+    "patient_sex": "female",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Chest wall pain after minor trauma",
+    "vitals": {
+      "bp": "125/80",
+      "hr": 80,
+      "rr": 16,
+      "spo2": 98,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-030",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 7.5,
+      "crp": 5,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 14.2,
+      "platelets": 230,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "55F incidental 8mm nodule found on pre-op CXR 6 months ago. Asymptomatic, smoker 10 pack-years.",
+    "patient_age": 29,
+    "patient_sex": "female",
+    "patient_race": "Black",
+    "chief_complaint": "Routine follow-up chest X-ray",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 72,
+      "rr": 14,
+      "spo2": 98,
+      "temp": 36.6
+    }
+  },
+  {
+    "case_id": "CS-2024-031",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 5,
+      "bnp": 120,
+      "creatinine": 1.0,
+      "glucose": 100,
+      "hemoglobin": 13.5,
+      "platelets": 220,
+      "sodium": 140,
+      "potassium": 4.2
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "bnp": "pg/mL",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "62M mild DOE climbing stairs, no orthopnea. BP elevated, on lisinopril.",
+    "patient_age": 40,
+    "patient_sex": "female",
+    "patient_race": "Native American",
+    "chief_complaint": "Mild dyspnea on exertion",
+    "vitals": {
+      "bp": "145/92",
+      "hr": 78,
+      "rr": 16,
+      "spo2": 97,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-032",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 9.5,
+      "crp": 12,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 14.0,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "20F college student, 4-day URI symptoms, clear lungs on exam, otherwise healthy.",
+    "patient_age": 67,
+    "patient_sex": "female",
+    "patient_race": "Asian",
+    "chief_complaint": "Cough and rhinorrhea",
+    "vitals": {
+      "bp": "118/74",
+      "hr": 82,
+      "rr": 16,
+      "spo2": 98,
+      "temp": 37.2
+    }
+  },
+  {
+    "case_id": "CS-2024-033",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 8,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 13.0,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.1
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "48F pre-op for cholecystectomy, asymptomatic, routine pre-op CXR.",
+    "patient_age": 38,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": "Pre-operative chest X-ray",
+    "vitals": {
+      "bp": "132/84",
+      "hr": 76,
+      "rr": 14,
+      "spo2": 97,
+      "temp": 36.7
+    }
+  },
+  {
+    "case_id": "CS-2024-034",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 8.5,
+      "crp": 15,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 13.8,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "40F treated for RLL pneumonia 3 weeks ago. Symptoms resolved. Follow-up CXR.",
+    "patient_age": 76,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Follow-up for pneumonia",
+    "vitals": {
+      "bp": "122/78",
+      "hr": 78,
+      "rr": 16,
+      "spo2": 98,
+      "temp": 36.9
+    }
+  },
+  {
+    "case_id": "CS-2024-035",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 7.5,
+      "crp": 5,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 14.0,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "28F episodic chest tightness, panic attacks, normal exam, no cardiac risk factors.",
+    "patient_age": 25,
+    "patient_sex": "male",
+    "patient_race": "Black",
+    "chief_complaint": "Chest discomfort, anxiety",
+    "vitals": {
+      "bp": "128/82",
+      "hr": 95,
+      "rr": 18,
+      "spo2": 98,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-036",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 10,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 14.5,
+      "platelets": 230,
+      "sodium": 140,
+      "potassium": 4.2
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "55M known asthmatic, mild wheeze after pollen exposure. Otherwise well, good inhaler technique.",
+    "patient_age": 67,
+    "patient_sex": "male",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Mild wheeze",
+    "vitals": {
+      "bp": "130/84",
+      "hr": 82,
+      "rr": 16,
+      "spo2": 97,
+      "temp": 36.9
+    }
+  },
+  {
+    "case_id": "CS-2024-037",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 7.0,
+      "crp": 3,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 14.0,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "45F CXR for immigration paperwork. Asymptomatic. Prior BCG vaccination.",
+    "patient_age": 60,
+    "patient_sex": "female",
+    "patient_race": "Native American",
+    "chief_complaint": "Incidental finding on X-ray",
+    "vitals": {
+      "bp": "120/78",
+      "hr": 70,
+      "rr": 14,
+      "spo2": 98,
+      "temp": 36.6
+    }
+  },
+  {
+    "case_id": "CS-2024-038",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 9.0,
+      "crp": 18,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 13.8,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "35M 5-day cough with clear sputum, mild congestion. No fever, no dyspnea.",
+    "patient_age": 42,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Mild chest congestion",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 80,
+      "rr": 16,
+      "spo2": 98,
+      "temp": 37.3
+    }
+  },
+  {
+    "case_id": "CS-2024-039",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 7.0,
+      "crp": 2,
+      "creatinine": 0.8,
+      "glucose": 88,
+      "hemoglobin": 14.2,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "30F annual health screening, asymptomatic, no complaints. Non-smoker.",
+    "patient_age": 82,
+    "patient_sex": "female",
+    "patient_race": "Asian",
+    "chief_complaint": "Routine health screening",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 68,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.6
+    }
+  },
+  {
+    "case_id": "CS-2024-040",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 6.5,
+      "crp": 1,
+      "creatinine": 0.9,
+      "glucose": 90,
+      "hemoglobin": 14.5,
+      "platelets": 230,
+      "sodium": 140,
+      "potassium": 4.1
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "25M pre-employment physical for construction job. Healthy, no symptoms.",
+    "patient_age": 25,
+    "patient_sex": "female",
+    "patient_race": "Hispanic",
+    "chief_complaint": "Pre-employment chest X-ray",
+    "vitals": {
+      "bp": "122/78",
+      "hr": 72,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.5
+    }
+  },
+  {
+    "case_id": "CS-2024-041",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 7.0,
+      "crp": 2,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 13.8,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "50F annual follow-up of known old TB scars. Asymptomatic, stable for 10 years.",
+    "patient_age": 30,
+    "patient_sex": "female",
+    "patient_race": "White",
+    "chief_complaint": "Follow-up for old TB scar",
+    "vitals": {
+      "bp": "120/78",
+      "hr": 70,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.6
+    }
+  },
+  {
+    "case_id": "CS-2024-042",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 7.5,
+      "crp": 3,
+      "creatinine": 0.8,
+      "glucose": 92,
+      "hemoglobin": 14.0,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "22F well-controlled asthmatic on low-dose ICS. No exacerbations in 2 years.",
+    "patient_age": 42,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": "Routine asthma monitoring",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 72,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.7
+    }
+  },
+  {
+    "case_id": "CS-2024-043",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 7.0,
+      "crp": 1,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 13.5,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "18F insurance medical exam. Incidental mild scoliosis. Asymptomatic.",
+    "patient_age": 24,
+    "patient_sex": "female",
+    "patient_race": "Native American",
+    "chief_complaint": "Insurance requirement",
+    "vitals": {
+      "bp": "115/72",
+      "hr": 68,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.5
+    }
+  },
+  {
+    "case_id": "CS-2024-044",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 6.8,
+      "crp": 2,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 14.0,
+      "platelets": 230,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "35F travel clearance for work assignment abroad. Healthy, asymptomatic.",
+    "patient_age": 90,
+    "patient_sex": "male",
+    "patient_race": "Black",
+    "chief_complaint": "Travel clearance",
+    "vitals": {
+      "bp": "120/78",
+      "hr": 70,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.6
+    }
+  },
+  {
+    "case_id": "CS-2024-045",
+    "image_path": "backend/data/images/CS-2024-003.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 15,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 12.5,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.1
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "55F post-op day 7 laparoscopic cholecystectomy, routine CXR. Mild pain, otherwise well.",
+    "patient_age": 58,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": "Routine post-op check",
+    "vitals": {
+      "bp": "128/82",
+      "hr": 78,
+      "rr": 16,
+      "spo2": 98,
+      "temp": 37.0
+    }
+  },
+  {
+    "case_id": "CS-2024-046",
+    "image_path": "backend/data/images/CS-2024-004.png",
+    "lab_values": {
+      "wbc": 7.0,
+      "crp": 2,
+      "creatinine": 0.8,
+      "glucose": 90,
+      "hemoglobin": 13.8,
+      "platelets": 240,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "42F wellness visit, occasional heartburn. Otherwise asymptomatic.",
+    "patient_age": 80,
+    "patient_sex": "male",
+    "patient_race": "Native American",
+    "chief_complaint": "Wellness check",
+    "vitals": {
+      "bp": "118/76",
+      "hr": 70,
+      "rr": 14,
+      "spo2": 99,
+      "temp": 36.6
+    }
+  },
+  {
+    "case_id": "CS-2024-047",
+    "image_path": "backend/data/images/CS-2024-005.png",
+    "lab_values": {
+      "wbc": 7.0,
+      "crp": 1,
+      "creatinine": 0.7,
+      "glucose": 85,
+      "hemoglobin": 13.5,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "16M school sports physical. Healthy, active, no complaints.",
+    "patient_age": 52,
+    "patient_sex": "female",
+    "patient_race": "White",
+    "chief_complaint": "School physical",
     "vitals": {
       "bp": "110/70",
-      "hr": 118,
-      "rr": 32,
-      "spo2": 89,
-      "temp": 37.2
+      "hr": 72,
+      "rr": 16,
+      "spo2": 99,
+      "temp": 36.8
+    }
+  },
+  {
+    "case_id": "CS-2024-048",
+    "image_path": "backend/data/images/CS-2024-006.png",
+    "lab_values": {
+      "wbc": 11.0,
+      "crp": 55,
+      "creatinine": 0.9,
+      "glucose": 100,
+      "hemoglobin": 12.0,
+      "platelets": 300,
+      "sodium": 138,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "48M 2-month persistent cough, 8kg weight loss, smoker 30 pack-years.",
+    "patient_age": 25,
+    "patient_sex": "female",
+    "patient_race": "Asian",
+    "chief_complaint": "Persistent cough",
+    "vitals": {
+      "bp": "130/82",
+      "hr": 92,
+      "rr": 18,
+      "spo2": 94,
+      "temp": 37.4
+    }
+  },
+  {
+    "case_id": "CS-2024-049",
+    "image_path": "backend/data/images/CS-2024-001.png",
+    "lab_values": {
+      "wbc": 18.0,
+      "crp": 200,
+      "lactate": 3.5,
+      "creatinine": 1.5,
+      "glucose": 140,
+      "hemoglobin": 11.0,
+      "platelets": 180,
+      "sodium": 135,
+      "potassium": 4.5
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "lactate": "mmol/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "52M influenza-like illness 5 days, sudden worsening dyspnea, hypoxemia.",
+    "patient_age": 40,
+    "patient_sex": "male",
+    "patient_race": "Black",
+    "chief_complaint": "Acute respiratory distress",
+    "vitals": {
+      "bp": "105/68",
+      "hr": 125,
+      "rr": 34,
+      "spo2": 82,
+      "temp": 39.2
+    }
+  },
+  {
+    "case_id": "CS-2024-050",
+    "image_path": "backend/data/images/CS-2024-002.png",
+    "lab_values": {
+      "wbc": 8.0,
+      "crp": 5,
+      "creatinine": 0.8,
+      "glucose": 95,
+      "hemoglobin": 14.2,
+      "platelets": 250,
+      "sodium": 140,
+      "potassium": 4.0
+    },
+    "lab_units": {
+      "wbc": "K/μL",
+      "crp": "mg/L",
+      "creatinine": "mg/dL",
+      "glucose": "mg/dL",
+      "hemoglobin": "g/dL",
+      "platelets": "K/μL",
+      "sodium": "mEq/L",
+      "potassium": "mEq/L"
+    },
+    "triage_note": "21M sudden L chest pain while running. Minimal dyspnea, stable vitals.",
+    "patient_age": 86,
+    "patient_sex": "male",
+    "patient_race": "White",
+    "chief_complaint": "Chest pain after exercise",
+    "vitals": {
+      "bp": "125/80",
+      "hr": 85,
+      "rr": 16,
+      "spo2": 97,
+      "temp": 36.8
     }
   }
 ]

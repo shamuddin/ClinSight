@@ -111,3 +111,4 @@ backend/data/contingency_cache/*.json
 frontend/react-app/dist/
 benchmarks/*.json
 benchmarks/*.csv
+hermes-webui

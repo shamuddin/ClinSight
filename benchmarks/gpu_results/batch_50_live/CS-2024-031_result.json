@@ -1,0 +1,143 @@
+{
+  "case_id": "CS-2024-031",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "Pulmonary Edema",
+      "description": "Increased interstitial markings and possible perihilar opacities suggestive of pulmonary edema.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f3",
+      "finding": "Pneumothorax",
+      "description": "No evidence of pneumothorax noted.",
+      "confidence": 0.9,
+      "severity": "none",
+      "location": "both sides"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "lactate",
+      "value": 3.0,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 78,
+      "unit": "%",
+      "threshold": 90,
+      "code": "SPO2_LOW",
+      "description": "Severe hypoxemia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 6,
+      "unit": "bpm",
+      "threshold": 12,
+      "code": "RR_BRADYPNEA",
+      "description": "Bradypnea",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Blood Pressure",
+      "value": "85/50",
+      "unit": "mmHg",
+      "threshold": 90,
+      "code": "BP_LOW",
+      "description": "Hypotension",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Pneumothorax",
+    "Traumatic pneumothorax",
+    "Pneumothorax secondary to COPD",
+    "Cardiogenic pulmonary edema",
+    "ARDS"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Cardiomegaly; Pulmonary Edema; Pneumothorax. Differential: Pneumothorax; Traumatic pneumothorax; Pneumothorax secondary to COPD; Cardiogenic pulmonary edema; ARDS. Actions: Immediate resuscitation per ACLS protocols.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SPO2_LOW"
+      ]
+    },
+    "differential": [
+      "Pneumothorax",
+      "Traumatic pneumothorax",
+      "Pneumothorax secondary to COPD",
+      "Cardiogenic pulmonary edema",
+      "ARDS"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:58:34.535689",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:58:41.210103",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:58:41.210145",
+      "action": "lab_analysis",
+      "alerts_count": 4,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:58:41.210752",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:58:58.286257",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

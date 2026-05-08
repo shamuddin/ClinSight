@@ -59,10 +59,11 @@ def _findings_overlap(pred: List[Dict], expected: List[Dict]) -> Tuple[int, int,
 
     matched = 0
     for p in pred:
-        pid = normalize(p.get("id", p.get("finding", "")))
+        # Prefer finding name over generic id (e.g., "f1", "f2")
+        pname = normalize(p.get("finding", p.get("id", "")))
         pdesc = normalize(p.get("description", ""))
         for en in expected_names:
-            if has_synonym_match(pid, en) or has_synonym_match(pdesc, en):
+            if has_synonym_match(pname, en) or has_synonym_match(pdesc, en):
                 matched += 1
                 break
 

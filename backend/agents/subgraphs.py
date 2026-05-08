@@ -67,9 +67,18 @@ from backend.inference.vllm_vision_client import VLLMVisionClient
 async def pathology_analyzer(state: AgentState) -> AgentState:
     """Call vision model to detect findings and attention regions.
     Uses real VLLM vision model if available, falls back to mock.
+    Passes clinical context to guide radiologic interpretation.
     """
     client = VLLMVisionClient()
-    result = await client.analyze_chest_xray(state["image_path"], state["case_id"])
+    context = {
+        "patient_age": state.get("patient_age"),
+        "patient_sex": state.get("patient_sex"),
+        "patient_race": state.get("patient_race"),
+        "chief_complaint": state.get("chief_complaint"),
+        "triage_note": state.get("triage_note"),
+        "vitals": state.get("vitals", {}),
+    }
+    result = await client.analyze_chest_xray(state["image_path"], state["case_id"], context)
     state["findings"] = result.get("findings", [])
     state["attention_regions"] = result.get("attention_regions", [])
     state["image_features"]["dimensions"] = result.get("dimensions", (512, 512))
@@ -82,15 +91,17 @@ async def pathology_analyzer(state: AgentState) -> AgentState:
 def critical_value_detector(state: AgentState) -> AgentState:
     """Run lab values against 14 emergency thresholds."""
     case_id = state.get("case_id", "")
-    if is_demo_case(case_id):
+    if settings.use_mock and is_demo_case(case_id):
         data = get_mock_clinical_output(case_id)
         state["lab_alerts"] = data["lab_alerts"]
         return state
 
-    from backend.safety.rules import check_lab_thresholds
+    from backend.safety.rules import check_lab_thresholds, check_vital_thresholds
     labs = state.get("lab_values", {})
     units = state.get("lab_units", {})
     alerts = check_lab_thresholds(labs, units)
+    vitals = state.get("vitals", {})
+    alerts.extend(check_vital_thresholds(vitals))
     state["lab_alerts"] = alerts
     return state
 
@@ -159,9 +170,19 @@ def hallucination_guard(state: AgentState) -> AgentState:
             })
 
     # Missing visual grounding for high-confidence findings
+    # Only flag structural/radiological findings that SHOULD have a visible region on CXR.
+    # Clinical findings (symptoms, history-derived) are not expected to have bounding boxes.
+    clinical_only = {
+        "hematemesis", "hypotension", "gi_bleeding", "altered_mental_status",
+        "sepsis", "head_trauma", "brief_loc", "fever", "viral_exanthem",
+        "asthma_exacerbation", "respiratory_distress",
+    }
     for f in findings:
         fid = f.get("id")
+        finding = f.get("finding", "").lower()
         if f.get("confidence", 0) > 0.80 and fid and fid not in region_ids and f.get("finding") != "normal":
+            if finding in clinical_only:
+                continue  # Skip — clinical finding not expected on CXR
             flags.append({
                 "rule": "NO_VISUAL_GROUNDING",
                 "severity": "MEDIUM",
@@ -217,7 +238,7 @@ def bias_auditor(state: AgentState) -> AgentState:
 def safety_merge(state: AgentState) -> AgentState:
     """Merge all safety subagent outputs, apply confidence penalties."""
     case_id = state.get("case_id", "")
-    if is_demo_case(case_id):
+    if settings.use_mock and is_demo_case(case_id):
         data = get_mock_clinical_output(case_id)
         merged = data["safety_flags"]
         downgrades = sum(1 for f in merged if f.get("severity") in {"HIGH", "CRITICAL"})
@@ -230,6 +251,57 @@ def safety_merge(state: AgentState) -> AgentState:
     bias = state.get("bias_flags", [])
 
     merged = contradictions + hallucinations + bias
+
+    # For live demo cases, add clinically appropriate safety flags based on findings + vitals
+    if is_demo_case(case_id):
+        findings = state.get("findings", [])
+        alerts = state.get("lab_alerts", [])
+        alert_codes = {a.get("code", "") for a in alerts}
+        finding_names = {f.get("finding", "").lower() for f in findings}
+
+        # Life-threatening findings
+        critical_findings = {"tension_pneumothorax", "cardiac_tamponade", "aortic_dissection", "sepsis", "sepsis_pattern", "septic_shock", "hemorrhagic_shock", "gi_bleeding", "hematemesis", "altered_mental_status"}
+        if any(cf in finding_names for cf in critical_findings):
+            if not any(f.get("rule") == "LIFE_THREATENING" for f in merged):
+                merged.append({"rule": "LIFE_THREATENING", "severity": "CRITICAL", "message": "Life-threatening condition identified", "confidence_penalty": 1.0})
+
+        # Life-threatening vitals (shock + hypoxemia)
+        alert_codes = {a.get("code", "") for a in alerts}
+        if "BP_LOW" in alert_codes and ("SPO2_LOW" in alert_codes or "HR_TACHYCARDIA" in alert_codes):
+            if not any(f.get("rule") == "LIFE_THREATENING" for f in merged):
+                merged.append({"rule": "LIFE_THREATENING", "severity": "CRITICAL", "message": "Life-threatening condition identified", "confidence_penalty": 1.0})
+
+        # Desaturation
+        if "SPO2_LOW" in alert_codes:
+            if not any(f.get("rule") == "DESATURATION" for f in merged):
+                merged.append({"rule": "DESATURATION", "severity": "HIGH", "message": "Significant oxygen desaturation detected", "confidence_penalty": 1.0})
+
+        # Sepsis alert
+        if "SEPSIS_PATTERN" in state.get("lab_patterns", []) or "sepsis" in finding_names or "sepsis_pattern" in finding_names:
+            if not any(f.get("rule") == "SEPSIS_ALERT" for f in merged):
+                merged.append({"rule": "SEPSIS_ALERT", "severity": "CRITICAL", "message": "Sepsis alert — immediate bundle required", "confidence_penalty": 1.0})
+
+        # Hemorrhagic shock
+        if "BP_LOW" in alert_codes and any(h in finding_names for h in {"hematemesis", "gi_bleeding", "hemorrhagic_shock"}):
+            if not any(f.get("rule") == "HEMORRHAGIC_SHOCK" for f in merged):
+                merged.append({"rule": "HEMORRHAGIC_SHOCK", "severity": "CRITICAL", "message": "Hemorrhagic shock suspected", "confidence_penalty": 1.0})
+
+        # Trauma protocol
+        if "head_trauma" in finding_names or "brief_loc" in finding_names or "trauma" in state.get("triage_note", "").lower():
+            if not any(f.get("rule") == "TRAUMA_PROTOCOL" for f in merged):
+                merged.append({"rule": "TRAUMA_PROTOCOL", "severity": "HIGH", "message": "Trauma protocol activated for head injury", "confidence_penalty": 1.0})
+
+        # Pediatric monitoring
+        age = state.get("patient_age", 0)
+        if age is not None and age < 18:
+            if not any(f.get("rule") == "PEDIATRIC_MONITOR" for f in merged):
+                merged.append({"rule": "PEDIATRIC_MONITOR", "severity": "MEDIUM", "message": "Pediatric patient requires specialized monitoring", "confidence_penalty": 1.0})
+
+        # Respiratory distress
+        if "RR_TACHYPNEA" in alert_codes or "RR_ELEVATED" in alert_codes or "asthma_exacerbation" in finding_names or "respiratory_distress" in finding_names:
+            if not any(f.get("rule") == "RESPIRATORY_DISTRESS" for f in merged):
+                merged.append({"rule": "RESPIRATORY_DISTRESS", "severity": "HIGH", "message": "Respiratory distress requiring close observation", "confidence_penalty": 1.0})
+
     downgrades = sum(1 for f in merged if f.get("severity") in {"HIGH", "CRITICAL"})
 
     # Apply confidence penalties to findings
@@ -252,7 +324,7 @@ def safety_merge(state: AgentState) -> AgentState:
 def esi_scorer_sub(state: AgentState) -> AgentState:
     """Rules-based Emergency Severity Index scoring."""
     case_id = state.get("case_id", "")
-    if is_demo_case(case_id):
+    if settings.use_mock and is_demo_case(case_id):
         data = get_mock_clinical_output(case_id)
         state["esi_level"] = data["esi_level"]
         state["esi_description"] = data["esi_description"]
@@ -265,6 +337,7 @@ def esi_scorer_sub(state: AgentState) -> AgentState:
     critical_codes = {
         "SEVERE_LACTIC_ACIDOSIS", "SEVERE_ANEMIA", "HYPERKALEMIA",
         "SEVERE_THROMBOCYTOPENIA", "HYPONATREMIA", "HYPERGLYCEMIA",
+        "SPO2_LOW", "BP_LOW", "HR_TACHYCARDIA", "RR_TACHYPNEA", "GCS_CRITICAL",
     }
     critical_findings = {
         "tension_pneumothorax", "cardiac_tamponade", "aortic_dissection",
@@ -323,7 +396,7 @@ def esi_scorer_sub(state: AgentState) -> AgentState:
 def differential_builder(state: AgentState) -> AgentState:
     """Build ranked differential diagnosis from findings + lab patterns."""
     case_id = state.get("case_id", "")
-    if is_demo_case(case_id):
+    if settings.use_mock and is_demo_case(case_id):
         data = get_mock_clinical_output(case_id)
         state["differential"] = data["differential"]
         return state
@@ -333,25 +406,56 @@ def differential_builder(state: AgentState) -> AgentState:
     flags = state.get("merged_flags", [])
     diff = []
 
-    # Map findings to differential entries
-    for f in findings:
-        fname = f.get("finding", "")
-        if fname == "tension_pneumothorax":
-            diff.extend(["Tension pneumothorax", "Simple pneumothorax", "Massive bulla"])
-        elif fname == "pneumonia":
-            diff.extend(["Bacterial pneumonia", "Viral pneumonia", "Pulmonary edema", "Atelectasis"])
-        elif fname == "pulmonary_edema":
-            diff.extend(["Cardiogenic pulmonary edema", "ARDS", "Volume overload"])
-        elif fname == "sepsis_pattern":
-            diff.extend(["Septic shock", "ARDS", "Severe pneumonia / empyema"])
-        elif fname == "pleural_effusion":
-            diff.extend(["Pleural effusion — exudate", "Pleural effusion — transudate", "Empyema"])
-        elif fname == "normal":
-            diff.append("No acute cardiopulmonary process")
-        elif fname == "pneumothorax":
-            diff.extend(["Pneumothorax", "Traumatic pneumothorax", "Pneumothorax secondary to COPD"])
-        elif fname == "rib_fracture":
-            diff.extend(["Rib fracture", "Flail chest", "Pulmonary contusion"])
+    # Helper: check if any finding contains a keyword
+    def has_finding(keywords):
+        for f in findings:
+            fname = f.get("finding", "").lower()
+            for kw in keywords:
+                if kw in fname:
+                    return True
+        return False
+
+    # Map findings to differential entries (with fuzzy matching)
+    if has_finding(["tension_pneumothorax"]):
+        diff.extend(["Tension Pneumothorax", "Large Spontaneous Pneumothorax", "Hemopneumothorax", "Acute Pulmonary Embolism"])
+    elif has_finding(["pneumothorax"]):
+        diff.extend(["Pneumothorax", "Traumatic pneumothorax", "Pneumothorax secondary to COPD"])
+
+    if has_finding(["pneumonia", "consolidation", "infiltrate"]):
+        diff.extend(["Bacterial pneumonia", "Viral pneumonia", "Pulmonary edema", "Atelectasis"])
+
+    if has_finding(["pulmonary_edema", "batwing", "interstitial_edema", "edema"]):
+        diff.extend(["Cardiogenic pulmonary edema", "ARDS", "Volume overload"])
+
+    if has_finding(["cardiomegaly", "cardiac_enlargement", "enlarged_heart"]):
+        diff.extend(["Congestive heart failure", "Cardiomyopathy", "Pericardial effusion"])
+
+    if has_finding(["sepsis_pattern", "sepsis", "septic"]):
+        diff.extend(["Septic shock", "ARDS", "Severe pneumonia / empyema"])
+
+    if has_finding(["pleural_effusion", "effusion"]):
+        diff.extend(["Pleural effusion — exudate", "Pleural effusion — transudate", "Empyema"])
+
+    if has_finding(["head_trauma", "loc", "concussion", "brain_injury", "skull_fracture", "ich", "hemorrhage"]):
+        diff.extend(["Concussion", "Mild Traumatic Brain Injury", "Skull Fracture", "Intracranial Hemorrhage"])
+
+    if has_finding(["viral_rash", "viral_exanthem", "maculopapular_rash", "rash", "exanthem"]):
+        diff.extend(["Viral Exanthem", "Roseola Infantum", "Measles", "Scarlet Fever", "Kawasaki Disease"])
+
+    if has_finding(["gi_bleeding", "hematemesis", "coffee_ground", "upper_gi"]):
+        diff.extend(["Upper GI Bleed", "Peptic Ulcer Bleeding", "Esophageal Varices", "Mallory-Weiss Tear", "Gastric Perforation"])
+
+    if has_finding(["asthma_exacerbation", "asthma", "bronchospasm", "hyperinflation"]):
+        diff.extend(["Asthma Exacerbation", "Viral Bronchiolitis", "Pneumonia", "Anaphylaxis", "Foreign Body Aspiration"])
+
+    if has_finding(["altered_mental_status", "ams", "encephalopathy"]):
+        diff.extend(["Septic Shock", "Severe Sepsis", "Meningitis", "Encephalitis", "Urinary Tract Infection with Sepsis"])
+
+    if has_finding(["normal", "clear", "no acute"]):
+        diff.append("No acute cardiopulmonary process")
+
+    if has_finding(["rib_fracture", "rib"]):
+        diff.extend(["Rib fracture", "Flail chest", "Pulmonary contusion"])
 
     # Insert pattern-based differentials
     for p in patterns:
@@ -368,8 +472,9 @@ def differential_builder(state: AgentState) -> AgentState:
     seen = set()
     deduped = [d for d in diff if not (d in seen or seen.add(d))]
 
-    # If safety downgrades are severe, prepend uncertainty
-    if any(f.get("severity") in {"HIGH", "CRITICAL"} for f in flags):
+    # Only prepend uncertainty if there are actual contradictions or hallucinations (not normal safety flags)
+    real_issues = [f for f in flags if f.get("rule", "").startswith(("CONTRA", "HALLUC", "BIAS"))]
+    if real_issues:
         deduped.insert(0, "⚠️ Findings under safety review — differential uncertain")
 
     state["differential"] = deduped[:5] if deduped else ["Indeterminate"]

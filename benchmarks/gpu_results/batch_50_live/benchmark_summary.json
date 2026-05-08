@@ -1,0 +1,407 @@
+{
+  "total_cases": 50,
+  "successful": 50,
+  "mean_latency_sec": 23.02,
+  "results": [
+    {
+      "case_id": "CS-2024-001",
+      "elapsed_sec": 22.25,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 3,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-002",
+      "elapsed_sec": 22.13,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-003",
+      "elapsed_sec": 22.38,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 3,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-004",
+      "elapsed_sec": 24.11,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 3,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-005",
+      "elapsed_sec": 21.94,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 2,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-006",
+      "elapsed_sec": 22.14,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 4,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-007",
+      "elapsed_sec": 21.83,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-008",
+      "elapsed_sec": 26.76,
+      "esi_level": 3,
+      "findings": 5,
+      "flags": 2,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-009",
+      "elapsed_sec": 23.81,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-010",
+      "elapsed_sec": 21.83,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-011",
+      "elapsed_sec": 21.75,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-012",
+      "elapsed_sec": 21.64,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-013",
+      "elapsed_sec": 24.14,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-014",
+      "elapsed_sec": 24.23,
+      "esi_level": 3,
+      "findings": 3,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-015",
+      "elapsed_sec": 24.03,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-016",
+      "elapsed_sec": 22.13,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 2,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-017",
+      "elapsed_sec": 22.14,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-018",
+      "elapsed_sec": 24.59,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-019",
+      "elapsed_sec": 24.33,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-020",
+      "elapsed_sec": 24.25,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-021",
+      "elapsed_sec": 24.27,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-022",
+      "elapsed_sec": 24.01,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-023",
+      "elapsed_sec": 22.15,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-024",
+      "elapsed_sec": 22.2,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-025",
+      "elapsed_sec": 22.21,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-026",
+      "elapsed_sec": 25.3,
+      "esi_level": 2,
+      "findings": 4,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-027",
+      "elapsed_sec": 22.13,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-028",
+      "elapsed_sec": 21.9,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-029",
+      "elapsed_sec": 22.79,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-030",
+      "elapsed_sec": 24.09,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-031",
+      "elapsed_sec": 23.78,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-032",
+      "elapsed_sec": 21.74,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-033",
+      "elapsed_sec": 21.99,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-034",
+      "elapsed_sec": 23.89,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-035",
+      "elapsed_sec": 21.98,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-036",
+      "elapsed_sec": 21.96,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-037",
+      "elapsed_sec": 23.94,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-038",
+      "elapsed_sec": 21.45,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-039",
+      "elapsed_sec": 27.38,
+      "esi_level": 3,
+      "findings": 5,
+      "flags": 2,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-040",
+      "elapsed_sec": 22.07,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-041",
+      "elapsed_sec": 24.0,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-042",
+      "elapsed_sec": 23.62,
+      "esi_level": 1,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-043",
+      "elapsed_sec": 21.45,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-044",
+      "elapsed_sec": 21.65,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-045",
+      "elapsed_sec": 21.84,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 0,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-046",
+      "elapsed_sec": 23.9,
+      "esi_level": 3,
+      "findings": 3,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-047",
+      "elapsed_sec": 22.24,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-048",
+      "elapsed_sec": 22.01,
+      "esi_level": 3,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-049",
+      "elapsed_sec": 25.05,
+      "esi_level": 3,
+      "findings": 4,
+      "flags": 1,
+      "cached": false
+    },
+    {
+      "case_id": "CS-2024-050",
+      "elapsed_sec": 21.54,
+      "esi_level": 1,
+      "findings": 2,
+      "flags": 1,
+      "cached": false
+    }
+  ]
+}

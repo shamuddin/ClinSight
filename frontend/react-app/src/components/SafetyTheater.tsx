@@ -87,10 +87,11 @@ export default function SafetyTheater({ result }: { result: CaseResult }) {
     f.rule.startsWith('BIAS')
   )
 
-  // Use server-provided counts (more accurate) with client-side fallback
-  const contrCount = result.contradictions_count ?? contradictions.length
-  const hallCount  = result.hallucination_count  ?? hallucinations.length
-  const biasCount  = result.bias_count           ?? biasFlags.length
+  // Use client-side filtered counts (consistent with visible merged_flags)
+  // Server-provided counts can diverge when mock and real pipeline outputs mix.
+  const contrCount = contradictions.length
+  const hallCount  = hallucinations.length
+  const biasCount  = biasFlags.length
 
   const isPedWarn  = pediatric_gate.status === 'WARNING'
   const qSub       = quality_gate.pass

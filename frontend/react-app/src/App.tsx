@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Cpu, HelpCircle, Info, Play, Square, Clock, Eye, FileText, AlertTriangle, ShieldCheck, Check, Users, Activity, Stethoscope } from 'lucide-react'
+import { Cpu, HelpCircle, Info, Play, Square, Clock, Eye, FileText, AlertTriangle, ShieldCheck, Check, Users, Activity, Stethoscope, BarChart2 } from 'lucide-react'
 import { CaseResult, DemoCase } from './types'
 import EvidenceRow from './components/EvidenceRow'
 import ClinicalReport from './components/ClinicalReport'
@@ -16,9 +16,10 @@ import AmdModal from './components/AmdModal'
 import EmptyHero from './components/EmptyHero'
 import ShortcutModal from './components/ShortcutModal'
 import JudgePanel from './components/JudgePanel'
+import BenchmarkModal from './components/BenchmarkModal'
 import { useKeyboard } from './hooks/useKeyboard'
 import { usePipelineStream } from './hooks/usePipelineStream'
-import { DEMO_STEP_MS, GRAND_DEMO_SEQUENCE } from './DemoSequence'
+import { DEMO_STEP_MS, DEMO_SEQUENCE } from './DemoSequence'
 import { getOfflineResult, OFFLINE_DEMO_CASES } from './offlineDemo'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
@@ -104,7 +105,7 @@ function ViewTabs({
         className={`view-tab ${mode === 'judge' ? 'view-tab--active' : ''}`}
         onClick={() => onChange('judge')}
       >
-        Judge Verification
+        Verification
       </button>
     </div>
   )
@@ -150,6 +151,7 @@ export default function App() {
   const [aboutOpen, setAboutOpen]     = useState(false)
   const [amdOpen, setAmdOpen]         = useState(false)
   const [shortcutOpen, setShortcutOpen] = useState(false)
+  const [benchmarkOpen, setBenchmarkOpen] = useState(false)
   const [demoRunning, setDemoRunning] = useState(false)
   const [demoStep, setDemoStep]       = useState(0)
   const [viewMode, setViewMode]       = useState<'clinical' | 'technical' | 'judge'>('clinical')
@@ -225,13 +227,13 @@ export default function App() {
     startStream(caseId)
   }, [startStream])
 
-  const stopGrandDemo = useCallback(() => {
+  const stopDemo = useCallback(() => {
     setDemoRunning(false)
     setDemoStep(0)
   }, [])
 
-  const startGrandDemo = useCallback(() => {
-    const first = GRAND_DEMO_SEQUENCE[0]
+  const startDemo = useCallback(() => {
+    const first = DEMO_SEQUENCE[0]
     if (!first) return
     setDemoRunning(true)
     setDemoStep(0)
@@ -243,12 +245,12 @@ export default function App() {
 
     const timer = window.setTimeout(() => {
       const nextStep = demoStep + 1
-      if (nextStep >= GRAND_DEMO_SEQUENCE.length) {
+      if (nextStep >= DEMO_SEQUENCE.length) {
         setDemoRunning(false)
         return
       }
       setDemoStep(nextStep)
-      handleSelect(GRAND_DEMO_SEQUENCE[nextStep].caseId, true)
+      handleSelect(DEMO_SEQUENCE[nextStep].caseId, true)
     }, DEMO_STEP_MS)
 
     return () => window.clearTimeout(timer)
@@ -287,7 +289,7 @@ export default function App() {
         return
       }
       if (demoRunning) {
-        stopGrandDemo()
+        stopDemo()
         return
       }
       stop()
@@ -352,10 +354,10 @@ export default function App() {
           <button
             type="button"
             className={`demo-seq-btn ${demoRunning ? 'demo-seq-btn--active' : ''}`}
-            onClick={demoRunning ? stopGrandDemo : startGrandDemo}
+            onClick={demoRunning ? stopDemo : startDemo}
           >
             {demoRunning ? <Square size={13} /> : <Play size={13} />}
-            {demoRunning ? 'Stop Grand Demo' : 'Run Grand Demo'}
+            {demoRunning ? 'Stop Demo' : 'Run Demo'}
           </button>
           <div className="sidebar-links">
             <span style={{ fontSize: '10px', color: 'var(--fg-dim)' }}>
@@ -378,6 +380,10 @@ export default function App() {
             <strong>Multi-agent clinical decision support</strong>
           </div>
           <div className="story-header-actions">
+            <button type="button" className="story-header-btn" onClick={() => setBenchmarkOpen(true)}>
+              <BarChart2 size={14} />
+              Benchmark Proof
+            </button>
             <button type="button" className="story-header-btn" onClick={() => setAboutOpen(true)}>
               <Info size={14} />
               Architecture
@@ -413,19 +419,19 @@ export default function App() {
 
           {/* Empty / welcome */}
           {!result && !isLoading && !error && !pipeline.streaming && (
-            <EmptyHero onRunDemo={startGrandDemo} />
+            <EmptyHero onRunDemo={startDemo} />
           )}
 
           {demoRunning && (
             <div className="demo-narration" aria-live="polite">
               <span className="demo-narration-step">
-                {demoStep + 1}/{GRAND_DEMO_SEQUENCE.length}
+                {demoStep + 1}/{DEMO_SEQUENCE.length}
               </span>
               <div>
-                <strong>{GRAND_DEMO_SEQUENCE[demoStep]?.title}</strong>
-                <p>{GRAND_DEMO_SEQUENCE[demoStep]?.narration}</p>
+                <strong>{DEMO_SEQUENCE[demoStep]?.title}</strong>
+                <p>{DEMO_SEQUENCE[demoStep]?.narration}</p>
               </div>
-              <button type="button" onClick={stopGrandDemo}>Stop</button>
+              <button type="button" onClick={stopDemo}>Stop</button>
             </div>
           )}
 
@@ -454,9 +460,8 @@ export default function App() {
               <section className="result-section result-hero">
                 <div className="hero-esi">
                   <div
-                    className="esi-ring"
+                    className={`esi-ring esi-ring-${result.esi_level}`}
                     aria-label={`ESI Level ${result.esi_level}`}
-                    style={{ borderColor: esiMeta?.color, color: esiMeta?.color }}
                   >
                     <span className="esi-number">{result.esi_level}</span>
                   </div>
@@ -567,7 +572,7 @@ export default function App() {
                 <>
                   {/* ▮ JUDGE VERIFICATION */}
                   <section className="result-section">
-                    <div className="section-label">Judge Verification Panel</div>
+                    <div className="section-label">Verification Panel</div>
                     <JudgePanel result={result} apiBase={API_BASE} />
                   </section>
                 </>
@@ -599,6 +604,7 @@ export default function App() {
       <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
       <AmdModal open={amdOpen} onClose={() => setAmdOpen(false)} />
       <ShortcutModal open={shortcutOpen} onClose={() => setShortcutOpen(false)} />
+      <BenchmarkModal open={benchmarkOpen} onClose={() => setBenchmarkOpen(false)} />
     </div>
   )
 }

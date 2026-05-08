@@ -1,0 +1,517 @@
+{
+  "timestamp": "2026-05-08T19:40:29.758665",
+  "mode": "Real AMD MI300X Inference",
+  "gpu": "AMD Instinct MI300X",
+  "vram": "192 GB HBM3",
+  "rocm": "7.0",
+  "vision_model": "Qwen2.5-VL-7B-Instruct",
+  "text_model": "Qwen3.5-35B-A3B (MoE)",
+  "framework": "LangGraph \u00b7 vLLM \u00b7 ROCm",
+  "cases_tested": 50,
+  "successful": 50,
+  "mean_latency_sec": 22.98,
+  "min_latency_sec": 19.8,
+  "max_latency_sec": 27.91,
+  "results": [
+    {
+      "case_id": "CS-2024-001",
+      "elapsed_sec": 24.07,
+      "total_time_ms": 24051.34,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 3,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-002",
+      "elapsed_sec": 22.02,
+      "total_time_ms": 22021.54,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-003",
+      "elapsed_sec": 22.2,
+      "total_time_ms": 22197.16,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 3,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-004",
+      "elapsed_sec": 26.01,
+      "total_time_ms": 26004.61,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 4,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-005",
+      "elapsed_sec": 22.35,
+      "total_time_ms": 22352.0,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 2,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-006",
+      "elapsed_sec": 22.52,
+      "total_time_ms": 22520.46,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 4,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-007",
+      "elapsed_sec": 22.14,
+      "total_time_ms": 22135.02,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-008",
+      "elapsed_sec": 24.32,
+      "total_time_ms": 24313.23,
+      "esi_level": 3,
+      "findings_count": 3,
+      "safety_flags": 2,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-009",
+      "elapsed_sec": 24.33,
+      "total_time_ms": 24326.1,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-010",
+      "elapsed_sec": 22.12,
+      "total_time_ms": 22117.54,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-011",
+      "elapsed_sec": 21.97,
+      "total_time_ms": 21971.81,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-012",
+      "elapsed_sec": 21.94,
+      "total_time_ms": 21933.29,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-013",
+      "elapsed_sec": 24.41,
+      "total_time_ms": 24404.32,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-014",
+      "elapsed_sec": 24.01,
+      "total_time_ms": 24004.68,
+      "esi_level": 3,
+      "findings_count": 3,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-015",
+      "elapsed_sec": 23.98,
+      "total_time_ms": 23974.08,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-016",
+      "elapsed_sec": 22.26,
+      "total_time_ms": 22261.17,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 2,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-017",
+      "elapsed_sec": 22.64,
+      "total_time_ms": 22636.1,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-018",
+      "elapsed_sec": 24.4,
+      "total_time_ms": 24398.59,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-019",
+      "elapsed_sec": 24.13,
+      "total_time_ms": 24124.02,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-020",
+      "elapsed_sec": 23.98,
+      "total_time_ms": 23981.62,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-021",
+      "elapsed_sec": 24.69,
+      "total_time_ms": 24692.91,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-022",
+      "elapsed_sec": 24.07,
+      "total_time_ms": 24068.54,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-023",
+      "elapsed_sec": 22.1,
+      "total_time_ms": 22095.77,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-024",
+      "elapsed_sec": 22.26,
+      "total_time_ms": 22254.64,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-025",
+      "elapsed_sec": 22.35,
+      "total_time_ms": 22350.29,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-026",
+      "elapsed_sec": 22.45,
+      "total_time_ms": 22447.95,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-027",
+      "elapsed_sec": 22.04,
+      "total_time_ms": 22037.89,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-028",
+      "elapsed_sec": 22.05,
+      "total_time_ms": 22044.47,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-029",
+      "elapsed_sec": 20.3,
+      "total_time_ms": 20293.71,
+      "esi_level": 3,
+      "findings_count": 1,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-030",
+      "elapsed_sec": 24.24,
+      "total_time_ms": 24233.45,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-031",
+      "elapsed_sec": 23.75,
+      "total_time_ms": 23747.9,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-032",
+      "elapsed_sec": 25.93,
+      "total_time_ms": 25928.67,
+      "esi_level": 3,
+      "findings_count": 4,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-033",
+      "elapsed_sec": 21.87,
+      "total_time_ms": 21867.72,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-034",
+      "elapsed_sec": 21.99,
+      "total_time_ms": 21983.61,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-035",
+      "elapsed_sec": 21.89,
+      "total_time_ms": 21885.27,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-036",
+      "elapsed_sec": 22.08,
+      "total_time_ms": 22079.21,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-037",
+      "elapsed_sec": 24.26,
+      "total_time_ms": 24259.94,
+      "esi_level": 1,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-038",
+      "elapsed_sec": 22.43,
+      "total_time_ms": 22432.07,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-039",
+      "elapsed_sec": 27.91,
+      "total_time_ms": 27912.69,
+      "esi_level": 3,
+      "findings_count": 5,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-040",
+      "elapsed_sec": 21.93,
+      "total_time_ms": 21930.94,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-041",
+      "elapsed_sec": 22.09,
+      "total_time_ms": 22085.42,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-042",
+      "elapsed_sec": 21.92,
+      "total_time_ms": 21921.68,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-043",
+      "elapsed_sec": 21.68,
+      "total_time_ms": 21674.7,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-044",
+      "elapsed_sec": 21.99,
+      "total_time_ms": 21990.51,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-045",
+      "elapsed_sec": 21.93,
+      "total_time_ms": 21924.32,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-046",
+      "elapsed_sec": 24.23,
+      "total_time_ms": 24224.51,
+      "esi_level": 3,
+      "findings_count": 3,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-047",
+      "elapsed_sec": 19.8,
+      "total_time_ms": 19796.76,
+      "esi_level": 3,
+      "findings_count": 1,
+      "safety_flags": 0,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-048",
+      "elapsed_sec": 22.2,
+      "total_time_ms": 22196.07,
+      "esi_level": 3,
+      "findings_count": 2,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-049",
+      "elapsed_sec": 25.19,
+      "total_time_ms": 25191.4,
+      "esi_level": 3,
+      "findings_count": 4,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    },
+    {
+      "case_id": "CS-2024-050",
+      "elapsed_sec": 21.78,
+      "total_time_ms": 21774.39,
+      "esi_level": 1,
+      "findings_count": 2,
+      "safety_flags": 1,
+      "cached": false,
+      "status": "success"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "case_id": "CS-2024-038",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pneumonia",
+      "description": "Diffuse bilateral infiltrates consistent with pneumonia.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 18.5,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 94,
+      "unit": "%",
+      "threshold": 95,
+      "code": "SPO2_MILD",
+      "description": "Mild hypoxemia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 140,
+      "unit": "bpm",
+      "threshold": 120,
+      "code": "HR_TACHYCARDIA",
+      "description": "Severe tachycardia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 30,
+      "unit": "bpm",
+      "threshold": 24,
+      "code": "RR_ELEVATED",
+      "description": "Elevated respiratory rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 40.2,
+      "unit": "C",
+      "threshold": 39.0,
+      "code": "HIGH_FEVER",
+      "description": "High fever",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Bacterial pneumonia",
+    "Viral pneumonia",
+    "Pulmonary edema",
+    "Atelectasis",
+    "Congestive heart failure"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols"
+  ],
+  "safety_flags": [
+    {
+      "rule": "PNEUMONIA_WITHOUT_LEUKOCYTOSIS",
+      "severity": "MEDIUM",
+      "message": "Image suggests pneumonia but WBC and lactate normal. Consider non-infectious infiltrate.",
+      "confidence_penalty": 0.65
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Pneumonia; Cardiomegaly. Differential: Bacterial pneumonia; Viral pneumonia; Pulmonary edema; Atelectasis; Congestive heart failure. Actions: Immediate resuscitation per ACLS protocols.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_HR_TACHYCARDIA"
+      ]
+    },
+    "differential": [
+      "Bacterial pneumonia",
+      "Viral pneumonia",
+      "Pulmonary edema",
+      "Atelectasis",
+      "Congestive heart failure"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T18:01:14.378829",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T18:01:18.910153",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T18:01:18.910191",
+      "action": "lab_analysis",
+      "alerts_count": 5,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T18:01:18.910741",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:01:35.802809",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

@@ -1,0 +1,145 @@
+{
+  "case_id": "CS-2024-042",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "interstitial lung markings",
+      "description": "Increased interstitial markings bilaterally, more prominent in the lower zones.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "lungs"
+    },
+    {
+      "id": "f3",
+      "finding": "pleural effusion",
+      "description": "Possible small amount of pleural effusion in the right hemithorax.",
+      "confidence": 0.5,
+      "severity": "low",
+      "location": "pleura"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "creatinine",
+      "value": 4.2,
+      "unit": "mg/dL",
+      "threshold": 2.0,
+      "code": "ACUTE_KIDNEY_INJURY",
+      "description": "AKI",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "potassium",
+      "value": 7.2,
+      "unit": "mEq/L",
+      "threshold": 6.0,
+      "code": "HYPERKALEMIA",
+      "description": "Severe hyperkalemia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 48,
+      "unit": "bpm",
+      "threshold": 50,
+      "code": "HR_BRADYCARDIA",
+      "description": "Bradycardia",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate",
+    "Pleural effusion \u2014 transudate"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Hold nephrotoxins, renal consult if persistent",
+    "Calcium stabilization, insulin/glucose, kayexalate"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: cardiomegaly; interstitial lung markings; pleural effusion. Differential: Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate; Pleural effusion \u2014 transudate. Actions: Immediate resuscitation per ACLS protocols; Hold nephrotoxins, renal consult if persistent; Calcium stabilization, insulin/glucose, kayexalate.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_HYPERKALEMIA"
+      ]
+    },
+    "differential": [
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate",
+      "Pleural effusion \u2014 transudate"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Hold nephrotoxins, renal consult if persistent",
+      "Calcium stabilization, insulin/glucose, kayexalate"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T18:02:49.607756",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T18:02:56.338511",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T18:02:56.338553",
+      "action": "lab_analysis",
+      "alerts_count": 3,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T18:02:56.339165",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:03:13.204627",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 3,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

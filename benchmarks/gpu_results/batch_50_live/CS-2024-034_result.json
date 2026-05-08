@@ -1,0 +1,183 @@
+{
+  "case_id": "CS-2024-034",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pulmonary Edema",
+      "description": "Diffuse increased interstitial markings and perihilar blunting of the costophrenic angles consistent with pulmonary edema.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with an estimated cardiothoracic ratio of approximately 55%.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f3",
+      "finding": "Hypoxemia",
+      "description": "Reduced lung volume and air trapping, suggestive of possible aspiration or atelectasis.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "both lungs"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 14.0,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 10.0,
+      "unit": "mmol/L",
+      "threshold": 4.0,
+      "code": "SEVERE_LACTIC_ACIDOSIS",
+      "description": "Severe lactic acidosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 10.0,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 65,
+      "unit": "%",
+      "threshold": 90,
+      "code": "SPO2_LOW",
+      "description": "Severe hypoxemia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 145,
+      "unit": "bpm",
+      "threshold": 120,
+      "code": "HR_TACHYCARDIA",
+      "description": "Severe tachycardia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 4,
+      "unit": "bpm",
+      "threshold": 12,
+      "code": "RR_BRADYPNEA",
+      "description": "Bradypnea",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Blood Pressure",
+      "value": "70/40",
+      "unit": "mmHg",
+      "threshold": 90,
+      "code": "BP_LOW",
+      "description": "Hypotension",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 34.5,
+      "unit": "C",
+      "threshold": 35.0,
+      "code": "HYPOTHERMIA",
+      "description": "Hypothermia",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Septic shock",
+    "Cardiogenic pulmonary edema",
+    "ARDS",
+    "Volume overload",
+    "Congestive heart failure"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Aggressive fluid resuscitation, vasopressors if hypotensive"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Pulmonary Edema; Cardiomegaly; Hypoxemia. Differential: Septic shock; Cardiogenic pulmonary edema; ARDS; Volume overload; Congestive heart failure. Actions: Immediate resuscitation per ACLS protocols; Aggressive fluid resuscitation, vasopressors if hypotensive.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SEVERE_LACTIC_ACIDOSIS"
+      ]
+    },
+    "differential": [
+      "Septic shock",
+      "Cardiogenic pulmonary edema",
+      "ARDS",
+      "Volume overload",
+      "Congestive heart failure"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Aggressive fluid resuscitation, vasopressors if hypotensive"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:59:42.285467",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:59:49.254920",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:59:49.254966",
+      "action": "lab_analysis",
+      "alerts_count": 8,
+      "patterns": [
+        "SEPSIS_PATTERN"
+      ]
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:59:49.255587",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:00:06.147804",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

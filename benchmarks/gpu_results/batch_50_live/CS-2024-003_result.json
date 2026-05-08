@@ -1,0 +1,148 @@
+{
+  "case_id": "CS-2024-003",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Interstitial markings",
+      "description": "Increased interstitial markings throughout both lungs, more prominent in the lower zones.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f2",
+      "finding": "Enlarged heart shadow",
+      "description": "Enlargement of the cardiac silhouette, suggestive of cardiomegaly.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "mediastinum"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "Heart Rate",
+      "value": 125,
+      "unit": "bpm",
+      "threshold": 120,
+      "code": "HR_TACHYCARDIA",
+      "description": "Severe tachycardia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 28,
+      "unit": "bpm",
+      "threshold": 24,
+      "code": "RR_ELEVATED",
+      "description": "Elevated respiratory rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Blood Pressure",
+      "value": "85/52",
+      "unit": "mmHg",
+      "threshold": 90,
+      "code": "BP_LOW",
+      "description": "Hypotension",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 38.6,
+      "unit": "C",
+      "threshold": 38.0,
+      "code": "FEVER",
+      "description": "Elevated body temperature",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Indeterminate"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Manual radiology review required \u2014 safety flags present"
+  ],
+  "safety_flags": [
+    {
+      "rule": "LIFE_THREATENING",
+      "severity": "CRITICAL",
+      "message": "Life-threatening condition identified",
+      "confidence_penalty": 1.0
+    },
+    {
+      "rule": "PEDIATRIC_MONITOR",
+      "severity": "MEDIUM",
+      "message": "Pediatric patient requires specialized monitoring",
+      "confidence_penalty": 1.0
+    },
+    {
+      "rule": "RESPIRATORY_DISTRESS",
+      "severity": "HIGH",
+      "message": "Respiratory distress requiring close observation",
+      "confidence_penalty": 1.0
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Interstitial markings; Enlarged heart shadow. Differential: Indeterminate. Actions: Immediate resuscitation per ACLS protocols; Manual radiology review required \u2014 safety flags present.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_HR_TACHYCARDIA"
+      ]
+    },
+    "differential": [
+      "Indeterminate"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Manual radiology review required \u2014 safety flags present"
+    ],
+    "safety_summary": {
+      "flags": 3,
+      "downgrades": 2
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:47:43.155614",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:47:47.992522",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:47:47.992564",
+      "action": "lab_analysis",
+      "alerts_count": 4,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:47:47.993176",
+      "action": "safety_review",
+      "flags_total": 3,
+      "downgrades": 2
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:48:05.508059",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 1,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

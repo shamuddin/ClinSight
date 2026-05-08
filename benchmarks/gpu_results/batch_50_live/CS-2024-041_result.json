@@ -1,0 +1,181 @@
+{
+  "case_id": "CS-2024-041",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pleural Effusion",
+      "description": "Moderate right-sided pleural effusion with blunting of the costophrenic angle and loss of the right hemidiaphragm sharpness.",
+      "confidence": 0.75,
+      "severity": "moderate",
+      "location": "right lung base"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with an estimated cardiothoracic ratio of approximately 55%",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f3",
+      "finding": "Hypertension",
+      "description": "Increased pulmonary vascular markings bilaterally, suggestive of pulmonary hypertension.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "pulmonary vasculature"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 14.0,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 4.0,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "creatinine",
+      "value": 2.5,
+      "unit": "mg/dL",
+      "threshold": 2.0,
+      "code": "ACUTE_KIDNEY_INJURY",
+      "description": "AKI",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "glucose",
+      "value": 850,
+      "unit": "mg/dL",
+      "threshold": 300,
+      "code": "HYPERGLYCEMIA",
+      "description": "Severe hyperglycemia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "bicarbonate",
+      "value": 12,
+      "unit": "mEq/L",
+      "threshold": 18,
+      "code": "LOW_BICARB",
+      "description": "Low bicarbonate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 125,
+      "unit": "bpm",
+      "threshold": 120,
+      "code": "HR_TACHYCARDIA",
+      "description": "Severe tachycardia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 32,
+      "unit": "bpm",
+      "threshold": 30,
+      "code": "RR_TACHYPNEA",
+      "description": "Severe tachypnea",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Septic shock",
+    "Congestive heart failure",
+    "Cardiomyopathy",
+    "Pericardial effusion",
+    "Pleural effusion \u2014 exudate"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Hold nephrotoxins, renal consult if persistent"
+  ],
+  "safety_flags": [
+    {
+      "rule": "EFFUSION_WITHOUT_LOW_ALBUMIN",
+      "severity": "LOW",
+      "message": "Pleural effusion with normal albumin suggests exudate. Consider infection or malignancy.",
+      "confidence_penalty": 0.8
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Pleural Effusion; Cardiomegaly; Hypertension. Differential: Septic shock; Congestive heart failure; Cardiomyopathy; Pericardial effusion; Pleural effusion \u2014 exudate. Actions: Immediate resuscitation per ACLS protocols; Hold nephrotoxins, renal consult if persistent.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_HYPERGLYCEMIA"
+      ]
+    },
+    "differential": [
+      "Septic shock",
+      "Congestive heart failure",
+      "Cardiomyopathy",
+      "Pericardial effusion",
+      "Pleural effusion \u2014 exudate"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Hold nephrotoxins, renal consult if persistent"
+    ],
+    "safety_summary": {
+      "flags": 1,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T18:02:25.524723",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T18:02:32.741340",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T18:02:32.741382",
+      "action": "lab_analysis",
+      "alerts_count": 7,
+      "patterns": [
+        "SEPSIS_PATTERN"
+      ]
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T18:02:32.742031",
+      "action": "safety_review",
+      "flags_total": 1,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:02:49.503638",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

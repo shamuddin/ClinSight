@@ -1,0 +1,126 @@
+{
+  "case_id": "CS-2024-028",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "possible pulmonary edema",
+      "description": "Increased interstitial markings and possible perihilar opacities suggestive of pulmonary edema.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "both lungs"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "lactate",
+      "value": 2.5,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 94,
+      "unit": "%",
+      "threshold": 95,
+      "code": "SPO2_MILD",
+      "description": "Mild hypoxemia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 110,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Cardiogenic pulmonary edema",
+    "ARDS",
+    "Volume overload",
+    "Congestive heart failure",
+    "Cardiomyopathy"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: cardiomegaly; possible pulmonary edema. Differential: Cardiogenic pulmonary edema; ARDS; Volume overload; Congestive heart failure; Cardiomyopathy. Actions: Urgent workup and monitoring.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Cardiogenic pulmonary edema",
+      "ARDS",
+      "Volume overload",
+      "Congestive heart failure",
+      "Cardiomyopathy"
+    ],
+    "actions": [
+      "Urgent workup and monitoring"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:57:25.500706",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:57:30.245207",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:57:30.245246",
+      "action": "lab_analysis",
+      "alerts_count": 3,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:57:30.245857",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:57:47.379646",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 1,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

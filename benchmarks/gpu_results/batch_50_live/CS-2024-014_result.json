@@ -1,0 +1,145 @@
+{
+  "case_id": "CS-2024-014",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "pulmonary edema",
+      "description": "Increased interstitial markings and possible perihilar opacities suggestive of pulmonary edema.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f3",
+      "finding": "possible pneumothorax",
+      "description": "Blunting of the costophrenic angles bilaterally, which may be consistent with a small amount of free air under the diaphragm.",
+      "confidence": 0.6,
+      "severity": "low",
+      "location": "both hemidiaphragms"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "troponin",
+      "value": 0.15,
+      "unit": "",
+      "threshold": 0.04,
+      "code": "ELEVATED_TROPONIN",
+      "description": "Troponin elevated",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "troponin",
+      "value": 0.15,
+      "unit": "",
+      "threshold": 0.01,
+      "code": "MILD_TROPONIN",
+      "description": "Mild troponin elevation",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 105,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Blood Pressure",
+      "value": "195/110",
+      "unit": "mmHg",
+      "threshold": 180,
+      "code": "BP_HIGH",
+      "description": "Severe hypertension",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Pneumothorax",
+    "Traumatic pneumothorax",
+    "Pneumothorax secondary to COPD",
+    "Cardiogenic pulmonary edema",
+    "ARDS"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring",
+    "Serial troponins, ECG, cardiology consult"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: cardiomegaly; pulmonary edema; possible pneumothorax. Differential: Pneumothorax; Traumatic pneumothorax; Pneumothorax secondary to COPD; Cardiogenic pulmonary edema; ARDS. Actions: Urgent workup and monitoring; Serial troponins, ECG, cardiology consult.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Pneumothorax",
+      "Traumatic pneumothorax",
+      "Pneumothorax secondary to COPD",
+      "Cardiogenic pulmonary edema",
+      "ARDS"
+    ],
+    "actions": [
+      "Urgent workup and monitoring",
+      "Serial troponins, ECG, cardiology consult"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:51:56.379999",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:52:03.519661",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:52:03.519707",
+      "action": "lab_analysis",
+      "alerts_count": 4,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:52:03.520336",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:52:20.585501",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

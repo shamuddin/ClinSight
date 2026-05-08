@@ -1,0 +1,128 @@
+{
+  "case_id": "CS-2024-035",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "pneumothorax",
+      "description": "Possible right-sided pneumothorax with blunting of the costophrenic angle and absence of lung markings in the right hemithorax",
+      "confidence": 0.6,
+      "severity": "high",
+      "location": "right hemithorax"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 12.5,
+      "unit": "K/uL",
+      "threshold": 12000,
+      "code": "HIGH_WBC",
+      "description": "Leukocytosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 125,
+      "unit": "bpm",
+      "threshold": 120,
+      "code": "HR_TACHYCARDIA",
+      "description": "Severe tachycardia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Blood Pressure",
+      "value": "85/50",
+      "unit": "mmHg",
+      "threshold": 90,
+      "code": "BP_LOW",
+      "description": "Hypotension",
+      "severity": "CRITICAL"
+    }
+  ],
+  "differential": [
+    "Pneumothorax",
+    "Traumatic pneumothorax",
+    "Pneumothorax secondary to COPD",
+    "Congestive heart failure",
+    "Cardiomyopathy"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Chest tube placement if symptomatic or enlarging"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: cardiomegaly; pneumothorax. Differential: Pneumothorax; Traumatic pneumothorax; Pneumothorax secondary to COPD; Congestive heart failure; Cardiomyopathy. Actions: Immediate resuscitation per ACLS protocols; Chest tube placement if symptomatic or enlarging.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_HR_TACHYCARDIA"
+      ]
+    },
+    "differential": [
+      "Pneumothorax",
+      "Traumatic pneumothorax",
+      "Pneumothorax secondary to COPD",
+      "Congestive heart failure",
+      "Cardiomyopathy"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Chest tube placement if symptomatic or enlarging"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T18:00:06.252466",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T18:00:11.355335",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T18:00:11.355382",
+      "action": "lab_analysis",
+      "alerts_count": 3,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T18:00:11.355974",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T18:00:28.207257",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

@@ -25,6 +25,80 @@ LAB_THRESHOLDS = [
     ("albumin", 2.5, "HYPOALBUMINEMIA", "Hypoalbuminemia", "lt", "ABNORMAL"),
 ]
 
+# ── Vital Signs Thresholds ────────────────────────────────────
+
+def check_vital_thresholds(vitals: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Check vital signs against emergency thresholds."""
+    alerts: List[Dict[str, Any]] = []
+    if not vitals:
+        return alerts
+
+    # SpO2
+    spo2 = vitals.get("spo2")
+    if spo2 is not None:
+        if spo2 < 90:
+            alerts.append({"lab": "SpO2", "value": spo2, "unit": "%", "threshold": 90, "code": "SPO2_LOW", "description": "Severe hypoxemia", "severity": "CRITICAL"})
+        elif spo2 < 92:
+            alerts.append({"lab": "SpO2", "value": spo2, "unit": "%", "threshold": 92, "code": "SPO2_LOW", "description": "Low oxygen saturation", "severity": "CRITICAL"})
+        elif spo2 < 95:
+            alerts.append({"lab": "SpO2", "value": spo2, "unit": "%", "threshold": 95, "code": "SPO2_MILD", "description": "Mild hypoxemia", "severity": "ABNORMAL"})
+
+    # Heart Rate
+    hr = vitals.get("hr")
+    if hr is not None:
+        if hr > 120:
+            alerts.append({"lab": "Heart Rate", "value": hr, "unit": "bpm", "threshold": 120, "code": "HR_TACHYCARDIA", "description": "Severe tachycardia", "severity": "CRITICAL"})
+        elif hr > 100:
+            alerts.append({"lab": "Heart Rate", "value": hr, "unit": "bpm", "threshold": 100, "code": "HR_ELEVATED", "description": "Elevated heart rate", "severity": "ABNORMAL"})
+        elif hr < 50:
+            alerts.append({"lab": "Heart Rate", "value": hr, "unit": "bpm", "threshold": 50, "code": "HR_BRADYCARDIA", "description": "Bradycardia", "severity": "ABNORMAL"})
+
+    # Respiratory Rate
+    rr = vitals.get("rr")
+    if rr is not None:
+        if rr > 30:
+            alerts.append({"lab": "Respiratory Rate", "value": rr, "unit": "bpm", "threshold": 30, "code": "RR_TACHYPNEA", "description": "Severe tachypnea", "severity": "CRITICAL"})
+        elif rr > 24:
+            alerts.append({"lab": "Respiratory Rate", "value": rr, "unit": "bpm", "threshold": 24, "code": "RR_ELEVATED", "description": "Elevated respiratory rate", "severity": "ABNORMAL"})
+        elif rr < 12:
+            alerts.append({"lab": "Respiratory Rate", "value": rr, "unit": "bpm", "threshold": 12, "code": "RR_BRADYPNEA", "description": "Bradypnea", "severity": "ABNORMAL"})
+
+    # Blood Pressure
+    bp = vitals.get("bp")
+    if bp and isinstance(bp, str):
+        try:
+            sys_str = bp.split("/")[0]
+            systolic = int(sys_str)
+            if systolic < 90:
+                alerts.append({"lab": "Blood Pressure", "value": bp, "unit": "mmHg", "threshold": 90, "code": "BP_LOW", "description": "Hypotension", "severity": "CRITICAL"})
+            elif systolic > 180:
+                alerts.append({"lab": "Blood Pressure", "value": bp, "unit": "mmHg", "threshold": 180, "code": "BP_HIGH", "description": "Severe hypertension", "severity": "CRITICAL"})
+        except (ValueError, IndexError):
+            pass
+
+    # Temperature
+    temp = vitals.get("temp")
+    if temp is not None:
+        if temp > 39.0:
+            alerts.append({"lab": "Temperature", "value": temp, "unit": "C", "threshold": 39.0, "code": "HIGH_FEVER", "description": "High fever", "severity": "CRITICAL"})
+        elif temp > 38.0:
+            alerts.append({"lab": "Temperature", "value": temp, "unit": "C", "threshold": 38.0, "code": "FEVER", "description": "Elevated body temperature", "severity": "ABNORMAL"})
+        elif temp < 35.0:
+            alerts.append({"lab": "Temperature", "value": temp, "unit": "C", "threshold": 35.0, "code": "HYPOTHERMIA", "description": "Hypothermia", "severity": "CRITICAL"})
+
+    # GCS (if present in vitals or labs)
+    gcs = vitals.get("gcs")
+    if gcs is None:
+        gcs = vitals.get("GCS")
+    if gcs is not None:
+        if gcs < 9:
+            alerts.append({"lab": "GCS", "value": gcs, "unit": "score", "threshold": 9, "code": "GCS_CRITICAL", "description": "Critical Glasgow Coma Scale", "severity": "CRITICAL"})
+        elif gcs < 15:
+            alerts.append({"lab": "GCS", "value": gcs, "unit": "score", "threshold": 15, "code": "GCS_MONITOR", "description": "GCS requires frequent monitoring", "severity": "ABNORMAL"})
+
+    return alerts
+
+
 # ── 5 Contradiction Rules ─────────────────────────────────────
 
 CONTRADICTION_RULES: List[Dict[str, Any]] = [

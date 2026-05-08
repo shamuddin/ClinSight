@@ -1,0 +1,222 @@
+{
+  "case_id": "CS-2024-004",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Pulmonary Consolidation",
+      "description": "Diffuse increased opacity in both lung fields, suggestive of pulmonary consolidation.",
+      "confidence": 0.8,
+      "severity": "high",
+      "location": "both lungs"
+    },
+    {
+      "id": "f2",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with an estimated cardiothoracic ratio >50%.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f3",
+      "finding": "Hypertension",
+      "description": "Increased vascular markings and possible interstitial edema in both lung fields.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "both lungs"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 2.1,
+      "unit": "K/\u00ce\u00bcL",
+      "threshold": 4000,
+      "code": "LOW_WBC",
+      "description": "Leukopenia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 5.2,
+      "unit": "mmol/L",
+      "threshold": 4.0,
+      "code": "SEVERE_LACTIC_ACIDOSIS",
+      "description": "Severe lactic acidosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 5.2,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "platelets",
+      "value": 89,
+      "unit": "K/\u00ce\u00bcL",
+      "threshold": 150000,
+      "code": "THROMBOCYTOPENIA",
+      "description": "Thrombocytopenia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "creatinine",
+      "value": 2.4,
+      "unit": "mg/dL",
+      "threshold": 2.0,
+      "code": "ACUTE_KIDNEY_INJURY",
+      "description": "AKI",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 91,
+      "unit": "%",
+      "threshold": 92,
+      "code": "SPO2_LOW",
+      "description": "Low oxygen saturation",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 118,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Respiratory Rate",
+      "value": 28,
+      "unit": "bpm",
+      "threshold": 24,
+      "code": "RR_ELEVATED",
+      "description": "Elevated respiratory rate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Blood Pressure",
+      "value": "78/42",
+      "unit": "mmHg",
+      "threshold": 90,
+      "code": "BP_LOW",
+      "description": "Hypotension",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "Temperature",
+      "value": 38.9,
+      "unit": "C",
+      "threshold": 38.0,
+      "code": "FEVER",
+      "description": "Elevated body temperature",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Bacterial pneumonia",
+    "Viral pneumonia",
+    "Pulmonary edema",
+    "Atelectasis",
+    "Congestive heart failure"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Aggressive fluid resuscitation, vasopressors if hypotensive",
+    "Hold nephrotoxins, renal consult if persistent",
+    "Manual radiology review required \u2014 safety flags present"
+  ],
+  "safety_flags": [
+    {
+      "rule": "LIFE_THREATENING",
+      "severity": "CRITICAL",
+      "message": "Life-threatening condition identified",
+      "confidence_penalty": 1.0
+    },
+    {
+      "rule": "DESATURATION",
+      "severity": "HIGH",
+      "message": "Significant oxygen desaturation detected",
+      "confidence_penalty": 1.0
+    },
+    {
+      "rule": "RESPIRATORY_DISTRESS",
+      "severity": "HIGH",
+      "message": "Respiratory distress requiring close observation",
+      "confidence_penalty": 1.0
+    }
+  ],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Pulmonary Consolidation; Cardiomegaly; Hypertension. Differential: Bacterial pneumonia; Viral pneumonia; Pulmonary edema; Atelectasis; Congestive heart failure. Actions: Immediate resuscitation per ACLS protocols; Aggressive fluid resuscitation, vasopressors if hypotensive; Hold nephrotoxins, renal consult if persistent; Manual radiology review required \u2014 safety flags present.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SEVERE_LACTIC_ACIDOSIS"
+      ]
+    },
+    "differential": [
+      "Bacterial pneumonia",
+      "Viral pneumonia",
+      "Pulmonary edema",
+      "Atelectasis",
+      "Congestive heart failure"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Aggressive fluid resuscitation, vasopressors if hypotensive",
+      "Hold nephrotoxins, renal consult if persistent",
+      "Manual radiology review required \u2014 safety flags present"
+    ],
+    "safety_summary": {
+      "flags": 3,
+      "downgrades": 3
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:48:05.614028",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:48:12.414298",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:48:12.414347",
+      "action": "lab_analysis",
+      "alerts_count": 10,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:48:12.415002",
+      "action": "safety_review",
+      "flags_total": 3,
+      "downgrades": 3
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:48:29.694777",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 4,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

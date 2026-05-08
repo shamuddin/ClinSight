@@ -1,0 +1,165 @@
+{
+  "case_id": "CS-2024-009",
+  "esi_level": 1,
+  "esi_description": "Immediate: Critical lab value",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "Cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "Pulmonary Edema",
+      "description": "Increased interstitial markings and possible perihilar opacities suggestive of pulmonary edema.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    },
+    {
+      "id": "f3",
+      "finding": "Hepatomegaly",
+      "description": "Enlarged liver contour seen on the right hemidiaphragm.",
+      "confidence": 0.6,
+      "severity": "moderate",
+      "location": "right upper quadrant"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "wbc",
+      "value": 3.5,
+      "unit": "K/uL",
+      "threshold": 4000,
+      "code": "LOW_WBC",
+      "description": "Leukopenia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 4.5,
+      "unit": "mmol/L",
+      "threshold": 4.0,
+      "code": "SEVERE_LACTIC_ACIDOSIS",
+      "description": "Severe lactic acidosis",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "lactate",
+      "value": 4.5,
+      "unit": "mmol/L",
+      "threshold": 2.0,
+      "code": "ELEVATED_LACTATE",
+      "description": "Elevated lactate",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "platelets",
+      "value": 45,
+      "unit": "K/uL",
+      "threshold": 150000,
+      "code": "THROMBOCYTOPENIA",
+      "description": "Thrombocytopenia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "platelets",
+      "value": 45,
+      "unit": "K/uL",
+      "threshold": 50000,
+      "code": "SEVERE_THROMBOCYTOPENIA",
+      "description": "Severe thrombocytopenia",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "creatinine",
+      "value": 2.1,
+      "unit": "mg/dL",
+      "threshold": 2.0,
+      "code": "ACUTE_KIDNEY_INJURY",
+      "description": "AKI",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Cardiogenic pulmonary edema",
+    "ARDS",
+    "Volume overload",
+    "Congestive heart failure",
+    "Cardiomyopathy"
+  ],
+  "suggested_actions": [
+    "Immediate resuscitation per ACLS protocols",
+    "Aggressive fluid resuscitation, vasopressors if hypotensive",
+    "Hold nephrotoxins, renal consult if persistent"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 1 \u2014 Immediate: Critical lab value. Findings: Cardiomegaly; Pulmonary Edema; Hepatomegaly. Differential: Cardiogenic pulmonary edema; ARDS; Volume overload; Congestive heart failure; Cardiomyopathy. Actions: Immediate resuscitation per ACLS protocols; Aggressive fluid resuscitation, vasopressors if hypotensive; Hold nephrotoxins, renal consult if persistent.",
+    "esi": {
+      "level": 1,
+      "description": "Immediate: Critical lab value",
+      "rules": [
+        "ESI1_SEVERE_LACTIC_ACIDOSIS"
+      ]
+    },
+    "differential": [
+      "Cardiogenic pulmonary edema",
+      "ARDS",
+      "Volume overload",
+      "Congestive heart failure",
+      "Cardiomyopathy"
+    ],
+    "actions": [
+      "Immediate resuscitation per ACLS protocols",
+      "Aggressive fluid resuscitation, vasopressors if hypotensive",
+      "Hold nephrotoxins, renal consult if persistent"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:50:02.794946",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:50:09.678612",
+      "action": "image_analysis",
+      "findings_count": 3
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:50:09.678653",
+      "action": "lab_analysis",
+      "alerts_count": 6,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:50:09.679240",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:50:26.580254",
+      "action": "report_generation",
+      "esi": 1,
+      "differential_count": 5,
+      "actions_count": 3,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}

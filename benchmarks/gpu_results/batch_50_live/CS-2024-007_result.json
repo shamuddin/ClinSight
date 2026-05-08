@@ -1,0 +1,137 @@
+{
+  "case_id": "CS-2024-007",
+  "esi_level": 3,
+  "esi_description": "Urgent: Active findings or abnormal labs",
+  "findings": [
+    {
+      "id": "f1",
+      "finding": "cardiomegaly",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio.",
+      "confidence": 0.8,
+      "severity": "moderate",
+      "location": "mediastinum"
+    },
+    {
+      "id": "f2",
+      "finding": "possible pulmonary edema",
+      "description": "Blunting of costophrenic angles and increased interstitial markings in both lungs.",
+      "confidence": 0.7,
+      "severity": "moderate",
+      "location": "both lungs"
+    }
+  ],
+  "lab_alerts": [
+    {
+      "lab": "troponin",
+      "value": 0.45,
+      "unit": "",
+      "threshold": 0.04,
+      "code": "ELEVATED_TROPONIN",
+      "description": "Troponin elevated",
+      "severity": "CRITICAL"
+    },
+    {
+      "lab": "troponin",
+      "value": 0.45,
+      "unit": "",
+      "threshold": 0.01,
+      "code": "MILD_TROPONIN",
+      "description": "Mild troponin elevation",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "SpO2",
+      "value": 94,
+      "unit": "%",
+      "threshold": 95,
+      "code": "SPO2_MILD",
+      "description": "Mild hypoxemia",
+      "severity": "ABNORMAL"
+    },
+    {
+      "lab": "Heart Rate",
+      "value": 105,
+      "unit": "bpm",
+      "threshold": 100,
+      "code": "HR_ELEVATED",
+      "description": "Elevated heart rate",
+      "severity": "ABNORMAL"
+    }
+  ],
+  "differential": [
+    "Cardiogenic pulmonary edema",
+    "ARDS",
+    "Volume overload",
+    "Congestive heart failure",
+    "Cardiomyopathy"
+  ],
+  "suggested_actions": [
+    "Urgent workup and monitoring",
+    "Serial troponins, ECG, cardiology consult"
+  ],
+  "safety_flags": [],
+  "report": {
+    "summary": "ESI 3 \u2014 Urgent: Active findings or abnormal labs. Findings: cardiomegaly; possible pulmonary edema. Differential: Cardiogenic pulmonary edema; ARDS; Volume overload; Congestive heart failure; Cardiomyopathy. Actions: Urgent workup and monitoring; Serial troponins, ECG, cardiology consult.",
+    "esi": {
+      "level": 3,
+      "description": "Urgent: Active findings or abnormal labs",
+      "rules": [
+        "ESI3_ACTIVE"
+      ]
+    },
+    "differential": [
+      "Cardiogenic pulmonary edema",
+      "ARDS",
+      "Volume overload",
+      "Congestive heart failure",
+      "Cardiomyopathy"
+    ],
+    "actions": [
+      "Urgent workup and monitoring",
+      "Serial troponins, ECG, cardiology consult"
+    ],
+    "safety_summary": {
+      "flags": 0,
+      "downgrades": 0
+    }
+  },
+  "audit_log": [
+    {
+      "agent": "coordinator",
+      "timestamp": "2026-05-08T17:49:14.042245",
+      "action": "input_validation",
+      "quality_pass": true,
+      "warnings_count": 0
+    },
+    {
+      "agent": "radiologist",
+      "timestamp": "2026-05-08T17:49:18.874769",
+      "action": "image_analysis",
+      "findings_count": 2
+    },
+    {
+      "agent": "lab_analyst",
+      "timestamp": "2026-05-08T17:49:18.874814",
+      "action": "lab_analysis",
+      "alerts_count": 4,
+      "patterns": []
+    },
+    {
+      "agent": "safety",
+      "timestamp": "2026-05-08T17:49:18.875444",
+      "action": "safety_review",
+      "flags_total": 0,
+      "downgrades": 0
+    },
+    {
+      "agent": "clinical_documenter",
+      "timestamp": "2026-05-08T17:49:35.849478",
+      "action": "report_generation",
+      "esi": 3,
+      "differential_count": 5,
+      "actions_count": 2,
+      "cached": false
+    }
+  ],
+  "image_url": null
+}
