@@ -14,7 +14,13 @@ print()
 for case_id in CASES:
     start = time.time()
     try:
-        url = "http://localhost:3000/demo/analyze/" + case_id
+        # When running inside docker container, use host gateway IP
+    import os
+    if os.path.exists("/.dockerenv"):
+        base_url = "http://172.17.0.1:3000"
+    else:
+        base_url = "http://localhost:3000"
+    url = base_url + "/demo/analyze/" + case_id
         resp = urllib.request.urlopen(url, timeout=300)
         data = json.load(resp)
         elapsed = time.time() - start
