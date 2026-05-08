@@ -1,3 +1,14 @@
+---
+title: ClinSight
+emoji: 🫁
+colorFrom: green
+colorTo: blue
+sdk: gradio
+sdk_version: "4.44.0"
+python_version: "3.10"
+pinned: false
+---
+
 # ClinSight — Hugging Face Space
 
 **Track 3: Vision & Multimodal AI | AMD Developer Hackathon @ lablab.ai**
@@ -33,7 +44,7 @@ Pre-loaded chest X-ray cases with clinically curated data. Since HF Spaces are C
 
 - 🔗 **GitHub:** https://github.com/shamuddin/ClinSight
 - 🔗 **Live Demo:** http://129.212.176.125:3000
-- 🔗 **Benchmark Data:** See `benchmarks/real_benchmark.json`
+- 🔗 **Benchmark Data:** See GitHub `benchmarks/real_benchmark.json`
 
 ## Safety
 
