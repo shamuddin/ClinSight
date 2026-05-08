@@ -227,7 +227,6 @@ export default function JudgePanel({ result, apiBase }: { result: CaseResult; ap
           ))}
 
           <div className="judge-transparency-footer">
-            <div><strong>Validation status:</strong> {transparency.validation_status}</div>
             <div><strong>Intended use:</strong> {transparency.intended_use}</div>
             <div className="judge-transparency-disclaimer">{transparency.disclaimer}</div>
           </div>

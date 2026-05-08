@@ -83,16 +83,16 @@ export default function BenchmarkModal({ open, onClose }: BenchmarkModalProps) {
   const data = BENCHMARK_DATA
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content modal-content--wide" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="benchmark-modal-title" onClick={onClose}>
+      <div className="modal-card modal-card--wide" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2><BarChart2 size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} />Benchmark Proof — AMD MI300X</h2>
-          <button className="modal-close" onClick={onClose} aria-label="Close">
-            <X size={18} />
+          <h3 id="benchmark-modal-title"><BarChart2 size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} />Benchmark Proof — AMD MI300X</h3>
+          <button type="button" className="icon-btn" onClick={onClose} aria-label="Close benchmark modal">
+            <X size={16} />
           </button>
         </div>
 
-        <div className="modal-body" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+        <div style={{ maxHeight: 'min(600px, calc(100vh - 180px))', overflowY: 'auto' }}>
           {/* Summary cards */}
           <div className="hardware-stats" style={{ marginBottom: 24 }}>
             <div>

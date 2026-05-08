@@ -1249,9 +1249,10 @@ a:hover { text-decoration: underline; }
 
 .evidence-row {
   display: grid;
-  grid-template-columns: minmax(260px, 1.05fr) minmax(280px, 1fr) minmax(280px, 1fr);
+  grid-template-columns: minmax(240px, 1.05fr) minmax(240px, 1fr) minmax(240px, 1fr);
   gap: 16px;
   align-items: stretch;
+  overflow-x: auto;
 }
 
 .evidence-panel {
@@ -1261,6 +1262,9 @@ a:hover { text-decoration: underline; }
   border-radius: var(--radius-sm);
   padding: 16px;
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .evidence-panel-header {
