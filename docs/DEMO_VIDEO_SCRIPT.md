@@ -140,7 +140,7 @@ AMD Developer Hackathon — Track 3: Vision & Multimodal AI
 ```
 ClinSight: See the critical. Skip the wait.
 
-Live Demo: 129.212.176.125:3000
+Live Demo: https://clinsight-e7ai.onrender.com
 GitHub: github.com/shamuddin/ClinSight
 HF Space: huggingface.co/spaces/shamuddin/clinsight
 

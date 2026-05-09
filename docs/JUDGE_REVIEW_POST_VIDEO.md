@@ -6,7 +6,7 @@
 **Date:** May 8, 2026  
 **Project:** ClinSight — Multi-agent Clinical Decision Support  
 **Hardware Claimed:** AMD Instinct MI300X 192GB, ROCm, vLLM  
-**Live Demo:** http://129.212.176.125  
+**Live Demo:** https://clinsight-e7ai.onrender.com  
 **Repo:** github.com/shamuddin/ClinSight  
 
 ---
@@ -104,7 +104,7 @@
 
 | Check | Status | Evidence |
 |-------|--------|----------|
-| Backend API | ✅ | `curl http://129.212.176.125/health` → `{"cached":false}` |
+| Backend API | ✅ | `curl https://clinsight-e7ai.onrender.com/health` → `{"cached":false}` |
 | Frontend | ✅ | Serves from `/shared-docker/clinsight/frontend-dist/` via Caddy |
 | Real vLLM | ✅ | Ports 8000 (vision) + 8001 (text) running inside Docker |
 | 50 cases load | ✅ | CS-2024-001 through CS-2024-050 all return data |

@@ -56,7 +56,7 @@ Labs = normal → ESI 3, Urgent
 
 This is multimodal REASONING, not just multimodal input.
 
-Live demo: http://129.212.176.125:3000
+Live demo: https://clinsight-e7ai.onrender.com
 
 @AMD @lablab_ai
 ```
@@ -96,7 +96,7 @@ Key learning: ROCm 7.0 + vLLM is genuinely production-ready for open-source mult
 
 We're submitting this to the AMD Developer Hackathon @ lablab.ai in Track 3 (Vision & Multimodal AI).
 
-Live demo: http://129.212.176.125:3000
+Live demo: https://clinsight-e7ai.onrender.com
 GitHub: https://github.com/shamuddin/ClinSight
 
 #AMD #ROCm #MI300X #HealthTech #AI #MachineLearning #Hackathon

@@ -155,7 +155,7 @@ html = f"""<!DOCTYPE html>
   <div class="grid">
     <div class="card"><div class="label">GitHub</div><div class="qr">github.com/&lt;repo&gt;</div></div>
     <div class="card"><div class="label">HF Space</div><div class="qr">huggingface.co/&lt;space&gt;</div></div>
-    <div class="card"><div class="label">Live Demo</div><div class="qr">129.212.176.125:3000</div></div>
+    <div class="card"><div class="label">Live Demo</div><div class="qr">clinsight-e7ai.onrender.com</div></div>
     <div class="card"><div class="label">Blog</div><div class="qr">dev.to/&lt;post&gt;</div></div>
   </div>
   <footer>Apache 2.0 · Physician-in-the-Loop · NOT FDA-Cleared</footer>

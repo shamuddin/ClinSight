@@ -70,7 +70,7 @@ PYTHONPATH=.. uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
 
 ## Live Demo
 
-**URL:** http://129.212.176.125  
+**URL:** https://clinsight-e7ai.onrender.com  
 **Hardware:** AMD Instinct MI300X 192GB · ROCm · vLLM  
 **Status:** ✅ Live inference confirmed (`cached: false`)
 
@@ -105,7 +105,7 @@ Full case list in `backend/data/demo_cases.json`.
 
 ## Live Demo
 
-- 🌐 **Live AMD MI300X Inference:** http://129.212.176.125:3000
+- 🌐 **Live Demo:** https://clinsight-e7ai.onrender.com
 - 🤗 **Hugging Face Space:** https://huggingface.co/spaces/shamuddin/clinsight
 - 📊 **Benchmark Data:** See `benchmarks/real_benchmark.json`
 

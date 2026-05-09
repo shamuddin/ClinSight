@@ -399,7 +399,7 @@ ROCm 7.0 is **genuinely production-ready for inference**. The gap with CUDA is n
 ## References
 
 - [ClinSight GitHub](https://github.com/shamuddin/ClinSight)
-- [Live Demo](http://129.212.176.125:3000)
+- [Live Demo](https://clinsight-e7ai.onrender.com)
 - [AMD ROCm Documentation](https://rocm.docs.amd.com/)
 - [vLLM Documentation](https://docs.vllm.ai/)
 - [Qwen2.5-VL-7B on Hugging Face](https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct)

@@ -242,7 +242,7 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
 
         ## Links
         - 🔗 **GitHub:** https://github.com/shamuddin/ClinSight
-        - 🔗 **Live Demo:** http://129.212.176.125 (AMD MI300X droplet)
+        - 🔗 **Live Demo:** https://clinsight-e7ai.onrender.com
         - 🔗 **HF Space:** *(this page)*
 
         ## Tech Stack

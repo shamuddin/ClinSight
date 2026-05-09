@@ -25,7 +25,7 @@
   - Time required: **15 minutes**.
 
 ### C3. HTTPS Not Configured on Droplet
-- **What the judge sees:** `http://129.212.176.125:3000` — plain HTTP. Modern browsers show "Not Secure" warnings.
+- **What the judge sees:** `https://clinsight-e7ai.onrender.com` — HTTPS via Render.
 - **Impact:** Many judges will hesitate to click HTTP-only URLs. Some corporate networks block HTTP. Ship It score penalty.
 - **Fix options:**
   - **Fast:** Add a clear disclaimer in README: "This is a developer demo on AMD MI300X. HTTPS not configured for this ephemeral droplet. Click 'Advanced → Proceed' if your browser warns."

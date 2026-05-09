@@ -5,7 +5,7 @@
 This HF Space showcases ClinSight's **50-case live CXR benchmark** and **interactive demo cases**.
 
 > ⚠️ **HF Spaces are CPU-only.** Real inference runs on the AMD Instinct MI300X droplet.
-> Live demo: http://129.212.176.125
+> Live demo: https://clinsight-e7ai.onrender.com
 
 ## What's inside
 

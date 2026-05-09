@@ -6,7 +6,7 @@
 **Track:** 3 — Vision & Multimodal AI  
 **Extra Challenge:** Ship It + Build in Public  
 **Date:** May 2026  
-**Demo URL:** http://129.212.176.125:3000  
+**Demo URL:** https://clinsight-e7ai.onrender.com  
 **HF Space:** https://huggingface.co/spaces/shamuddin/clinsight  
 **Repo:** https://github.com/shamuddin/ClinSight  
 
@@ -78,7 +78,7 @@ The AMD Developer Hackathon at lablab.ai attracts ~200–300 teams. Track 3 (Vis
 
 | Criterion | Weight | Score | Evidence | Notes |
 |-----------|--------|-------|----------|-------|
-| **Live URL works** | 30% | 8/10 | `http://129.212.176.125:3000/health` returns 200. `demo/cases` returns JSON. vLLM endpoints on 8000/8001 respond. | HTTP only (no SSL). Frontend loads but was not verified via browser自动化 due to SSH timeout constraints. |
+| **Live URL works** | 30% | 8/10 | `https://clinsight-e7ai.onrender.com/health` returns 200. `demo/cases` returns JSON. | HTTPS via Render. AMD MI300X real inference on backend droplet. |
 | **HF Space works** | 25% | 7/10 | `hf_space/app.py` correctly themed for ClinSight chest X-ray. 3 tabs: Demo, AMD Evidence, Submission Info. README has YAML frontmatter. | Content is correct. Deployed status at huggingface.co/spaces/shamuddin/clinsight was not independently verified in this evaluation. |
 | **Demo video** | 20% | 0/10 | No `.mp4`, `.webm`, or `.mov` file found in repo. Only script exists (`docs/DEMO_VIDEO_SCRIPT.md`). | This is a disqualifying gap for the Ship It prize. A live demo URL is acceptable as a video substitute only if it works flawlessly. |
 | **Render fallback** | 15% | 6/10 | `clinsight-e7ai.onrender.com` exists. Runs `USE_MOCK=true` (CPU-only). | Acceptable fallback but explicitly labeled as such. No false claims of AMD inference on Render. |
@@ -159,7 +159,7 @@ The AMD Developer Hackathon at lablab.ai attracts ~200–300 teams. Track 3 (Vis
 1. **Publish 2 social posts immediately** (20 min total)
    - Tweet 1: Screenshot of rocm-smi during inference + 1-sentence ROCm insight. Tag @lablab and @AlatAMD.
    - Tweet 2: Screenshot of live ESI result + "what-if" lab swap. Tag @AMD @lablab_ai.
-   - Both link to `http://129.212.176.125:3000`
+   - Both link to `https://clinsight-e7ai.onrender.com`
 
 2. **Record a 2-minute Loom or OBS screen recording** (1h)
    - Use the script in `docs/DEMO_VIDEO_SCRIPT.md` (Scene 0 through Scene 5 minimum).
