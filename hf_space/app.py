@@ -2,8 +2,9 @@
 ClinSight — Hugging Face Space
 Track 3: Vision & Multimodal AI | AMD Developer Hackathon
 
-Tab 1: Interactive Demo (pre-loaded cases, cached results)
+Tab 1: Interactive Demo (50 pre-loaded CXR cases)
 Tab 2: AMD MI300X Performance Evidence
+Tab 3: Submission Info
 """
 
 import json
@@ -16,9 +17,10 @@ import gradio as gr
 # Paths
 # ---------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent
-CASES_FILE = BASE_DIR / ".." / "backend" / "data" / "demo_cases.json"
-BENCH_FILE = BASE_DIR / ".." / "benchmarks" / "real_benchmark.json"
-GPU_DIR = BASE_DIR / ".." / "benchmarks" / "gpu_results"
+CASES_FILE = BASE_DIR / "demo_cases.json"
+BENCH_FILE = BASE_DIR / "benchmark_50_cxr.json"
+ROCM_FILE = BASE_DIR / "rocm_smi_during.txt"
+GPU_IMG = BASE_DIR / "rocm_smi_hero.png"
 
 # ---------------------------------------------------------------------------
 # Load demo cases
@@ -26,10 +28,12 @@ GPU_DIR = BASE_DIR / ".." / "benchmarks" / "gpu_results"
 DEMO_CASES = []
 if CASES_FILE.exists():
     with open(CASES_FILE) as f:
-        DEMO_CASES = json.load(f).get("cases", [])
+        data = json.load(f)
+        # Support both flat list and dict with "cases" key
+        DEMO_CASES = data if isinstance(data, list) else data.get("cases", [])
 
 # ---------------------------------------------------------------------------
-# Load benchmark data if available
+# Load benchmark data
 # ---------------------------------------------------------------------------
 BENCH_DATA = None
 if BENCH_FILE.exists():
@@ -40,81 +44,70 @@ if BENCH_FILE.exists():
 # Load rocm-smi output
 # ---------------------------------------------------------------------------
 def load_rocm_text():
-    out = []
-    for name in ["rocm_smi_idle.txt", "rocm_smi_detail.txt", "rocm_smi_after.txt"]:
-        p = GPU_DIR / name
-        if p.exists():
-            out.append(f"=== {name} ===")
-            out.append(p.read_text())
-            out.append("")
-    return "\n".join(out) if out else "No GPU data captured yet. Run benchmark to generate."
+    if ROCM_FILE.exists():
+        return ROCM_FILE.read_text()
+    return "No GPU data captured yet."
 
 # ---------------------------------------------------------------------------
 # Demo case renderer
 # ---------------------------------------------------------------------------
 def render_case(case_id: str):
-    case = next((c for c in DEMO_CASES if c["case_id"] == case_id), None)
+    case = next((c for c in DEMO_CASES if c.get("case_id") == case_id), None)
     if not case:
-        return "Case not found.", "", "", "", ""
-
-    patient = case.get("patient", {})
-    labs = case.get("labs", {})
-    triage = case.get("triage", {})
-    image_path = case.get("image_path", "")
+        return "Case not found.", "", "", ""
 
     # Patient info
-    patient_md = f"""
-**Age:** {patient.get('age', 'N/A')} | **Sex:** {patient.get('sex', 'N/A')} | **BMI:** {patient.get('bmi', 'N/A')}
-**Chief Complaint:** {triage.get('chief_complaint', 'N/A')}
-**History:** {triage.get('history', 'N/A')[:200]}...
+    age = case.get("patient_age", "N/A")
+    sex = case.get("patient_sex", "N/A")
+    race = case.get("patient_race", "N/A")
+    complaint = case.get("chief_complaint", "N/A")
+    triage = case.get("triage_note", "N/A")
+
+    patient_md = f"""**Age:** {age} | **Sex:** {sex} | **Race:** {race}
+**Chief Complaint:** {complaint}
+
+**Triage Note:** {triage[:300]}...
 """
 
-    # Labs table
-    lab_values = labs.get("values", {})
+    # Labs
+    lab_values = case.get("lab_values", {})
+    lab_units = case.get("lab_units", {})
     lab_rows = []
     for k, v in lab_values.items():
-        lab_rows.append(f"| {k} | {v} |")
+        unit = lab_units.get(k, "")
+        lab_rows.append(f"| {k.upper()} | {v} {unit} |")
     labs_md = "| Lab | Value |\n|-----|-------|\n" + "\n".join(lab_rows) if lab_rows else "No labs."
 
     # Vitals
-    vitals = triage.get("vitals", {})
-    vitals_md = f"""
-| Vital | Value |
+    vitals = case.get("vitals", {})
+    vitals_md = f"""| Vital | Value |
 |-------|-------|
 | BP | {vitals.get('bp', 'N/A')} |
-| HR | {vitals.get('hr', 'N/A')} |
-| RR | {vitals.get('rr', 'N/A')} |
-| SpO2 | {vitals.get('spo2', 'N/A')}% |
-| Temp | {vitals.get('temp', 'N/A')}°C |
+| HR | {vitals.get('hr', 'N/A')} bpm |
+| RR | {vitals.get('rr', 'N/A')} /min |
+| SpO₂ | {vitals.get('spo2', 'N/A')}% |
+| Temp | {vitals.get('temp', 'N/A')} °C |
 """
 
-    # Image (if available as local file)
-    img = None
-    if image_path:
-        img_path = BASE_DIR / ".." / image_path
-        if img_path.exists():
-            img = str(img_path)
+    # Expected output (from ground truth if available)
+    expected_md = f"**Expected ESI:** {case.get('esi_level', 'N/A')}"
 
-    # Expected output
-    expected = case.get("expected_esi", "N/A")
-    expected_md = f"**Expected ESI:** {expected}\n\n**Condition:** {case.get('condition', 'N/A')}"
-
-    return patient_md, labs_md, vitals_md, img, expected_md
+    return patient_md, labs_md, vitals_md, expected_md
 
 # ---------------------------------------------------------------------------
 # Benchmark renderer
 # ---------------------------------------------------------------------------
 def render_benchmarks():
     if not BENCH_DATA:
-        return "No benchmark data yet. Run `scripts/run_droplet_benchmark.sh` on the AMD MI300X droplet."
+        return "No benchmark data yet."
 
-    md = f"""
-# AMD MI300X Benchmark Results
+    md = f"""# AMD MI300X — 50-Case Live CXR Benchmark
 
-**GPU:** {BENCH_DATA.get('gpu', 'N/A')}  
+**GPU:** {BENCH_DATA.get('gpu', 'N/A')} · {BENCH_DATA.get('vram', 'N/A')}  
 **ROCm:** {BENCH_DATA.get('rocm', 'N/A')}  
 **Vision Model:** {BENCH_DATA.get('vision_model', 'N/A')}  
 **Text Model:** {BENCH_DATA.get('text_model', 'N/A')}  
+**Framework:** {BENCH_DATA.get('framework', 'N/A')}  
 **Timestamp:** {BENCH_DATA.get('timestamp', 'N/A')}
 
 ## Summary
@@ -122,18 +115,21 @@ def render_benchmarks():
 | Metric | Value |
 |--------|-------|
 | Cases tested | {BENCH_DATA.get('cases_tested', 0)} |
-| Successful | {BENCH_DATA.get('successful', 0)} |
-| Mean latency | {BENCH_DATA.get('mean_latency_sec', 'N/A')}s |
+| Successful | {BENCH_DATA.get('successful', 0)} / {BENCH_DATA.get('cases_tested', 0)} |
+| Mean latency | **{BENCH_DATA.get('mean_latency_sec', 'N/A')}s** |
 | Min latency | {BENCH_DATA.get('min_latency_sec', 'N/A')}s |
 | Max latency | {BENCH_DATA.get('max_latency_sec', 'N/A')}s |
-
-## Per-Case Results
-
-| Case | Latency | ESI | Findings | Safety Flags | Status |
-|------|---------|-----|----------|--------------|--------|
+| Mode | {BENCH_DATA.get('mode', 'N/A')} |
 """
-    for r in BENCH_DATA.get("results", []):
-        md += f"| {r.get('case_id','')} | {r.get('elapsed_sec','')}s | {r.get('esi_level','')} | {r.get('findings_count','')} | {r.get('safety_flags','')} | {r.get('status','')} |\n"
+
+    results = BENCH_DATA.get("results", [])
+    if results:
+        md += "\n## Per-Case Results\n\n"
+        md += "| Case | Latency | ESI | Findings | Flags | Cached |\n"
+        md += "|------|---------|-----|----------|-------|--------|\n"
+        for r in results:
+            cached = "❌ LIVE" if not r.get("cached") else "⚠️ cached"
+            md += f"| {r.get('case_id','')} | {r.get('elapsed_sec','')}s | {r.get('esi_level','')} | {r.get('findings_count','')} | {r.get('flags','')} | {cached} |\n"
 
     return md
 
@@ -149,9 +145,9 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
     ---
     """)
 
-    with gr.Tab("🩺 Interactive Demo (Pre-loaded Cases)"):
+    with gr.Tab("🩺 Interactive Demo (50 CXR Cases)"):
         gr.Markdown("""
-        This tab shows **6 clinically curated chest X-ray cases** with hand-crafted labs and triage notes.
+        This tab shows **50 clinically curated chest X-ray cases** with labs and triage notes.
         The full inference runs on an **AMD Instinct MI300X** with dual vLLM servers:
         - **Qwen2.5-VL-7B-Instruct** (vision, port 8000)
         - **Qwen3.5-35B-A3B** (text reasoning MoE, port 8001)
@@ -160,17 +156,16 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
         """)
 
         case_dropdown = gr.Dropdown(
-            choices=[(c["case_id"] + " — " + c.get("condition", ""), c["case_id"]) for c in DEMO_CASES],
+            choices=[(c.get("case_id", "") + " — " + c.get("chief_complaint", ""), c.get("case_id", "")) for c in DEMO_CASES],
             label="Select Case",
-            value=DEMO_CASES[0]["case_id"] if DEMO_CASES else None
+            value=DEMO_CASES[0].get("case_id", "") if DEMO_CASES else None
         )
 
         with gr.Row():
             with gr.Column():
                 patient_info = gr.Markdown(label="Patient Info")
-                vitals_table = gr.Markdown(label="Vitals")
             with gr.Column():
-                xray_image = gr.Image(label="Chest X-ray", type="filepath")
+                vitals_table = gr.Markdown(label="Vitals")
         with gr.Row():
             with gr.Column():
                 labs_table = gr.Markdown(label="Lab Values")
@@ -180,15 +175,15 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
         case_dropdown.change(
             fn=render_case,
             inputs=case_dropdown,
-            outputs=[patient_info, labs_table, vitals_table, xray_image, expected_output]
+            outputs=[patient_info, labs_table, vitals_table, expected_output]
         )
 
         # Load first case on startup
         if DEMO_CASES:
             demo.load(
                 fn=render_case,
-                inputs=gr.State(DEMO_CASES[0]["case_id"]),
-                outputs=[patient_info, labs_table, vitals_table, xray_image, expected_output]
+                inputs=gr.State(DEMO_CASES[0].get("case_id", "")),
+                outputs=[patient_info, labs_table, vitals_table, expected_output]
             )
 
     with gr.Tab("📊 AMD MI300X Performance Evidence"):
@@ -204,9 +199,8 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
                 ### Dual-Model VRAM Budget
                 | Model | Role | VRAM |
                 |-------|------|------|
-                | Qwen2.5-VL-7B-Instruct | Vision (chest X-ray) | ~14 GB |
-                | Qwen3.5-35B-A3B | Text reasoning (MoE) | ~70 GB |
-                | KV cache (both) | Attention cache | ~15 GB |
+                | Qwen2.5-VL-7B-Instruct | Vision (chest X-ray) | ~20 GB |
+                | Qwen3.5-35B-A3B | Text reasoning (MoE) | ~79 GB |
                 | **Total** | | **~99 GB** |
                 | **MI300X HBM3** | | **192 GB** |
                 | **Headroom** | | **~93 GB** |
@@ -214,24 +208,13 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
                 ### Why AMD MI300X?
                 - **192 GB HBM3** fits both models at FP16 without quantization
                 - **H100 80 GB** cannot fit both simultaneously at full precision
-                - **ROCm 7.0** native vLLM support with PagedAttention
+                - **ROCm** native vLLM support with PagedAttention
                 """)
             with gr.Column():
-                gr.Markdown("""
-                ### Architecture
-                ```
-                [Coordinator] → [Radiologist + Lab Analyst]
-                                      ↓
-                           [Safety: 3 parallel checks]
-                                      ↓
-                           [Clinical Documenter]
-                                      ↓
-                                  [Report]
-                ```
-                - 5 parent agents + 7 subagents
-                - Safety subgraph runs **3 subagents in parallel**
-                - Deterministic ESI scoring (never LLM-generated)
-                """)
+                if GPU_IMG.exists():
+                    gr.Image(str(GPU_IMG), label="rocm-smi during inference")
+                else:
+                    gr.Markdown("*rocm-smi screenshot: add `rocm_smi_hero.png` to hf_space/*")
 
         gr.Markdown("### Benchmark Results")
         benchmark_md = gr.Markdown(render_benchmarks())
@@ -259,14 +242,14 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
 
         ## Links
         - 🔗 **GitHub:** https://github.com/shamuddin/ClinSight
-        - 🔗 **Live Demo:** http://129.212.176.125:3000 (AMD MI300X droplet)
+        - 🔗 **Live Demo:** http://129.212.176.125 (AMD MI300X droplet)
         - 🔗 **HF Space:** *(this page)*
 
         ## Tech Stack
         - **GPU:** AMD Instinct MI300X (192 GB HBM3)
-        - **Platform:** ROCm 7.0 + PyTorch + vLLM
-        - **Vision Model:** Qwen2.5-VL-7B-Instruct (Apache 2.0)
-        - **Text Model:** Qwen3.5-35B-A3B MoE (Apache 2.0)
+        - **Platform:** ROCm + vLLM
+        - **Vision Model:** Qwen2.5-VL-7B-Instruct
+        - **Text Model:** Qwen3.5-35B-A3B MoE
         - **Agent Framework:** LangGraph with nested subgraphs
         - **Backend:** FastAPI
         - **Frontend:** React + TypeScript
