@@ -13,8 +13,16 @@ from backend.agents.graph import run_pipeline
 from backend.api.demo import router as demo_router
 from backend.api.judge import router as judge_router
 
-# Path to built frontend assets
-FRONTEND_DIST = Path("/shared-docker/clinsight/frontend-dist")
+# Path to built frontend assets — check multiple locations
+FRONTEND_DIST = None
+for candidate in [
+    Path("/shared-docker/clinsight/frontend-dist"),
+    Path("/app/frontend/react-app/dist"),
+    Path(__file__).resolve().parent.parent.parent / "frontend" / "react-app" / "dist",
+]:
+    if candidate.exists():
+        FRONTEND_DIST = candidate
+        break
 
 CORS_ORIGINS = [
     "http://localhost:3000", "http://localhost:5173", "http://localhost:8000",
@@ -22,6 +30,7 @@ CORS_ORIGINS = [
     "http://134.199.193.58:3000", "http://134.199.193.58", "http://134.199.193.58:5173",
     "http://134.199.193.58:80", "http://134.199.193.58:8080",
     "http://10.128.0.2:3000",
+    "https://clinsight-e7ai.onrender.com", "http://clinsight-e7ai.onrender.com",
 ]
 
 
@@ -115,5 +124,5 @@ async def analyze_case(case: CaseInput):
 
 
 # Serve static frontend build at root (must be last to avoid shadowing API routes)
-if FRONTEND_DIST.exists():
+if FRONTEND_DIST and FRONTEND_DIST.exists():
     app.mount("/", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="static")
