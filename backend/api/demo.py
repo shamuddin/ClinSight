@@ -79,10 +79,75 @@ def _populate_state(state: AgentState, case: dict) -> AgentState:
 
 
 def _apply_overrides(case: dict, overrides: DemoOverrideRequest) -> dict:
-    """Return a copy of a demo case with labs/vitals adjusted for what-if."""
+    """Return a copy of a demo case with labs/vitals adjusted for what-if.
+
+    For named scenarios ('better', 'worse') we auto-normalise or auto-critique
+    every thresholded vital and lab so the ESI actually moves.
+    Explicit frontend overrides still take precedence.
+    """
     adjusted = json.loads(json.dumps(case))
+    scenario = overrides.scenario_name.lower()
+
+    # ── Scenario-aware auto-overrides ──────────────────────────
+    if scenario == "better":
+        auto_vitals = {
+            "bp": "120/80",
+            "hr": 75,
+            "rr": 16,
+            "spo2": 98,
+            "temp": 37.0,
+        }
+        auto_labs = {
+            "wbc": 7.0,
+            "lactate": 1.0,
+            "pO2": 95,
+            "potassium": 4.0,
+            "troponin": 0.01,
+            "troponin_i": 0.01,
+            "troponin_t": 0.01,
+            "glucose": 100,
+            "creatinine": 1.0,
+            "sodium": 140,
+            "hemoglobin": 14.0,
+            "platelets": 250,
+            "pH": 7.4,
+            "bicarbonate": 24,
+            "albumin": 4.0,
+        }
+        adjusted["vitals"].update(auto_vitals)
+        adjusted["lab_values"].update(auto_labs)
+    elif scenario == "worse":
+        auto_vitals = {
+            "bp": "75/45",
+            "hr": 140,
+            "rr": 36,
+            "spo2": 82,
+            "temp": 39.5,
+        }
+        auto_labs = {
+            "wbc": 18.0,
+            "lactate": 6.0,
+            "pO2": 50,
+            "potassium": 6.5,
+            "troponin": 2.0,
+            "troponin_i": 2.0,
+            "troponin_t": 2.0,
+            "glucose": 350,
+            "creatinine": 3.5,
+            "sodium": 115,
+            "hemoglobin": 6.0,
+            "platelets": 30,
+            "pH": 7.2,
+            "bicarbonate": 15,
+            "albumin": 2.0,
+        }
+        adjusted["vitals"].update(auto_vitals)
+        adjusted["lab_values"].update(auto_labs)
+
+    # Explicit frontend overrides always win
     adjusted["lab_values"].update(overrides.lab_overrides)
     adjusted["vitals"].update(overrides.vitals_overrides)
+
     adjusted["case_id"] = f"{case['case_id']}::{overrides.scenario_name}"
     adjusted["triage_note"] = (
         f"{case['triage_note']} What-if scenario: {overrides.scenario_name}; "
