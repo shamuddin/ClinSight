@@ -2,8 +2,8 @@
 ClinSight — Hugging Face Space
 Track 3: Vision & Multimodal AI | AMD Developer Hackathon
 
-Tab 1: Interactive Demo (50 pre-loaded CXR cases)
-Tab 2: AMD MI300X Performance Evidence
+Tab 1: 50 CXR Demo Cases
+Tab 2: AMD MI300X Benchmark Evidence
 Tab 3: Submission Info
 """
 
@@ -29,7 +29,6 @@ DEMO_CASES = []
 if CASES_FILE.exists():
     with open(CASES_FILE) as f:
         data = json.load(f)
-        # Support both flat list and dict with "cases" key
         DEMO_CASES = data if isinstance(data, list) else data.get("cases", [])
 
 # ---------------------------------------------------------------------------
@@ -56,7 +55,6 @@ def render_case(case_id: str):
     if not case:
         return "Case not found.", "", "", ""
 
-    # Patient info
     age = case.get("patient_age", "N/A")
     sex = case.get("patient_sex", "N/A")
     race = case.get("patient_race", "N/A")
@@ -69,7 +67,6 @@ def render_case(case_id: str):
 **Triage Note:** {triage[:300]}...
 """
 
-    # Labs
     lab_values = case.get("lab_values", {})
     lab_units = case.get("lab_units", {})
     lab_rows = []
@@ -78,7 +75,6 @@ def render_case(case_id: str):
         lab_rows.append(f"| {k.upper()} | {v} {unit} |")
     labs_md = "| Lab | Value |\n|-----|-------|\n" + "\n".join(lab_rows) if lab_rows else "No labs."
 
-    # Vitals
     vitals = case.get("vitals", {})
     vitals_md = f"""| Vital | Value |
 |-------|-------|
@@ -89,7 +85,6 @@ def render_case(case_id: str):
 | Temp | {vitals.get('temp', 'N/A')} °C |
 """
 
-    # Expected output (from ground truth if available)
     expected_md = f"**Expected ESI:** {case.get('esi_level', 'N/A')}"
 
     return patient_md, labs_md, vitals_md, expected_md
@@ -107,7 +102,6 @@ def render_benchmarks():
 **ROCm:** {BENCH_DATA.get('rocm', 'N/A')}  
 **Vision Model:** {BENCH_DATA.get('vision_model', 'N/A')}  
 **Text Model:** {BENCH_DATA.get('text_model', 'N/A')}  
-**Framework:** {BENCH_DATA.get('framework', 'N/A')}  
 **Timestamp:** {BENCH_DATA.get('timestamp', 'N/A')}
 
 ## Summary
@@ -125,10 +119,10 @@ def render_benchmarks():
     results = BENCH_DATA.get("results", [])
     if results:
         md += "\n## Per-Case Results\n\n"
-        md += "| Case | Latency | ESI | Findings | Flags | Cached |\n"
+        md += "| Case | Latency | ESI | Findings | Flags | Status |\n"
         md += "|------|---------|-----|----------|-------|--------|\n"
         for r in results:
-            cached = "❌ LIVE" if not r.get("cached") else "⚠️ cached"
+            cached = "LIVE" if not r.get("cached") else "cached"
             md += f"| {r.get('case_id','')} | {r.get('elapsed_sec','')}s | {r.get('esi_level','')} | {r.get('findings_count','')} | {r.get('flags','')} | {cached} |\n"
 
     return md
@@ -141,22 +135,18 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
     # 🫁 ClinSight
     ### Hierarchical Multimodal Clinical Intelligence for Emergency Decision Support
     **Track 3: Vision & Multimodal AI | AMD Developer Hackathon @ lablab.ai**
-
-    ---
     """)
 
     with gr.Tab("🩺 Interactive Demo (50 CXR Cases)"):
         gr.Markdown("""
         This tab shows **50 clinically curated chest X-ray cases** with labs and triage notes.
-        The full inference runs on an **AMD Instinct MI300X** with dual vLLM servers:
-        - **Qwen2.5-VL-7B-Instruct** (vision, port 8000)
-        - **Qwen3.5-35B-A3B** (text reasoning MoE, port 8001)
+        The full inference runs on an **AMD Instinct MI300X** with dual vLLM servers.
 
         > ⚠️ HF Spaces are CPU-only. This tab shows pre-loaded case data. Real inference happens on the AMD MI300X droplet.
         """)
 
         case_dropdown = gr.Dropdown(
-            choices=[(c.get("case_id", "") + " — " + c.get("chief_complaint", ""), c.get("case_id", "")) for c in DEMO_CASES],
+            choices=[c.get("case_id", "") for c in DEMO_CASES],
             label="Select Case",
             value=DEMO_CASES[0].get("case_id", "") if DEMO_CASES else None
         )
@@ -178,19 +168,9 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
             outputs=[patient_info, labs_table, vitals_table, expected_output]
         )
 
-        # Load first case on startup
-        if DEMO_CASES:
-            demo.load(
-                fn=render_case,
-                inputs=gr.State(DEMO_CASES[0].get("case_id", "")),
-                outputs=[patient_info, labs_table, vitals_table, expected_output]
-            )
-
     with gr.Tab("📊 AMD MI300X Performance Evidence"):
         gr.Markdown("""
         # AMD MI300X Real Inference Evidence
-
-        This tab displays live performance data captured from the AMD Instinct MI300X droplet.
         """)
 
         with gr.Row():
@@ -268,4 +248,4 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
         """)
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))
