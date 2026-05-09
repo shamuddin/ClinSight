@@ -1,6 +1,16 @@
 # AMD Hardware Proof — Step-by-Step Guide
 ## How to Capture Live rocm-smi Evidence During Inference
 
+**✅ CAPTURED EVIDENCE:**
+
+![rocm-smi during live inference](benchmarks/gpu_images/rocm_smi_hero.png)
+
+*Captured during Case 001 analysis on AMD Instinct MI300X. GPU utilization: 100%, Power: 288W, VRAM: 88% (169GB/192GB), Clock: 2100MHz.*
+
+**Benchmark:** 50/50 chest X-ray cases · Mean latency: 22.98s · All `cached: false`
+
+---
+
 This guide produces three pieces of evidence that satisfy the Grand Prize tier:
 1.  **Live terminal recording** — type `rocm-smi` while inference is running.
 2.  **Screenshots** — still images of GPU utilization spiking.

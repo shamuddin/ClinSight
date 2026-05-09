@@ -68,16 +68,40 @@ PYTHONPATH=.. uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
 | `/demo/cases` | GET | List 6 pre-built demo cases |
 | `/demo/analyze/{case_id}` | GET | Run full pipeline on a demo case |
 
-## Demo Cases
+## Live Demo
 
-| ID | Scenario | ESI |
-|---|---|---|
-| CS-2024-001 | Tension pneumothorax + elevated troponin | 1 |
-| CS-2024-002 | Bilateral pneumonia + sepsis pattern | 2 |
-| CS-2024-003 | Large pleural effusion + hypoxemia | 3 |
-| CS-2024-004 | Focal pneumonia + leukocytosis | 1 |
-| CS-2024-005 | Normal CXR + normal labs | 5 |
-| CS-2024-006 | Pulmonary edema + elevated BNP | 3 |
+**URL:** http://129.212.176.125  
+**Hardware:** AMD Instinct MI300X 192GB · ROCm · vLLM  
+**Status:** ✅ Live inference confirmed (`cached: false`)
+
+## 50-Case Live Benchmark
+
+| Metric | Value |
+|---|---|
+| Cases tested | 50 |
+| Successful | 50 (100%) |
+| Mean latency | **22.98s** |
+| Min latency | **19.80s** |
+| Max latency | **27.91s** |
+| Mode | Real AMD MI300X inference |
+| Cached | None — all live |
+
+![rocm-smi during inference](benchmarks/gpu_images/rocm_smi_hero.png)
+
+*rocm-smi output during live Case 001 analysis: 100% GPU utilization, 288W power draw, 88% VRAM usage on AMD Instinct MI300X.*
+
+## Demo Cases (50 Pure CXR)
+
+| ID | Patient | Chief Complaint | ESI |
+|---|---|---|---|
+| CS-2024-001 | 25yo male | Severe dyspnea and chest pain | 1 |
+| CS-2024-002 | 40yo male | Sudden chest pain and collapse | 1 |
+| CS-2024-003 | 68yo female | Persistent cough and fever | 2 |
+| CS-2024-004 | 55yo male | Shortness of breath | 1 |
+| ... | ... | ... | ... |
+| CS-2024-050 | 72yo female | Chest tightness on exertion | 3 |
+
+Full case list in `backend/data/demo_cases.json`.
 
 ## Live Demo
 
