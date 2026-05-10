@@ -70,7 +70,7 @@ Provide findings in this exact JSON format:
 
 - **Role:** Clinical reasoning, synthesis, differential diagnosis
 - **Why:** 256-expert MoE with 3B active parameters — optimized for reasoning
-- **VRAM:** ~70GB BF16
+- **VRAM:** ~70GB FP16
 - **License:** Apache 2.0
 - **ROCm status:** Day-0 support
 
@@ -316,18 +316,21 @@ We ran **50 consecutive inference cases** on the AMD MI300X droplet. No cache. R
 
 **Note:** An earlier 6-case deep verification batch (with extended safety subgraph evaluation) showed mean latency of 67.7s. The 50-case run represents optimized production throughput.
 
-### GPU Utilization
+### GPU Utilization (from rocm-smi evidence)
 
-Idle state:
-- VRAM: 88% (169GB / 192GB)
-- GPU: 0%
-- Power: 197W
-- Temp: 38°C
+Baseline with both models loaded (idle between cases):
+- VRAM: **94.4%** (181GB / 192GB)
+- GPU: 10%
+- Power: **231W**
+- Temp: 38°C (junction), 33°C (memory)
 
-During inference:
-- GPU utilization spikes to **85%+**
-- Power climbs to ~450W
-- Both vLLM servers active simultaneously
+After E2E inference completes:
+- VRAM: 88.6% (170GB / 192GB)
+- GPU: 49%
+- Power: **263W**
+- Temp: 40°C (junction), 36°C (memory)
+
+Both vLLM servers remain active simultaneously throughout.
 
 ![Latency Histogram](benchmarks/latency_histogram_real.png)
 

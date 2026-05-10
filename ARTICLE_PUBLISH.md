@@ -170,7 +170,7 @@ vllm serve Qwen/Qwen3.5-35B-A3B \
 | `--max-num-seqs` | 1 | Sequential case processing for deterministic latency |
 
 **🖼️ IMAGE PROMPT 4 — Terminal Screenshot:**
-> *A split-screen terminal screenshot aesthetic. Left terminal shows "rocm-smi" output with AMD Instinct MI300X stats: 88% VRAM used, 197W power, 38°C temp, GPU utilization 85%+. Right terminal shows two vLLM server logs running simultaneously on ports 8000 and 30000, with green "Application startup complete" messages. Dark terminal theme (black background, green/cyan/white text). Clean monospace font. Looks like a real server screenshot.*
+> *A split-screen terminal screenshot aesthetic. Left terminal shows "rocm-smi" output with AMD Instinct MI300X stats: 94% VRAM used, 231W power, 38°C temp, GPU utilization 10%. Right terminal shows two vLLM server logs running simultaneously on ports 8000 and 30000, with green "Application startup complete" messages. Dark terminal theme (black background, green/cyan/white text). Clean monospace font. Looks like a real server screenshot.*
 
 ---
 
@@ -333,11 +333,21 @@ We ran **50 consecutive inference cases** on the AMD MI300X droplet. No cache. R
 | CS-2024-005 | 21.94s | 1 | 2 | 2 | **False** |
 | CS-2024-006 | 22.14s | 1 | 2 | 4 | **False** |
 
-**GPU Utilization during inference:**
-- VRAM: 88% (169GB / 192GB)
-- GPU utilization spikes to **85%+**
-- Power climbs to ~450W
-- Both vLLM servers active simultaneously
+**GPU Utilization (from rocm-smi evidence):**
+
+Baseline with both models loaded (idle between cases):
+- VRAM: **94.4%** (181GB / 192GB)
+- GPU: 10%
+- Power: **231W**
+- Temp: 38°C (junction), 33°C (memory)
+
+After E2E inference completes:
+- VRAM: 88.6% (170GB / 192GB)
+- GPU: 49%
+- Power: **263W**
+- Temp: 40°C (junction), 36°C (memory)
+
+Both vLLM servers remain active simultaneously throughout.
 
 **🖼️ IMAGE 7 — Use Existing Asset:**
 > Attach your existing `benchmarks/latency_histogram_real.png` here. This chart shows the 6-case initial verification batch with mean 67.7s — a deeper analysis run before the full 50-case benchmark.

@@ -93,7 +93,7 @@ def _build_clinical_prompt(meta: dict) -> str:
     vitals = meta.get("vitals", {})
     vitals_str = ", ".join([f"{k}: {v}" for k, v in vitals.items()])
     
-    return f"""You are a multi-agent clinical decision support system running on Qwen-35B-A3B (35B parameter MoE model, 6B active). Analyze this emergency medicine case and produce a structured clinical assessment.
+    return f"""You are a multi-agent clinical decision support system running on Qwen-35B-A3B (35B parameter MoE model, 3B active). Analyze this emergency medicine case and produce a structured clinical assessment.
 
 ## PATIENT PRESENTATION
 - Case ID: {meta.get('case_id')}
