@@ -36,6 +36,8 @@
 
 </div>
 
+> **🎥 Judge Note:** The live demo below shows pre-computed results from our 50-case benchmark run (AMD MI300X credit exhausted). The submitted **video demonstrates live inference with zero caching** on AMD MI300X — see [Technical Walkthrough](docs/TECHNICAL_WALKTHROUGH.md) for full evidence.
+
 ---
 
 ## 🚨 The Problem
