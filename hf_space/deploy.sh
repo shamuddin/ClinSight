@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SPACE_NAME="${SPACE_NAME:-nousresearch/ClinSight}"
-HF_SPACE_DIR="${HF_SPACE_DIR:-/workspace/hf_space}"
+SPACE_NAME="${SPACE_NAME:-ShamRenu/clinsight}"
+HF_SPACE_DIR="${HF_SPACE_DIR:-$(cd "$(dirname "$0")" && pwd)}"
 
 echo "=== ClinSight HF Space Deploy Script ==="
 echo "Target space: ${SPACE_NAME}"
@@ -39,11 +39,10 @@ if ! git remote get-url origin &>/dev/null 2>&1; then
 fi
 
 echo "Staging files..."
-git add app.py requirements.txt README.md deploy.sh 2>/dev/null || true
 git add -A
 
 echo "Committing..."
-git commit -m "deploy: ClinSight app with demo cases, JSON viewer, AMD perf charts" || true
+git commit -m "deploy: fixed deps, enriched demo data, improved UI" || true
 
 echo "Pushing to Hugging Face Space..."
 git push -u origin main:main --force
