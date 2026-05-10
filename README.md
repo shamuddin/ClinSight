@@ -1,181 +1,250 @@
-# ClinSight
+<div align="center">
 
-Multi-agent clinical decision support system with vision-language models for chest X-ray analysis.
+<img src="https://raw.githubusercontent.com/shamuddin/ClinSight/main/clinsight_hero.png" width="100%" alt="ClinSight — Hierarchical Multimodal Clinical Intelligence">
 
-## Architecture
+<h1>ClinSight</h1>
+<p><strong>Hierarchical Multimodal Clinical Intelligence for Emergency Decision Support</strong></p>
 
-**5 Parent Agents → 7 Subagents → 12 Total Reasoning Nodes**
+<a href="https://github.com/shamuddin/ClinSight/blob/main/LICENSE">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=for-the-badge&logo=apache" alt="License">
+</a>
+<a href="https://clinsight-e7ai.onrender.com">
+  <img src="https://img.shields.io/badge/Live%20Demo-Online-brightgreen?style=for-the-badge&logo=render" alt="Live Demo">
+</a>
+<a href="https://huggingface.co/spaces/shamuddin/clinsight">
+  <img src="https://img.shields.io/badge/HF%20Space-ClinSight-yellow?style=for-the-badge&logo=huggingface" alt="HF Space">
+</a>
+
+<br>
+
+<img src="https://img.shields.io/badge/AMD-MI300X-ED1C24?style=flat-square&logo=amd&logoColor=white" alt="AMD MI300X">
+<img src="https://img.shields.io/badge/ROCm-7.0-ED1C24?style=flat-square&logo=amd&logoColor=white" alt="ROCm 7.0">
+<img src="https://img.shields.io/badge/vLLM-ROCm%20Backend-ED1C24?style=flat-square&logo=amd&logoColor=white" alt="vLLM ROCm">
+<img src="https://img.shields.io/badge/Qwen-2.5--VL%20%7C%203.5--MoE-FF6B6B?style=flat-square" alt="Qwen">
+<img src="https://img.shields.io/badge/LangGraph-Compiled%20Agents-3b82f6?style=flat-square" alt="LangGraph">
+<img src="https://img.shields.io/badge/FastAPI-Python-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+<img src="https://img.shields.io/badge/React-TypeScript-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React">
+
+<br><br>
+
+<p>
+  <a href="https://clinsight-e7ai.onrender.com">🌐 Live Demo</a> •
+  <a href="https://huggingface.co/spaces/shamuddin/clinsight">🤗 Hugging Face</a> •
+  <a href="docs/TECHNICAL_WALKTHROUGH.md">📖 Technical Walkthrough</a> •
+  <a href="https://youtu.be/">🎥 Demo Video</a>
+</p>
+
+</div>
+
+---
+
+## 🚨 The Problem
+
+Every year, **795,000 Americans** are harmed by delayed diagnosis in emergency departments.
+
+| Metric | Current Reality |
+|--------|-----------------|
+| Preliminary X-ray review | **30–60 minutes** |
+| Official radiology report | **1–3 hours** |
+| Rural teleradiology | **4–24 hours** |
+
+For a patient with a collapsed lung, that's a lifetime.
+
+Existing solutions (Aidoc, Qure.ai, BraveCX) are proprietary, NVIDIA-locked, and image-only. **None** fuse imaging + lab values + patient history in a single open-source inference pipeline. **None** run on AMD hardware. **None** use a hierarchical agentic safety layer.
+
+---
+
+## 🧠 What We Built
+
+ClinSight is an **open-source, multi-agent clinical decision support system** that reads chest X-rays, lab values, vitals, and triage notes simultaneously — then reasons across all modalities through a compiled **LangGraph** pipeline running entirely on **AMD Instinct MI300X**.
+
+<div align="center">
+
+### Architecture: 5 Parent Agents → 7 Subagents → 12 Reasoning Nodes
 
 | Agent | Role | Subagents |
-|---|---|---|
-| **Coordinator** | Input validation, quality gates, pediatric safety | Image Quality Gate, Pediatric Gate |
-| **Radiologist** | Image analysis, pathology detection, attention regions | Image Prep, Pathology Analyzer |
-| **Lab Analyst** | Critical value detection, pattern correlation | Critical Value Detector, Pattern Correlator |
-| **Safety** | Contradiction checking, hallucination guard, bias audit | Contradiction Checker, Hallucination Guard, Bias Auditor, Safety Merge |
-| **Clinical Documenter** | ESI scoring, differential diagnosis, report generation | ESI Scorer, Differential Builder |
+|:-----:|------|-----------|
+| 🔵 **Coordinator** | Input validation, quality gates, pediatric safety | Image Quality Gate, Pediatric Gate |
+| 🩺 **Radiologist** | Image analysis, pathology detection, attention regions | Image Prep, Pathology Analyzer |
+| 🧪 **Lab Analyst** | Critical value detection, pattern correlation | Critical Value Detector, Pattern Correlator |
+| 🛡️ **Safety** | Contradiction checking, hallucination guard, bias audit | Contradiction Checker, Hallucination Guard, Bias Auditor, Safety Merge |
+| 📝 **Documenter** | ESI scoring, differential diagnosis, report generation | ESI Scorer, Differential Builder |
 
-Graph: Coordinator → [pass] → Radiologist → Lab Analyst → Safety → Documenter → END
+**Pipeline:** Coordinator → [pass] → Radiologist → Lab Analyst → Safety → Documenter → END
 
-## Dual Model Stack
+</div>
 
-| Model | Role | VRAM |
-|---|---|---|
-| Qwen2.5-VL-7B-Instruct | Vision (chest X-ray) | ~14 GB |
-| Qwen3.5-35B-A3B | Text reasoning (MoE) | ~70 GB |
-| **Total** | | **~99 GB** |
+---
 
-Target platform: AMD MI300X (192 GB VRAM) — 93 GB headroom for concurrent requests.
+## ⚡ Why AMD MI300X?
 
-## Quick Start (Full Stack)
+Healthcare AI has three non-negotiable requirements:
 
-### 1. Backend
+1. **On-premise deployment** — patient data cannot leave the hospital (HIPAA)
+2. **Large model capacity** — medical reasoning requires 35B+ parameters
+3. **No quantization** — clinical accuracy degrades with INT8/INT4
+
+<div align="center">
+
+| Requirement | AMD MI300X | NVIDIA H100 80GB |
+|:-----------:|:----------:|:----------------:|
+| On-premise | ✅ | ✅ |
+| HBM capacity | **192 GB** | 80 GB |
+| Dual-model FP16 | **✅ Fits** | ❌ Does not fit |
+| Headroom | **93 GB** | None |
+
+</div>
+
+> **The decisive advantage:** Our dual-model stack (99GB total) fits at full FP16 on MI300X. An H100 80GB would require quantization, degrading clinical accuracy.
+
+---
+
+## 🏗️ Dual-Model Stack
+
+| Model | Role | VRAM | License |
+|:-----:|------|:----:|:-------:|
+| **Qwen2.5-VL-7B-Instruct** | Vision (chest X-ray analysis) | ~14 GB | Apache 2.0 |
+| **Qwen3.5-35B-A3B** | Text reasoning (256-expert MoE, 3B active) | ~70 GB | Apache 2.0 |
+| **Total** | | **~99 GB** | |
+
+```
+Qwen2.5-VL-7B  FP16 weights:  ~14 GB
+Qwen3.5-35B    FP16 weights:  ~70 GB
+KV cache (both, 32K context): ~15 GB
+─────────────────────────────────────
+Total:                         ~99 GB
+MI300X HBM3:                  192 GB
+Headroom:                     ~93 GB
+Utilization:                   52%
+```
+
+---
+
+## 📊 50-Case Live Benchmark (AMD MI300X)
+
+Every case ran **real inference** with `cached: false`. Zero mock data.
+
+<div align="center">
+
+| Metric | Value |
+|:-------|:-----:|
+| Cases tested | **50** |
+| Successful | **50 (100%)** |
+| Mean latency | **23.02s** |
+| Min latency | **19.80s** |
+| Max latency | **27.91s** |
+| Mode | Real AMD MI300X inference |
+
+</div>
+
+### GPU Evidence (from rocm-smi)
+
+| State | VRAM | GPU Use | Power | Temp |
+|:------|:----:|:-------:|:-----:|:----:|
+| Baseline (models loaded) | **94.4%** (181GB/192GB) | 10% | **231W** | 38°C junction |
+| Post-inference | **88.6%** (170GB/192GB) | 49% | **263W** | 40°C junction |
+
+> 📁 Raw evidence: `benchmarks/gpu_results/droplet_complete/rocm_smi_*.txt`
+
+---
+
+## 🛡️ Safety Layer: 3 Parallel Checks
+
+The crown jewel of ClinSight is the **Safety Agent** with three parallel subagents:
+
+| Check | What It Does | Example |
+|:-----:|:-------------|:--------|
+| **Contradiction Checker** | Cross-modality mismatch detection | Image shows pneumonia, but WBC is normal → downgrade confidence |
+| **Hallucination Guard** | Visual grounding verification | Finding without attention region → flag as ungrounded |
+| **Bias Auditor** | Demographic disparity detection | Elderly patient with edema → flag undertriage risk |
+
+All three run **simultaneously** and merge into confidence downgrades before any output reaches a physician.
+
+---
+
+## 🎯 The "What If?" Demo
+
+Same chest X-ray. Same patient. Different labs → Different triage.
+
+| Scenario | Labs | Result |
+|:---------|:-----|:-------|
+| **Critical labs** | Lactate 3.2, pO2 58 | **ESI 1 — Immediate** |
+| **Normal labs** | Lactate 1.1, pO2 98 | **ESI 3 — Urgent** |
+
+This is **multimodal reasoning**, not just multimodal input.
+
+---
+
+## 🚀 Quick Start
 
 ```bash
+# Clone
+git clone https://github.com/shamuddin/ClinSight.git
+cd ClinSight
+
+# Backend
 cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-
 PYTHONPATH=.. uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
-```
 
-### 2. Frontend (dev mode)
-
-```bash
+# Frontend (new terminal)
 cd frontend/react-app
 npm install
 npm run dev
 # Open http://localhost:5173
 ```
 
-### 3. Build for single-port deployment
+### AMD MI300X Production Setup
 
 ```bash
-cd frontend/react-app
-npm run build
+# Setup ROCm + vLLM (one-time, ~15-30 min)
+chmod +x scripts/setup_amd_gpu.sh
+./scripts/setup_amd_gpu.sh
 
-# Restart backend — it now serves the React app at /
-PYTHONPATH=.. uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
-# Open http://localhost:8000
+# Start dual-model vLLM servers
+./scripts/start_vllm_vision.sh &
+./scripts/start_vllm_text.sh &
+
+# Verify GPU health
+python scripts/gpu_health_check.py
 ```
 
-## API Endpoints
+See [`docs/TECHNICAL_WALKTHROUGH.md`](docs/TECHNICAL_WALKTHROUGH.md) for full architecture deep-dive.
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/health` | GET | Health check |
-| `/analyze` | POST | Analyze a case with full JSON body |
-| `/demo/cases` | GET | List 6 pre-built demo cases |
-| `/demo/analyze/{case_id}` | GET | Run full pipeline on a demo case |
+---
 
-## Live Demo
+## 🔗 Links
 
-**URL:** https://clinsight-e7ai.onrender.com  
-**Hardware:** AMD Instinct MI300X 192GB · ROCm · vLLM  
-**Status:** ✅ Live inference confirmed (`cached: false`)
+| Resource | URL |
+|:---------|:----|
+| 🌐 **Live Demo** | [clinsight-e7ai.onrender.com](https://clinsight-e7ai.onrender.com) |
+| 🤗 **Hugging Face Space** | [huggingface.co/spaces/shamuddin/clinsight](https://huggingface.co/spaces/shamuddin/clinsight) |
+| 🎥 **Demo Video** | [YouTube](https://youtu.be/) *(update with your URL)* |
+| 📖 **Technical Walkthrough** | [`docs/TECHNICAL_WALKTHROUGH.md`](docs/TECHNICAL_WALKTHROUGH.md) |
+| 🏆 **Hackathon** | [AMD Developer Hackathon @ lablab.ai](https://lablab.ai/ai-hackathons/amd-developer) |
 
-## 50-Case Live Benchmark
+---
 
-| Metric | Value |
-|---|---|
-| Cases tested | 50 |
-| Successful | 50 (100%) |
-| Mean latency | **22.98s** |
-| Min latency | **19.80s** |
-| Max latency | **27.91s** |
-| Mode | Real AMD MI300X inference |
-| Cached | None — all live |
-
-![rocm-smi during inference](benchmarks/gpu_images/rocm_smi_hero.png)
-
-*rocm-smi output during live Case 001 analysis: 100% GPU utilization, 288W power draw, 88% VRAM usage on AMD Instinct MI300X.*
-
-## Demo Cases (50 Pure CXR)
-
-| ID | Patient | Chief Complaint | ESI |
-|---|---|---|---|
-| CS-2024-001 | 25yo male | Severe dyspnea and chest pain | 1 |
-| CS-2024-002 | 40yo male | Sudden chest pain and collapse | 1 |
-| CS-2024-003 | 68yo female | Persistent cough and fever | 2 |
-| CS-2024-004 | 55yo male | Shortness of breath | 1 |
-| ... | ... | ... | ... |
-| CS-2024-050 | 72yo female | Chest tightness on exertion | 3 |
-
-Full case list in `backend/data/demo_cases.json`.
-
-## Live Demo
-
-- 🌐 **Live Demo:** https://clinsight-e7ai.onrender.com
-- 🤗 **Hugging Face Space:** https://huggingface.co/spaces/shamuddin/clinsight
-- 📊 **Benchmark Data:** See `benchmarks/real_benchmark.json`
-
-## Real Benchmarks (AMD MI300X)
-
-| Metric | Value |
-|--------|-------|
-| Mean latency | **67.7s** |
-| Min latency | **67.3s** |
-| Max latency | **68.3s** |
-| Std dev | **0.3s** |
-| Success rate | **100% (6/6)** |
-| GPU utilization (inference) | **100%** |
-| GPU power (inference) | **280–285W** |
-| GPU temp | **38–40°C** |
-
-**Hardware:** AMD Instinct MI300X (192GB HBM3) | **ROCm:** 7.0 | **vLLM:** ROCm backend
-
-![Latency Histogram](benchmarks/latency_histogram_real.png)
-
-## Run Tests
+## 🧪 Tests
 
 ```bash
 PYTHONPATH=. python -m pytest tests/ -v --cov=backend --cov-report=html
 ```
 
-## Benchmarks
+---
 
-```bash
-# Run real benchmark on MI300X droplet
-bash scripts/run_droplet_benchmark.sh
+## 📜 License
 
-# Or manually
-docker exec rocm python3 benchmarks/run_real_benchmark.py
-```
+Apache-2.0 — See [`LICENSE`](LICENSE)
 
-See `benchmarks/real_benchmark.json` and `benchmarks/real_benchmark.csv` for raw data.
+> ⚠️ **Medical Disclaimer**: This software is for research and educational purposes only. Not for clinical use without regulatory approval and physician oversight. Every output requires clinician review.
 
-## Technical Walkthrough
+---
 
-Read the full technical walkthrough: [docs/TECHNICAL_WALKTHROUGH.md](docs/TECHNICAL_WALKTHROUGH.md)
+<div align="center">
 
-Topics covered:
-- Why AMD MI300X for healthcare AI
-- Model selection (Qwen2.5-VL + Qwen3.5 MoE)
-- VRAM math (99GB / 192GB)
-- vLLM serving on ROCm 7.0
-- LangGraph agent architecture
-- Safety subgraph with 3 parallel checks
-- Real benchmarks and rocm-smi evidence
+Built with ❤️ for the **AMD Developer Hackathon** @ lablab.ai — Track 3: Vision & Multimodal AI
 
-## GPU Setup
-
-```bash
-# One-click setup on fresh droplet
-chmod +x scripts/setup_amd_gpu.sh
-./scripts/setup_amd_gpu.sh
-
-# Start servers
-./scripts/start_vllm_vision.sh &
-./scripts/start_vllm_text.sh &
-
-# Verify
-python scripts/gpu_health_check.py
-```
-
-See [docs/amd_setup.md](docs/amd_setup.md) for full details.
-
-## License
-
-Apache-2.0 — See [LICENSE](LICENSE)
-
-**Medical Disclaimer**: This software is for research and educational purposes only. Not for clinical use without regulatory approval and physician oversight.
+</div>
