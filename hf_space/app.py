@@ -170,7 +170,7 @@ def get_case_choices():
 
 
 def get_first_case_id():
-    return DEMO_CASES[0].get("case_id", "") if DEMO_CASES else None
+    return DEMO_CASES[0].get("case_id", "") if DEMO_CASES else ""
 
 
 # ---------------------------------------------------------------------------
@@ -205,18 +205,19 @@ with gr.Blocks(title="ClinSight — AMD MI300X Multimodal Clinical AI") as demo:
 
         with gr.Row():
             with gr.Column():
-                patient_info = gr.Markdown(label="Patient Info")
+                patient_info = gr.Markdown()
             with gr.Column():
-                vitals_table = gr.Markdown(label="Vitals")
+                vitals_table = gr.Markdown()
 
         with gr.Row():
             with gr.Column():
-                labs_table = gr.Markdown(label="Lab Values")
+                labs_table = gr.Markdown()
             with gr.Column():
-                expected_output = gr.Markdown(label="Expected Output")
+                expected_output = gr.Markdown()
 
         # Load first case automatically
-        if get_first_case_id():
+        first_case = get_first_case_id()
+        if first_case and first_case in CASES_BY_ID:
             demo.load(
                 fn=render_case,
                 inputs=case_dropdown,
